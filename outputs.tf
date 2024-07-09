@@ -1,3 +1,3 @@
-output "example_output" {
-  value = var.example_variable
+output "image" {
+  value = local.image
 }
