@@ -1,36 +1,22 @@
 locals {
-  image_urn_aliases = {
-    Debian11 = {
-      publisher = "Debian"
-      offer     = "debian-11"
-      sku       = "11-backports-gen2"
-      version   = "latest"
-    }
-    Ubuntu2204 = {
-      publisher = "Canonical"
-      offer     = "0001-com-ubuntu-server-jammy"
-      sku       = "22_04-lts-gen2"
-      version   = "latest"
-    }
-
-    Win2022Datacenter = {
-      publisher = "MicrosoftWindowsServer"
-      offer     = "WindowsServer"
-      sku       = "2022-datacenter-g2"
-      version   = "latest"
-    }
-  }
+  # TODO: custom images
+  azure_common_image_aliases_json = jsondecode(file("${path.module}/azure_common_images.json"))
 
   image = length(split(":", var.image)) == 4 ? {
     publisher = split(":", var.image)[0]
     offer     = split(":", var.image)[1]
     sku       = split(":", var.image)[2]
     version   = split(":", var.image)[3]
-  } : local.image_urn_aliases[var.image]
+  } : local.azure_common_image_aliases_json[index(local.azure_common_image_aliases_json.*.urnAlias, var.image)]
 
   linux_offers = [
     "0001-com-ubuntu-server-jammy",
-    "debian-11"
+    "CentOS",
+    "debian-11",
+    "flatcar-container-linux-free",
+    "openSUSE-leap-15-4",
+    "RHEL",
+    "sles-15-sp3",
   ]
 
   windows_offers = [

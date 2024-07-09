@@ -47,12 +47,15 @@ run "test_output_image" {
   }
 
   assert {
-    condition = output.image == {
-      publisher = "MicrosoftWindowsServer"
-      offer     = "WindowsServer"
-      sku       = "2022-datacenter-g2"
-      version   = "latest"
-    }
+    condition = output.image == tomap({
+      architecture = "x64"
+      offer        = "WindowsServer"
+      publisher    = "MicrosoftWindowsServer"
+      sku          = "2022-datacenter-g2"
+      urn          = "MicrosoftWindowsServer:WindowsServer:2022-datacenter-g2:latest"
+      urnAlias     = "Win2022Datacenter"
+      version      = "latest"
+    })
     error_message = "Output image not equal to expected value"
   }
 }
