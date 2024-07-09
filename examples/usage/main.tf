@@ -3,9 +3,8 @@ provider "azurerm" {
 }
 
 module "example" {
-  # source              = "cloudeteer/vm/azurerm"
-  source              = "../.."
-  name                = "vm-example-dev-gwc-01"
+  source              = "cloudeteer/vm/azurerm"
+  name                = "vm-example-dev-we-01"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
