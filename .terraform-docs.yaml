@@ -1,7 +1,7 @@
-formatter: markdown
+formatter: markdown document
 
 settings:
-  anchor: false
+  hide-empty: true
   lockfile: false
 
 output:

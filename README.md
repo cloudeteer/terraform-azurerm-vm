@@ -46,41 +46,133 @@ resource "azurerm_subnet" "example" {
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| azurerm | ~> 3.111.0 |
+The following providers are used by this module:
 
-## Modules
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 3.111.0)
 
-No modules.
+
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) | resource |
-| [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
-| [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) | resource |
+The following resources are used by this module:
 
-## Inputs
+- [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) (resource)
+- [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
+- [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| backup\_policy\_id | The ID of the backup policy to use. | `string` | n/a | yes |
-| image | The name of the operating system image as a URN or URN alias.<br><br>Valid URN format is `Publisher:Offer:SKU:Version`.<br><br>Valid URN aliases are:<br>- `CentOS85Gen2`<br>- `Debian11`<br>- `FlatcarLinuxFreeGen2`<br>- `OpenSuseLeap154Gen2`<br>- `RHELRaw8LVMGen2`<br>- `SuseSles15SP3`<br>- `Ubuntu2204`<br>- `Win2022Datacenter`<br>- `Win2022AzureEditionCore`<br>- `Win2019Datacenter`<br>- `Win2016Datacenter`<br>- `Win2012R2Datacenter`<br>- `Win2012Datacenter`<br>- `Win2008R2SP1`<br><br>Use `az vm image list` to list the possible values. | `string` | n/a | yes |
-| location | The Azure location where the virtual machine should reside. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| name | The name of the virtual machine. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| network\_interface\_ids | A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine. | `list(string)` | `[]` | no |
-| operating\_system | The virtual machine's operating system. Valid values are `Linux' or `Windows'. The default is `null', which determines the operating system to use based on the virtual machine image offering.` | `string` | `null` | no |
-| private\_ip\_address | The static IP address to use. If not set (default), a dynamic IP address is assigned. | `string` | `null` | no |
-| resource\_group\_name | The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| size | The SKU to use for this virtual machine, such as `Standard_DS1_v2`. | `string` | `"Standard_DS1_v2"` | no |
-| subnet\_id | The ID of the subnet in which this virtual machine network interface should reside. | `string` | `null` | no |
+## Required Inputs
+
+The following input variables are required:
+
+### <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id)
+
+Description: The ID of the backup policy to use.
+
+Type: `string`
+
+### <a name="input_image"></a> [image](#input\_image)
+
+Description: The URN or URN alias of the operating system image. Valid URN format is `Publisher:Offer:SKU:Version`. Use `az vm image list` to list possible URN values.
+
+Valid URN aliases are:
+- `CentOS85Gen2`
+- `Debian11`
+- `FlatcarLinuxFreeGen2`
+- `OpenSuseLeap154Gen2`
+- `RHELRaw8LVMGen2`
+- `SuseSles15SP3`
+- `Ubuntu2204`
+- `Win2022Datacenter`
+- `Win2022AzureEditionCore`
+- `Win2019Datacenter`
+- `Win2016Datacenter`
+- `Win2012R2Datacenter`
+- `Win2012Datacenter`
+- `Win2008R2SP1`
+
+Type: `string`
+
+### <a name="input_location"></a> [location](#input\_location)
+
+Description: The Azure location where the virtual machine should reside. Changing this forces a new resource to be created.
+
+Type: `string`
+
+### <a name="input_name"></a> [name](#input\_name)
+
+Description: The name of the virtual machine. Changing this forces a new resource to be created.
+
+Type: `string`
+
+### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
+
+Description: The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created.
+
+Type: `string`
+
+## Optional Inputs
+
+The following input variables are optional (have default values):
+
+### <a name="input_network_interface_ids"></a> [network\_interface\_ids](#input\_network\_interface\_ids)
+
+Description: A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine.
+
+Type: `list(string)`
+
+Default: `[]`
+
+### <a name="input_operating_system"></a> [operating\_system](#input\_operating\_system)
+
+Description: The virtual machine's operating system. Valid values are `Linux` or `Windows`. The default is `null`, which determines the operating system to use based on the virtual machine image offering.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_private_ip_address"></a> [private\_ip\_address](#input\_private\_ip\_address)
+
+Description: The static IP address to use. If not set (default), a dynamic IP address is assigned.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_size"></a> [size](#input\_size)
+
+Description: The [SKU](https://cloudprice.net/) to use for this virtual machine.
+
+Common sizes:
+- `Standard_B2s`
+- `Standard_B2ms`
+- `Standard_D2s_v5`
+- `Standard_D4s_v5`
+- `Standard_DC2s_v2`
+- `Standard_DS1_v2`
+- `Standard_DS2_v2`
+- `Standard_E4s_v5`
+- `Standard_E4bds_v5`
+- `Standard_F2s_v2`
+- `Standard_F4s_v2`
+
+Type: `string`
+
+Default: `"Standard_DS1_v2"`
+
+### <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)
+
+Description: The ID of the subnet in which this virtual machine network interface should reside.
+
+Type: `string`
+
+Default: `null`
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| image | n/a |
+The following outputs are exported:
+
+### <a name="output_image"></a> [image](#output\_image)
+
+Description: n/a
 <!-- END_TF_DOCS -->
