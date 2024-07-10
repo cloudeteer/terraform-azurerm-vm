@@ -58,6 +58,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) | resource |
 | [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
 | [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
 | [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) | resource |
@@ -66,6 +67,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| backup\_policy\_id | The ID of the backup policy to use. | `string` | n/a | yes |
 | image | The name of the operating system image as a URN or URN alias.<br><br>Valid URN format is `Publisher:Offer:SKU:Version`.<br><br>Valid URN aliases are:<br>- `CentOS85Gen2`<br>- `Debian11`<br>- `FlatcarLinuxFreeGen2`<br>- `OpenSuseLeap154Gen2`<br>- `RHELRaw8LVMGen2`<br>- `SuseSles15SP3`<br>- `Ubuntu2204`<br>- `Win2022Datacenter`<br>- `Win2022AzureEditionCore`<br>- `Win2019Datacenter`<br>- `Win2016Datacenter`<br>- `Win2012R2Datacenter`<br>- `Win2012Datacenter`<br>- `Win2008R2SP1`<br><br>Use `az vm image list` to list the possible values. | `string` | n/a | yes |
 | location | The Azure location where the virtual machine should reside. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | name | The name of the virtual machine. Changing this forces a new resource to be created. | `string` | n/a | yes |

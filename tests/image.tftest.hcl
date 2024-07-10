@@ -7,8 +7,8 @@ variables {
   location            = "West Europe"
   resource_group_name = "rg-example-dev-we-01"
 
-  image     = "Ubuntu2204"
-  subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
+  backup_policy_id = null
+  subnet_id        = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
 }
 
 run "test_input_image_urn_alias" {

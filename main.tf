@@ -23,11 +23,15 @@ locals {
     "WindowsServer"
   ]
 
-  is_linux   = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
-  is_windows = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
-  create_nic = length(var.network_interface_ids) == 0 && var.subnet_id != null
+  is_linux      = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
+  is_windows    = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
+  create_nic    = length(var.network_interface_ids) == 0 && var.subnet_id != null
+  enable_backup = var.backup_policy_id != null
 
-  network_interface_ids = local.create_nic ? [azurerm_network_interface.this[0].id] : var.network_interface_ids
+  backup_recovery_vault_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[8] : null
+  backup_resource_group_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[4] : null
+  network_interface_ids      = local.create_nic ? [azurerm_network_interface.this[0].id] : var.network_interface_ids
+  virtual_machine_id         = local.is_linux ? azurerm_linux_virtual_machine.this[0].id : (local.is_windows ? azurerm_windows_virtual_machine.this[0].id : null)
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
@@ -93,4 +97,15 @@ resource "azurerm_network_interface" "this" {
     private_ip_address_allocation = var.private_ip_address == null ? "Dynamic" : "Static"
     subnet_id                     = var.subnet_id
   }
+}
+
+resource "azurerm_backup_protected_vm" "this" {
+
+  count = local.enable_backup ? 1 : 0
+
+  resource_group_name = local.backup_resource_group_name
+
+  backup_policy_id    = var.backup_policy_id
+  recovery_vault_name = local.backup_recovery_vault_name
+  source_vm_id        = local.virtual_machine_id
 }

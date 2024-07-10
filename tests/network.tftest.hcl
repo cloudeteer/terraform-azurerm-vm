@@ -7,7 +7,8 @@ variables {
   location            = "West Europe"
   resource_group_name = "rg-example-dev-we-01"
 
-  image = "Ubuntu2204"
+  backup_policy_id = null
+  image            = "Ubuntu2204"
 }
 
 run "test_input_interface_ids" {

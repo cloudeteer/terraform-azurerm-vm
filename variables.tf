@@ -1,3 +1,8 @@
+variable "backup_policy_id" {
+  description = "The ID of the backup policy to use."
+  type        = string
+}
+
 variable "image" {
   description = <<-EOD
   The name of the operating system image as a URN or URN alias.
@@ -57,17 +62,6 @@ variable "operating_system" {
   }
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created."
-  type        = string
-}
-
-variable "size" {
-  description = "The SKU to use for this virtual machine, such as `Standard_DS1_v2`."
-  type        = string
-  default     = "Standard_DS1_v2"
-}
-
 variable "private_ip_address" {
   description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
   default     = null
@@ -77,6 +71,17 @@ variable "private_ip_address" {
     condition     = length(var.network_interface_ids) > 0 ? var.private_ip_address == null : true
     error_message = "Leave private_ip_address empty if network_interface_ids is set."
   }
+}
+
+variable "resource_group_name" {
+  description = "The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created."
+  type        = string
+}
+
+variable "size" {
+  description = "The SKU to use for this virtual machine, such as `Standard_DS1_v2`."
+  type        = string
+  default     = "Standard_DS1_v2"
 }
 
 variable "subnet_id" {
