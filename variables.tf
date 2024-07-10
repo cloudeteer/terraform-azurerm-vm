@@ -41,6 +41,7 @@ variable "name" {
 }
 
 variable "network_interface_ids" {
+  default     = []
   description = "A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine."
   type        = list(string)
 }
@@ -65,4 +66,31 @@ variable "size" {
   description = "The SKU to use for this virtual machine, such as `Standard_DS1_v2`."
   type        = string
   default     = "Standard_DS1_v2"
+}
+
+variable "private_ip_address" {
+  description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
+  default     = null
+  type        = string
+
+  validation {
+    condition     = length(var.network_interface_ids) > 0 ? var.private_ip_address == null : true
+    error_message = "Leave private_ip_address empty if network_interface_ids is set."
+  }
+}
+
+variable "subnet_id" {
+  default     = null
+  description = "The ID of the subnet in which this virtual machine network interface should reside."
+  type        = string
+
+  validation {
+    condition     = length(var.network_interface_ids) == 0 ? var.subnet_id != null : true
+    error_message = "The subnet_id is required if network_interface_ids is empty."
+  }
+
+  validation {
+    condition     = length(var.network_interface_ids) > 0 ? var.subnet_id == null : true
+    error_message = "Leave subnet_id empty if network_interface_ids is set."
+  }
 }

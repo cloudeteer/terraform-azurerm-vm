@@ -25,6 +25,9 @@ locals {
 
   is_linux   = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
   is_windows = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
+  create_nic = length(var.network_interface_ids) == 0 && var.subnet_id != null
+
+  network_interface_ids = local.create_nic ? [azurerm_network_interface.this[0].id] : var.network_interface_ids
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
@@ -35,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   resource_group_name = var.resource_group_name
 
   admin_username        = "azureadmin"
-  network_interface_ids = var.network_interface_ids
+  network_interface_ids = local.network_interface_ids
   size                  = var.size
 
   os_disk {
@@ -60,7 +63,7 @@ resource "azurerm_windows_virtual_machine" "this" {
 
   admin_password        = "Pa$$w0rd"
   admin_username        = "azureadmin"
-  network_interface_ids = var.network_interface_ids
+  network_interface_ids = local.network_interface_ids
   size                  = var.size
 
   os_disk {
@@ -73,5 +76,21 @@ resource "azurerm_windows_virtual_machine" "this" {
     offer     = local.image.offer
     sku       = local.image.sku
     version   = local.image.version
+  }
+}
+
+resource "azurerm_network_interface" "this" {
+
+  count = local.create_nic ? 1 : 0
+
+  name                = "nic-${trimprefix(var.name, "vm-")}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "ipconfig1"
+    private_ip_address            = var.private_ip_address
+    private_ip_address_allocation = var.private_ip_address == null ? "Dynamic" : "Static"
+    subnet_id                     = var.subnet_id
   }
 }

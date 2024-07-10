@@ -8,8 +8,8 @@ module "example" {
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
-  image                 = "Win2022Datacenter"
-  network_interface_ids = [azurerm_virtual_network.example.id]
+  image     = "Win2022Datacenter"
+  subnet_id = azurerm_subnet.example.id
 }
 
 resource "azurerm_resource_group" "example" {
@@ -29,16 +29,4 @@ resource "azurerm_subnet" "example" {
   resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.2.0/24"]
-}
-
-resource "azurerm_network_interface" "example" {
-  name                = "nic-example-dev-we-01"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-
-  ip_configuration {
-    name                          = "ipconfig1"
-    subnet_id                     = azurerm_subnet.example.id
-    private_ip_address_allocation = "Dynamic"
-  }
 }

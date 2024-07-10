@@ -20,8 +20,8 @@ module "example" {
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
-  image                 = "Win2022Datacenter"
-  network_interface_ids = [azurerm_virtual_network.example.id]
+  image     = "Win2022Datacenter"
+  subnet_id = azurerm_subnet.example.id
 }
 
 resource "azurerm_resource_group" "example" {
@@ -42,18 +42,6 @@ resource "azurerm_subnet" "example" {
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.2.0/24"]
 }
-
-resource "azurerm_network_interface" "example" {
-  name                = "nic-example-dev-we-01"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-
-  ip_configuration {
-    name                          = "ipconfig1"
-    subnet_id                     = azurerm_subnet.example.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
 ```
 
 ## Providers
@@ -71,6 +59,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
 | [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) | resource |
 
 ## Inputs
@@ -80,10 +69,12 @@ No modules.
 | image | The name of the operating system image as a URN or URN alias.<br><br>Valid URN format is `Publisher:Offer:SKU:Version`.<br><br>Valid URN aliases are:<br>- `CentOS85Gen2`<br>- `Debian11`<br>- `FlatcarLinuxFreeGen2`<br>- `OpenSuseLeap154Gen2`<br>- `RHELRaw8LVMGen2`<br>- `SuseSles15SP3`<br>- `Ubuntu2204`<br>- `Win2022Datacenter`<br>- `Win2022AzureEditionCore`<br>- `Win2019Datacenter`<br>- `Win2016Datacenter`<br>- `Win2012R2Datacenter`<br>- `Win2012Datacenter`<br>- `Win2008R2SP1`<br><br>Use `az vm image list` to list the possible values. | `string` | n/a | yes |
 | location | The Azure location where the virtual machine should reside. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | name | The name of the virtual machine. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| network\_interface\_ids | A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine. | `list(string)` | n/a | yes |
+| network\_interface\_ids | A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine. | `list(string)` | `[]` | no |
 | operating\_system | The virtual machine's operating system. Valid values are `Linux' or `Windows'. The default is `null', which determines the operating system to use based on the virtual machine image offering.` | `string` | `null` | no |
+| private\_ip\_address | The static IP address to use. If not set (default), a dynamic IP address is assigned. | `string` | `null` | no |
 | resource\_group\_name | The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | size | The SKU to use for this virtual machine, such as `Standard_DS1_v2`. | `string` | `"Standard_DS1_v2"` | no |
+| subnet\_id | The ID of the subnet in which this virtual machine network interface should reside. | `string` | `null` | no |
 
 ## Outputs
 
