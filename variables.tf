@@ -48,8 +48,8 @@ variable "resource_group_name" {
 }
 
 variable "network_interface_ids" {
-  default     = []
-  description = "A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine."
+  default     = null
+  description = "A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine."
   type        = list(string)
 }
 
@@ -68,11 +68,6 @@ variable "private_ip_address" {
   description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
   default     = null
   type        = string
-
-  validation {
-    condition     = length(var.network_interface_ids) > 0 ? var.private_ip_address == null : true
-    error_message = "Leave private_ip_address empty if network_interface_ids is set."
-  }
 }
 
 variable "size" {
@@ -99,16 +94,11 @@ variable "size" {
 
 variable "subnet_id" {
   default     = null
-  description = "The ID of the subnet in which this virtual machine network interface should reside."
+  description = "The ID of the subnet where the virtual machine's primary network interface should be located."
   type        = string
 
   validation {
-    condition     = length(var.network_interface_ids) == 0 ? var.subnet_id != null : true
-    error_message = "The subnet_id is required if network_interface_ids is empty."
-  }
-
-  validation {
-    condition     = length(var.network_interface_ids) > 0 ? var.subnet_id == null : true
-    error_message = "Leave subnet_id empty if network_interface_ids is set."
+    condition     = var.subnet_id != null || var.network_interface_ids != null
+    error_message = "The subnet_id is required if network_interface_ids is not set."
   }
 }

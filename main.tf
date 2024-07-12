@@ -25,12 +25,11 @@ locals {
 
   is_linux      = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
   is_windows    = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
-  create_nic    = length(var.network_interface_ids) == 0 && var.subnet_id != null
   enable_backup = var.backup_policy_id != null
 
   backup_recovery_vault_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[8] : null
   backup_resource_group_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[4] : null
-  network_interface_ids      = local.create_nic ? [azurerm_network_interface.this[0].id] : var.network_interface_ids
+  network_interface_ids      = concat(azurerm_network_interface.this.*.id, var.network_interface_ids != null ? var.network_interface_ids : [])
   virtual_machine_id         = local.is_linux ? azurerm_linux_virtual_machine.this[0].id : (local.is_windows ? azurerm_windows_virtual_machine.this[0].id : null)
 }
 
@@ -85,7 +84,7 @@ resource "azurerm_windows_virtual_machine" "this" {
 
 resource "azurerm_network_interface" "this" {
 
-  count = local.create_nic ? 1 : 0
+  count = var.subnet_id != null ? 1 : 0
 
   name                = "nic-${trimprefix(var.name, "vm-")}"
   location            = var.location

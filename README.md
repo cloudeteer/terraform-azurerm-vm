@@ -117,11 +117,11 @@ The following input variables are optional (have default values):
 
 ### <a name="input_network_interface_ids"></a> [network\_interface\_ids](#input\_network\_interface\_ids)
 
-Description: A list of network interface IDs to be attached to this virtual machine. The first network interface ID in this list will be the primary network interface on the virtual machine.
+Description: A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine.
 
 Type: `list(string)`
 
-Default: `[]`
+Default: `null`
 
 ### <a name="input_operating_system"></a> [operating\_system](#input\_operating\_system)
 
@@ -162,7 +162,7 @@ Default: `"Standard_DS1_v2"`
 
 ### <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)
 
-Description: The ID of the subnet in which this virtual machine network interface should reside.
+Description: The ID of the subnet where the virtual machine's primary network interface should be located.
 
 Type: `string`
 
