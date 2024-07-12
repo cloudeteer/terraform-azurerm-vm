@@ -27,8 +27,8 @@ variable "image" {
   type = string
 
   validation {
-    condition     = length(split(":", var.image)) == 4 || (length(split(":", var.image)) < 4 && contains(local.azure_common_image_aliases_json.*.urnAlias, var.image))
-    error_message = "Unknown image urn alias \"${var.image}\". Valid aliases are: ${join(",", local.azure_common_image_aliases_json.*.urnAlias)}"
+    condition     = length(split(":", var.image)) == 4 || (length(split(":", var.image)) < 4 && contains(local.azure_common_image_aliases_json[*].urnAlias, var.image))
+    error_message = "Unknown image urn alias \"${var.image}\". Valid aliases are: ${join(",", local.azure_common_image_aliases_json[*].urnAlias)}"
   }
 }
 

@@ -7,7 +7,7 @@ locals {
     offer     = split(":", var.image)[1]
     sku       = split(":", var.image)[2]
     version   = split(":", var.image)[3]
-  } : local.azure_common_image_aliases_json[index(local.azure_common_image_aliases_json.*.urnAlias, var.image)]
+  } : local.azure_common_image_aliases_json[index(local.azure_common_image_aliases_json[*].urnAlias, var.image)]
 
   linux_offers = [
     "0001-com-ubuntu-server-jammy",
@@ -29,8 +29,8 @@ locals {
 
   backup_recovery_vault_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[8] : null
   backup_resource_group_name = var.backup_policy_id != null ? split("/", var.backup_policy_id)[4] : null
-  network_interface_ids      = concat(azurerm_network_interface.this.*.id, var.network_interface_ids != null ? var.network_interface_ids : [])
-  virtual_machine_id         = local.is_linux ? azurerm_linux_virtual_machine.this[0].id : (local.is_windows ? azurerm_windows_virtual_machine.this[0].id : null)
+  network_interface_ids      = concat(azurerm_network_interface.this[*].id, var.network_interface_ids != null ? var.network_interface_ids : [])
+  virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
