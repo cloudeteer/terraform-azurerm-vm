@@ -51,4 +51,3 @@ run "test_input_subnet_id_and_network_interface_ids_set" {
     ]
   }
 }
-

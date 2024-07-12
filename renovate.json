@@ -2,5 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>cloudeteer/terraform-governance:renovate-default.json"
-  ]
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
 }
