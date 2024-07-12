@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 module "example" {
   source              = "cloudeteer/vm/azurerm"
   name                = "vm-example-dev-we-01"

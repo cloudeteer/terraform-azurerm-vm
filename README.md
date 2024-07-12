@@ -10,10 +10,6 @@ This module is designed to simplify the deployment and management of virtual mac
 ## Usage
 
 ```hcl
-provider "azurerm" {
-  features {}
-}
-
 module "example" {
   source              = "cloudeteer/vm/azurerm"
   name                = "vm-example-dev-we-01"

@@ -14,3 +14,7 @@ repos:
     rev: "v1.92.0"
     hooks:
       - id: terraform_fmt
+      - id: terraform_tflint
+        exclude: (examples|tests)
+      - id: terraform_trivy
+        exclude: (examples|tests)
