@@ -111,6 +111,16 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name)
+
+Description: Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
+
+Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_network_interface_ids"></a> [network\_interface\_ids](#input\_network\_interface\_ids)
 
 Description: A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine.

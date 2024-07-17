@@ -47,6 +47,17 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "computer_name" {
+  description = <<-EOT
+    Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
+
+    Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+  EOT
+
+  type    = string
+  default = null
+}
+
 variable "network_interface_ids" {
   default     = null
   description = "A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine."

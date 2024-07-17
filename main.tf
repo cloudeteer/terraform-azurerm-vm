@@ -40,9 +40,12 @@ resource "azurerm_linux_virtual_machine" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  admin_username        = "azureadmin"
-  network_interface_ids = local.network_interface_ids
-  size                  = var.size
+  admin_password                  = "Pa$$w0rd"
+  admin_username                  = "azureadmin"
+  computer_name                   = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  disable_password_authentication = false
+  network_interface_ids           = local.network_interface_ids
+  size                            = var.size
 
   os_disk {
     caching              = "ReadWrite"
@@ -66,6 +69,7 @@ resource "azurerm_windows_virtual_machine" "this" {
 
   admin_password        = "Pa$$w0rd"
   admin_username        = "azureadmin"
+  computer_name         = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
   network_interface_ids = local.network_interface_ids
   size                  = var.size
 
