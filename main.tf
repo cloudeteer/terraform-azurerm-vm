@@ -62,8 +62,14 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    caching                          = var.os_disk.caching
+    disk_encryption_set_id           = var.os_disk.disk_encryption_set_id
+    disk_size_gb                     = var.os_disk.disk_size_gb
+    name                             = coalesce(var.os_disk.name, "osdisk-${trimprefix(var.name, "vm-")}")
+    secure_vm_disk_encryption_set_id = var.os_disk.secure_vm_disk_encryption_set_id
+    security_encryption_type         = var.os_disk.security_encryption_type
+    storage_account_type             = var.os_disk.storage_account_type
+    write_accelerator_enabled        = var.os_disk.write_accelerator_enabled
   }
 
   source_image_reference {
@@ -71,6 +77,10 @@ resource "azurerm_linux_virtual_machine" "this" {
     offer     = local.image.offer
     sku       = local.image.sku
     version   = local.image.version
+  }
+
+  lifecycle {
+    ignore_changes = [os_disk[0].name]
   }
 }
 
@@ -88,8 +98,14 @@ resource "azurerm_windows_virtual_machine" "this" {
   size                  = var.size
 
   os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    caching                          = var.os_disk.caching
+    disk_encryption_set_id           = var.os_disk.disk_encryption_set_id
+    disk_size_gb                     = var.os_disk.disk_size_gb
+    name                             = coalesce(var.os_disk.name, "osdisk-${trimprefix(var.name, "vm-")}")
+    secure_vm_disk_encryption_set_id = var.os_disk.secure_vm_disk_encryption_set_id
+    security_encryption_type         = var.os_disk.security_encryption_type
+    storage_account_type             = var.os_disk.storage_account_type
+    write_accelerator_enabled        = var.os_disk.write_accelerator_enabled
   }
 
   source_image_reference {
@@ -97,6 +113,10 @@ resource "azurerm_windows_virtual_machine" "this" {
     offer     = local.image.offer
     sku       = local.image.sku
     version   = local.image.version
+  }
+
+  lifecycle {
+    ignore_changes = [os_disk[0].name]
   }
 }
 
