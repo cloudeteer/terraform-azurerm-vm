@@ -15,6 +15,9 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_tflint
-        exclude: (examples|tests)
+        exclude: ^(examples|tests)/
       - id: terraform_trivy
-        exclude: (examples|tests)
+        exclude: ^(examples|tests)/
+        args:
+          - --args=--skip-dirs="examples/"
+          - --args=--skip-dirs="tests/"
