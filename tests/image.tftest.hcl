@@ -7,6 +7,7 @@ variables {
   location            = "West Europe"
   resource_group_name = "rg-example-dev-we-01"
 
+  admin_password   = "Pa$$w0rd"
   backup_policy_id = null
   subnet_id        = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
 }

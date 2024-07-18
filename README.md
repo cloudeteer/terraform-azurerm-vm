@@ -46,6 +46,10 @@ The following providers are used by this module:
 
 - <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 3.111.0)
 
+- <a name="provider_random"></a> [random](#provider\_random) (~> 3.0)
+
+- <a name="provider_tls"></a> [tls](#provider\_tls) (~> 4.0)
+
 
 
 ## Resources
@@ -53,9 +57,12 @@ The following providers are used by this module:
 The following resources are used by this module:
 
 - [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) (resource)
+- [azurerm_key_vault_secret.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
 - [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
+- [random_password.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
+- [tls_private_key.this](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
 
 ## Required Inputs
 
@@ -111,11 +118,51 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password)
+
+Description: Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key\_vault\_id.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#input\_admin\_ssh\_public\_key)
+
+Description: Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username)
+
+Description: Username of the local administrator for the virtual machine.
+
+Type: `string`
+
+Default: `"azureadmin"`
+
+### <a name="input_authentication_type"></a> [authentication\_type](#input\_authentication\_type)
+
+Description: Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`.
+
+Type: `string`
+
+Default: `"Password"`
+
 ### <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name)
 
 Description: Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
 
 Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
+
+Description: Key Vault ID to store the generated admin password or admin SSH private key. Required when admin\_password or admin\_ssh\_public\_key is not set. Must not be set if either admin\_password or admin\_ssh\_public\_key is set.
 
 Type: `string`
 
@@ -178,7 +225,23 @@ Default: `null`
 
 The following outputs are exported:
 
+### <a name="output_admin_password"></a> [admin\_password](#output\_admin\_password)
+
+Description: n/a
+
+### <a name="output_admin_ssh_private_key"></a> [admin\_ssh\_private\_key](#output\_admin\_ssh\_private\_key)
+
+Description: n/a
+
+### <a name="output_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#output\_admin\_ssh\_public\_key)
+
+Description: n/a
+
 ### <a name="output_image"></a> [image](#output\_image)
+
+Description: n/a
+
+### <a name="output_key_vault_secret_id"></a> [key\_vault\_secret\_id](#output\_key\_vault\_secret\_id)
 
 Description: n/a
 <!-- END_TF_DOCS -->

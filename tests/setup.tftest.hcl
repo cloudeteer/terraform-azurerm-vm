@@ -20,6 +20,7 @@ run "deploy_module_windows" {
     backup_policy_id = null
     image            = "Win2022Datacenter"
     name             = "vm-example-dev-we-01"
+    key_vault_id     = run.setup_tests.key_vault_id
     subnet_id        = run.setup_tests.subnet_id
   }
 }
@@ -28,9 +29,10 @@ run "deploy_module_linux" {
   command = apply
 
   variables {
+    name             = "vm-example-dev-we-02"
     backup_policy_id = null
     image            = "Ubuntu2204"
-    name             = "vm-example-dev-we-02"
+    key_vault_id     = run.setup_tests.key_vault_id
     subnet_id        = run.setup_tests.subnet_id
   }
 }

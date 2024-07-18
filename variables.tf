@@ -47,6 +47,35 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "admin_password" {
+  description = "Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key_vault_id."
+  default     = null
+  type        = string
+}
+
+variable "admin_ssh_public_key" {
+  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format."
+  default     = null
+  type        = string
+}
+
+variable "admin_username" {
+  default     = "azureadmin"
+  description = "Username of the local administrator for the virtual machine."
+  type        = string
+}
+
+variable "authentication_type" {
+  description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
+  default     = "Password"
+  type        = string
+
+  validation {
+    condition     = var.authentication_type == "Password" || (var.authentication_type == "SSH" && !local.is_windows)
+    error_message = "On Windows operating systems, authentication_type = \"SSH\" is not supported. Use authentication_type = \"Password\" for Windows images."
+  }
+}
+
 variable "computer_name" {
   description = <<-EOT
     Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
@@ -56,6 +85,21 @@ variable "computer_name" {
 
   type    = string
   default = null
+}
+
+variable "key_vault_id" {
+  description = "Key Vault ID to store the generated admin password or admin SSH private key. Required when admin_password or admin_ssh_public_key is not set. Must not be set if either admin_password or admin_ssh_public_key is set."
+  default     = null
+  type        = string
+
+  validation {
+    condition = var.key_vault_id == null ? (
+      (var.authentication_type == "Password" && var.admin_password != null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key != null)
+      ) : (
+      (var.authentication_type == "Password" && var.admin_password == null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key == null)
+    )
+    error_message = "Invalid combination of key_vault_id, admin_password, and admin_ssh_public_key. If key_vault_id is null, admin_password or admin_ssh_public_key must be non-null. If key_vault_id is not null, admin_password and admin_ssh_public_key must be null."
+  }
 }
 
 variable "network_interface_ids" {

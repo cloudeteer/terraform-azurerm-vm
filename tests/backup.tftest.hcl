@@ -7,8 +7,9 @@ variables {
   location            = "West Europe"
   resource_group_name = "rg-example-dev-we-01"
 
-  image     = "Ubuntu2204"
-  subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example-dev-we-01/providers/Microsoft.Network/virtualNetworks/vnet-example-dev-we-01/subnets/snet-01"
+  admin_password = "Pa$$w0rd"
+  image          = "Ubuntu2204"
+  subnet_id      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example-dev-we-01/providers/Microsoft.Network/virtualNetworks/vnet-example-dev-we-01/subnets/snet-01"
 }
 
 run "test_input_backup" {

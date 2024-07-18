@@ -10,7 +10,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
 }
 
 variable "location" {
@@ -20,6 +25,8 @@ variable "location" {
 variable "resource_group_name" {
   type = string
 }
+
+data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "test" {
   name     = var.resource_group_name
@@ -40,6 +47,27 @@ resource "azurerm_subnet" "test" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+resource "azurerm_key_vault" "test" {
+  name                     = "kv-test-dev-we-01"
+  location                 = azurerm_resource_group.test.location
+  resource_group_name      = azurerm_resource_group.test.name
+  tenant_id                = data.azurerm_client_config.current.tenant_id
+  purge_protection_enabled = false
+
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+  }
+}
+
 output "subnet_id" {
   value = azurerm_subnet.test.id
+}
+
+output "key_vault_id" {
+  value = azurerm_key_vault.test.id
 }
