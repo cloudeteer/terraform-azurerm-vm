@@ -102,6 +102,26 @@ variable "key_vault_id" {
   }
 }
 
+variable "boot_diagnostics" {
+  description = <<-EOT
+    Enable boot diagnostics and optionally specify the storage account to use to store boot diagnostics. The default is to use a managed storage account to store boot diagnostics when enabled.
+
+    Optional parameters:
+
+    - `enable` - Whether to enable (`true`) or disable (`false`) boot diagnostics.
+    - `storage_account_uri` - The endpoint for the Azure storage account that should be used to store boot diagnostics, including console output and hypervisor screenshots.
+  EOT
+
+  type = object({
+    enable              = optional(bool, true)
+    storage_account_uri = optional(string)
+  })
+
+  default = {
+    enable = true
+  }
+}
+
 variable "network_interface_ids" {
   default     = null
   description = "A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine."

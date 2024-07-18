@@ -61,6 +61,13 @@ resource "azurerm_linux_virtual_machine" "this" {
     }
   }
 
+  dynamic "boot_diagnostics" {
+    for_each = var.boot_diagnostics.enable == true ? [true] : []
+    content {
+      storage_account_uri = var.boot_diagnostics.storage_account_uri
+    }
+  }
+
   os_disk {
     caching                          = var.os_disk.caching
     disk_encryption_set_id           = var.os_disk.disk_encryption_set_id
@@ -96,6 +103,14 @@ resource "azurerm_windows_virtual_machine" "this" {
   computer_name         = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
   network_interface_ids = local.network_interface_ids
   size                  = var.size
+
+  dynamic "boot_diagnostics" {
+    for_each = var.boot_diagnostics.enable == true ? [true] : []
+    content {
+      storage_account_uri = var.boot_diagnostics.storage_account_uri
+    }
+  }
+
 
   os_disk {
     caching                          = var.os_disk.caching

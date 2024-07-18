@@ -150,6 +150,32 @@ Type: `string`
 
 Default: `"Password"`
 
+### <a name="input_boot_diagnostics"></a> [boot\_diagnostics](#input\_boot\_diagnostics)
+
+Description: Enable boot diagnostics and optionally specify the storage account to use to store boot diagnostics. The default is to use a managed storage account to store boot diagnostics when enabled.
+
+Optional parameters:
+
+- `enable` - Whether to enable (`true`) or disable (`false`) boot diagnostics.
+- `storage_account_uri` - The endpoint for the Azure storage account that should be used to store boot diagnostics, including console output and hypervisor screenshots.
+
+Type:
+
+```hcl
+object({
+    enable              = optional(bool, true)
+    storage_account_uri = optional(string)
+  })
+```
+
+Default:
+
+```json
+{
+  "enable": true
+}
+```
+
 ### <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name)
 
 Description: Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
