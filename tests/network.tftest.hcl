@@ -7,9 +7,9 @@ variables {
   location            = "West Europe"
   resource_group_name = "rg-example-dev-we-01"
 
-  admin_password   = "Pa$$w0rd"
-  backup_policy_id = null
-  image            = "Ubuntu2204"
+  admin_password             = "Pa$$w0rd"
+  enable_backup_protected_vm = false
+  image                      = "Ubuntu2204"
 }
 
 run "test_input_subnet_id" {
@@ -33,6 +33,7 @@ run "test_input_interface_ids" {
   command = plan
 
   variables {
+    create_network_interface = false
     network_interface_ids = [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkInterfaces/nic1",
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkInterfaces/nic2"

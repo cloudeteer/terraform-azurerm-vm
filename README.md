@@ -68,12 +68,6 @@ The following resources are used by this module:
 
 The following input variables are required:
 
-### <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id)
-
-Description: The ID of the backup policy to use.
-
-Type: `string`
-
 ### <a name="input_image"></a> [image](#input\_image)
 
 Description: The URN or URN alias of the operating system image. Valid URN format is `Publisher:Offer:SKU:Version`. Use `az vm image list` to list possible URN values.
@@ -150,6 +144,14 @@ Type: `string`
 
 Default: `"Password"`
 
+### <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id)
+
+Description: The ID of the backup policy to use.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_boot_diagnostics"></a> [boot\_diagnostics](#input\_boot\_diagnostics)
 
 Description: Enable boot diagnostics and optionally specify the storage account to use to store boot diagnostics. The default is to use a managed storage account to store boot diagnostics when enabled.
@@ -185,6 +187,22 @@ Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`
 Type: `string`
 
 Default: `null`
+
+### <a name="input_create_network_interface"></a> [create\_network\_interface](#input\_create\_network\_interface)
+
+Description: Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined.
+
+Type: `bool`
+
+Default: `true`
+
+### <a name="input_enable_backup_protected_vm"></a> [enable\_backup\_protected\_vm](#input\_enable\_backup\_protected\_vm)
+
+Description: Enable (`true`) or disable (`false`) a backup protected VM.
+
+Type: `bool`
+
+Default: `true`
 
 ### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
 

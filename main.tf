@@ -23,9 +23,8 @@ locals {
     "WindowsServer"
   ]
 
-  is_linux      = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
-  is_windows    = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
-  enable_backup = var.backup_policy_id != null
+  is_linux   = try(contains(local.linux_offers, local.image.offer), var.operating_system == "Linux")
+  is_windows = try(contains(local.windows_offers, local.image.offer), var.operating_system == "Windows")
 
   admin_password             = var.authentication_type == "Password" ? coalesce(var.admin_password, one(random_password.this[*].result)) : null
   admin_ssh_public_key       = var.authentication_type == "SSH" ? coalesce(var.admin_ssh_public_key, one(tls_private_key.this[*].public_key_openssh)) : null
@@ -49,9 +48,8 @@ resource "azurerm_linux_virtual_machine" "this" {
   admin_username                  = var.admin_username
   computer_name                   = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
   disable_password_authentication = false
-
-  network_interface_ids = local.network_interface_ids
-  size                  = var.size
+  network_interface_ids           = local.network_interface_ids
+  size                            = var.size
 
   dynamic "admin_ssh_key" {
     for_each = var.authentication_type == "SSH" ? [true] : []
@@ -111,7 +109,6 @@ resource "azurerm_windows_virtual_machine" "this" {
     }
   }
 
-
   os_disk {
     caching                          = var.os_disk.caching
     disk_encryption_set_id           = var.os_disk.disk_encryption_set_id
@@ -137,7 +134,7 @@ resource "azurerm_windows_virtual_machine" "this" {
 
 resource "azurerm_network_interface" "this" {
 
-  count = var.subnet_id != null ? 1 : 0
+  count = var.create_network_interface ? 1 : 0
 
   name                = "nic-${trimprefix(var.name, "vm-")}"
   location            = var.location
@@ -152,8 +149,7 @@ resource "azurerm_network_interface" "this" {
 }
 
 resource "azurerm_backup_protected_vm" "this" {
-
-  count = local.enable_backup ? 1 : 0
+  count = var.enable_backup_protected_vm ? 1 : 0
 
   resource_group_name = local.backup_resource_group_name
 

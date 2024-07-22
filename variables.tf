@@ -1,6 +1,12 @@
 variable "backup_policy_id" {
   description = "The ID of the backup policy to use."
   type        = string
+  default     = null
+
+  validation {
+    condition     = (var.enable_backup_protected_vm && var.backup_policy_id != null) || !var.enable_backup_protected_vm
+    error_message = "A backup policy ID is required when backup_protected_vm.enabled is true."
+  }
 }
 
 variable "image" {
@@ -122,6 +128,18 @@ variable "boot_diagnostics" {
   }
 }
 
+variable "create_network_interface" {
+  description = "Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined."
+  type        = bool
+  default     = true
+}
+
+variable "enable_backup_proected_vm" {
+  description = "Enable (`true`) or disable (`false`) a backup protected VM."
+  type        = bool
+  default     = true
+}
+
 variable "network_interface_ids" {
   default     = null
   description = "A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine."
@@ -212,7 +230,7 @@ variable "subnet_id" {
   type        = string
 
   validation {
-    condition     = var.subnet_id != null || var.network_interface_ids != null
-    error_message = "The subnet_id is required if network_interface_ids is not set."
+    condition     = var.create_network_interface && var.subnet_id != null || !var.create_network_interface
+    error_message = "The subnet_id is required if create_network_interface is enabled."
   }
 }
