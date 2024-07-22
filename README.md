@@ -59,9 +59,11 @@ The following resources are used by this module:
 - [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) (resource)
 - [azurerm_key_vault_secret.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
 - [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
+- [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
 - [azurerm_user_assigned_identity.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) (resource)
+- [azurerm_virtual_machine_data_disk_attachment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 - [random_password.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
 - [tls_private_key.this](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
@@ -205,6 +207,37 @@ Description: If set to `true` a Azure public IP address will be created and assi
 Type: `bool`
 
 Default: `false`
+
+### <a name="input_data_disks"></a> [data\_disks](#input\_data\_disks)
+
+Description: Additional disks to be attached to the virtual machine.
+
+Required parameters:
+- `disk_size_gb` - Specifies the size of the managed disk to create in gigabytes.
+- `lun` - The Logical Unit Number of the Data Disk, which needs to be unique within the Virtual Machine.
+
+Optional parameters:
+
+- `caching` - Specifies the caching requirements for this Data Disk. Possible values include `None`, `ReadOnly` and `ReadWrite`.
+- `create_option` - The method to use when creating the managed disk. Possible values include:
+  - `Empty` - Create an empty managed disk.
+- `name` - Specifies the name of the Managed Disk. If omitted a name will be generated based on `name`.
+- `storage_account_type` - The type of storage to use for the managed disk. Possible values are `Standard_LRS`, `StandardSSD_ZRS`, `Premium_LRS`, `PremiumV2_LRS`, `Premium_ZRS`, `StandardSSD_LRS` or `UltraSSD_LRS`.
+
+Type:
+
+```hcl
+list(object({
+    caching              = optional(string, "ReadWrite")
+    create_option        = optional(string, "Empty")
+    disk_size_gb         = number
+    lun                  = number
+    name                 = optional(string)
+    storage_account_type = optional(string, "Premium_LRS")
+  }))
+```
+
+Default: `[]`
 
 ### <a name="input_enable_backup_protected_vm"></a> [enable\_backup\_protected\_vm](#input\_enable\_backup\_protected\_vm)
 

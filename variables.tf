@@ -81,6 +81,35 @@ variable "create_public_ip_address" {
   type        = bool
 }
 
+variable "data_disks" {
+  description = <<-EOT
+    Additional disks to be attached to the virtual machine.
+
+    Required parameters:
+    - `disk_size_gb` - Specifies the size of the managed disk to create in gigabytes.
+    - `lun` - The Logical Unit Number of the Data Disk, which needs to be unique within the Virtual Machine.
+
+    Optional parameters:
+
+    - `caching` - Specifies the caching requirements for this Data Disk. Possible values include `None`, `ReadOnly` and `ReadWrite`.
+    - `create_option` - The method to use when creating the managed disk. Possible values include:
+      - `Empty` - Create an empty managed disk.
+    - `name` - Specifies the name of the Managed Disk. If omitted a name will be generated based on `name`.
+    - `storage_account_type` - The type of storage to use for the managed disk. Possible values are `Standard_LRS`, `StandardSSD_ZRS`, `Premium_LRS`, `PremiumV2_LRS`, `Premium_ZRS`, `StandardSSD_LRS` or `UltraSSD_LRS`.
+  EOT
+
+  type = list(object({
+    caching              = optional(string, "ReadWrite")
+    create_option        = optional(string, "Empty")
+    disk_size_gb         = number
+    lun                  = number
+    name                 = optional(string)
+    storage_account_type = optional(string, "Premium_LRS")
+  }))
+
+  default = []
+}
+
 variable "enable_backup_protected_vm" {
   description = "Enable (`true`) or disable (`false`) a backup protected VM."
   type        = bool

@@ -15,9 +15,23 @@ module "test" {
   enable_backup_protected_vm = true
   backup_policy_id           = azurerm_backup_policy_vm.test.id
 
+  create_public_ip_address = true
+
   identity = {
     type = "SystemAssigned"
   }
+
+  data_disks = [
+    {
+      disk_size_gb = 128
+      lun          = 10
+    },
+    {
+      name         = "test-99"
+      disk_size_gb = 128
+      lun          = 10
+    }
+  ]
 }
 
 #
