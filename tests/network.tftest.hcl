@@ -53,3 +53,12 @@ run "test_input_subnet_id_and_network_interface_ids_set" {
     ]
   }
 }
+
+run "test_input_public_ip" {
+  command = plan
+
+  variables {
+    create_public_ip_address = true
+    subnet_id                = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
+  }
+}

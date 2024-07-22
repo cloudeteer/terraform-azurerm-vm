@@ -75,6 +75,12 @@ variable "create_network_interface" {
   default     = true
 }
 
+variable "create_public_ip_address" {
+  description = "If set to `true` a Azure public IP address will be created and assigned to the default network interface."
+  default     = false
+  type        = bool
+}
+
 variable "enable_backup_protected_vm" {
   description = "Enable (`true`) or disable (`false`) a backup protected VM."
   type        = bool

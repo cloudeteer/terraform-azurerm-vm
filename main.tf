@@ -162,6 +162,7 @@ resource "azurerm_network_interface" "this" {
     name                          = "ipconfig1"
     private_ip_address            = var.private_ip_address
     private_ip_address_allocation = var.private_ip_address == null ? "Dynamic" : "Static"
+    public_ip_address_id          = one(azurerm_public_ip.this[*].id)
     subnet_id                     = var.subnet_id
   }
 }
@@ -204,4 +205,16 @@ resource "azurerm_user_assigned_identity" "this" {
   name                = "id-${trimprefix(var.name, "vm-")}"
   location            = var.location
   resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_public_ip" "this" {
+  count = var.create_public_ip_address ? 1 : 0
+
+  name                = "nic-${trimprefix(var.name, "vm-")}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  allocation_method = "Static"
+  sku               = "Standard"
+  sku_tier          = "Regional"
 }
