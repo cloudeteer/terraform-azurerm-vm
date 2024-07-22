@@ -1,3 +1,32 @@
+variable "admin_password" {
+  description = "Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key_vault_id."
+  default     = null
+  type        = string
+}
+
+variable "admin_ssh_public_key" {
+  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format."
+  default     = null
+  type        = string
+}
+
+variable "admin_username" {
+  default     = "azureadmin"
+  description = "Username of the local administrator for the virtual machine."
+  type        = string
+}
+
+variable "authentication_type" {
+  description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
+  default     = "Password"
+  type        = string
+
+  validation {
+    condition     = var.authentication_type == "Password" || (var.authentication_type == "SSH" && !local.is_windows)
+    error_message = "On Windows operating systems, authentication_type = \"SSH\" is not supported. Use authentication_type = \"Password\" for Windows images."
+  }
+}
+
 variable "backup_policy_id" {
   description = "The ID of the backup policy to use."
   type        = string
@@ -7,6 +36,49 @@ variable "backup_policy_id" {
     condition     = (var.enable_backup_protected_vm && var.backup_policy_id != null) || !var.enable_backup_protected_vm
     error_message = "A backup policy ID is required when backup_protected_vm.enabled is true."
   }
+}
+
+variable "boot_diagnostics" {
+  description = <<-EOT
+    Enable boot diagnostics and optionally specify the storage account to use to store boot diagnostics. The default is to use a managed storage account to store boot diagnostics when enabled.
+
+    Optional parameters:
+
+    - `enable` - Whether to enable (`true`) or disable (`false`) boot diagnostics.
+    - `storage_account_uri` - The endpoint for the Azure storage account that should be used to store boot diagnostics, including console output and hypervisor screenshots.
+  EOT
+
+  type = object({
+    enable              = optional(bool, true)
+    storage_account_uri = optional(string)
+  })
+
+  default = {
+    enable = true
+  }
+}
+
+variable "computer_name" {
+  description = <<-EOT
+    Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
+
+    Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+  EOT
+
+  type    = string
+  default = null
+}
+
+variable "create_network_interface" {
+  description = "Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined."
+  type        = bool
+  default     = true
+}
+
+variable "enable_backup_proected_vm" {
+  description = "Enable (`true`) or disable (`false`) a backup protected VM."
+  type        = bool
+  default     = true
 }
 
 variable "image" {
@@ -38,61 +110,6 @@ variable "image" {
   }
 }
 
-variable "location" {
-  description = "The Azure location where the virtual machine should reside."
-  type        = string
-}
-
-variable "name" {
-  description = "The name of the virtual machine. Changing this forces a new resource to be created."
-  type        = string
-}
-
-variable "resource_group_name" {
-  description = "The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created."
-  type        = string
-}
-
-variable "admin_password" {
-  description = "Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key_vault_id."
-  default     = null
-  type        = string
-}
-
-variable "admin_ssh_public_key" {
-  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format."
-  default     = null
-  type        = string
-}
-
-variable "admin_username" {
-  default     = "azureadmin"
-  description = "Username of the local administrator for the virtual machine."
-  type        = string
-}
-
-variable "authentication_type" {
-  description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
-  default     = "Password"
-  type        = string
-
-  validation {
-    condition     = var.authentication_type == "Password" || (var.authentication_type == "SSH" && !local.is_windows)
-    error_message = "On Windows operating systems, authentication_type = \"SSH\" is not supported. Use authentication_type = \"Password\" for Windows images."
-  }
-}
-
-variable "computer_name" {
-  description = <<-EOT
-    Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
-
-    Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
-  EOT
-
-  type    = string
-  default = null
-}
-
 variable "key_vault_id" {
   description = "Key Vault ID to store the generated admin password or admin SSH private key. Required when admin_password or admin_ssh_public_key is not set. Must not be set if either admin_password or admin_ssh_public_key is set."
   default     = null
@@ -108,36 +125,14 @@ variable "key_vault_id" {
   }
 }
 
-variable "boot_diagnostics" {
-  description = <<-EOT
-    Enable boot diagnostics and optionally specify the storage account to use to store boot diagnostics. The default is to use a managed storage account to store boot diagnostics when enabled.
-
-    Optional parameters:
-
-    - `enable` - Whether to enable (`true`) or disable (`false`) boot diagnostics.
-    - `storage_account_uri` - The endpoint for the Azure storage account that should be used to store boot diagnostics, including console output and hypervisor screenshots.
-  EOT
-
-  type = object({
-    enable              = optional(bool, true)
-    storage_account_uri = optional(string)
-  })
-
-  default = {
-    enable = true
-  }
+variable "location" {
+  description = "The Azure location where the virtual machine should reside."
+  type        = string
 }
 
-variable "create_network_interface" {
-  description = "Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined."
-  type        = bool
-  default     = true
-}
-
-variable "enable_backup_proected_vm" {
-  description = "Enable (`true`) or disable (`false`) a backup protected VM."
-  type        = bool
-  default     = true
+variable "name" {
+  description = "The name of the virtual machine. Changing this forces a new resource to be created."
+  type        = string
 }
 
 variable "network_interface_ids" {
@@ -199,6 +194,11 @@ variable "os_disk" {
 variable "private_ip_address" {
   description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
   default     = null
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created."
   type        = string
 }
 
