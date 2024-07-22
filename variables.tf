@@ -75,10 +75,28 @@ variable "create_network_interface" {
   default     = true
 }
 
-variable "enable_backup_proected_vm" {
+variable "enable_backup_protected_vm" {
   description = "Enable (`true`) or disable (`false`) a backup protected VM."
   type        = bool
   default     = true
+}
+
+variable "identity" {
+  description = <<-EOT
+    The Azure managed identity to assign to the virtual machine.
+
+    Optional parameters:
+
+    - `type` - Specifies the type of Managed Service Identity that should be configured on this Windows Virtual Machine. Possible values are `SystemAssigned`, `UserAssigned`, or `SystemAssigned, UserAssigned` (to enable both).
+    - `identity_ids` - Specifies a list of User Assigned Managed Identity IDs to be assigned to this Windows Virtual Machine.
+  EOT
+
+  type = object({
+    type         = optional(string)
+    identity_ids = optional(list(string))
+  })
+
+  default = null
 }
 
 variable "image" {
@@ -233,4 +251,11 @@ variable "subnet_id" {
     condition     = var.create_network_interface && var.subnet_id != null || !var.create_network_interface
     error_message = "The subnet_id is required if create_network_interface is enabled."
   }
+}
+
+variable "zone" {
+  description = "Availability Zone in which this Windows Virtual Machine should be located."
+
+  type    = string
+  default = null
 }

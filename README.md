@@ -60,6 +60,7 @@ The following resources are used by this module:
 - [azurerm_key_vault_secret.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
 - [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_user_assigned_identity.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) (resource)
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 - [random_password.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
 - [tls_private_key.this](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
@@ -204,6 +205,26 @@ Type: `bool`
 
 Default: `true`
 
+### <a name="input_identity"></a> [identity](#input\_identity)
+
+Description: The Azure managed identity to assign to the virtual machine.
+
+Optional parameters:
+
+- `type` - Specifies the type of Managed Service Identity that should be configured on this Windows Virtual Machine. Possible values are `SystemAssigned`, `UserAssigned`, or `SystemAssigned, UserAssigned` (to enable both).
+- `identity_ids` - Specifies a list of User Assigned Managed Identity IDs to be assigned to this Windows Virtual Machine.
+
+Type:
+
+```hcl
+object({
+    type         = optional(string)
+    identity_ids = optional(list(string))
+  })
+```
+
+Default: `null`
+
 ### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
 
 Description: Key Vault ID to store the generated admin password or admin SSH private key. Required when admin\_password or admin\_ssh\_public\_key is not set. Must not be set if either admin\_password or admin\_ssh\_public\_key is set.
@@ -310,6 +331,14 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_zone"></a> [zone](#input\_zone)
+
+Description: Availability Zone in which this Windows Virtual Machine should be located.
+
+Type: `string`
+
+Default: `null`
+
 ## Outputs
 
 The following outputs are exported:
@@ -323,6 +352,10 @@ Description: n/a
 Description: n/a
 
 ### <a name="output_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#output\_admin\_ssh\_public\_key)
+
+Description: n/a
+
+### <a name="output_identity"></a> [identity](#output\_identity)
 
 Description: n/a
 

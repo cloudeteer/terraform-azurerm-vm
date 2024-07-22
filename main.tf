@@ -35,6 +35,7 @@ locals {
   create_ssh_key_pair        = var.authentication_type == "SSH" && var.admin_ssh_public_key == null
   network_interface_ids      = concat(azurerm_network_interface.this[*].id, var.network_interface_ids != null ? var.network_interface_ids : [])
   virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
+  create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(coalescelist(var.identity.identity_ids, []), [])) == 0
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
@@ -63,6 +64,14 @@ resource "azurerm_linux_virtual_machine" "this" {
     for_each = var.boot_diagnostics.enable == true ? [true] : []
     content {
       storage_account_uri = var.boot_diagnostics.storage_account_uri
+    }
+  }
+
+  dynamic "identity" {
+    for_each = try(var.identity.type, null) != null ? [true] : []
+    content {
+      type         = var.identity.type
+      identity_ids = try(coalescelist(var.identity.identity_ids, azurerm_user_assigned_identity.this[*].id), null)
     }
   }
 
@@ -101,11 +110,20 @@ resource "azurerm_windows_virtual_machine" "this" {
   computer_name         = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
   network_interface_ids = local.network_interface_ids
   size                  = var.size
+  zone                  = var.zone
 
   dynamic "boot_diagnostics" {
     for_each = var.boot_diagnostics.enable == true ? [true] : []
     content {
       storage_account_uri = var.boot_diagnostics.storage_account_uri
+    }
+  }
+
+  dynamic "identity" {
+    for_each = try(var.identity.type, null) != null ? [true] : []
+    content {
+      type         = var.identity.type
+      identity_ids = try(coalescelist(var.identity.identity_ids, azurerm_user_assigned_identity.this[*].id), null)
     }
   }
 
@@ -178,4 +196,12 @@ resource "azurerm_key_vault_secret" "this" {
   content_type = var.authentication_type
   key_vault_id = var.key_vault_id
   value        = coalesce(local.admin_password, local.admin_ssh_private_key)
+}
+
+resource "azurerm_user_assigned_identity" "this" {
+  count = local.create_identity ? 1 : 0
+
+  name                = "id-${trimprefix(var.name, "vm-")}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
 }

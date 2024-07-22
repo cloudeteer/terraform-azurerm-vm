@@ -20,3 +20,7 @@ output "admin_ssh_private_key" {
 output "key_vault_secret_id" {
   value = try(azurerm_key_vault_secret.this[0].id, null)
 }
+
+output "identity" {
+  value = local.virtual_machine.identity
+}
