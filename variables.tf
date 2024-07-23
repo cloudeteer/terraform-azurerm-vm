@@ -16,6 +16,12 @@ variable "admin_username" {
   type        = string
 }
 
+variable "allow_extension_operations" {
+  description = "Should Extension Operations be allowed on this Virtual Machine?"
+  type        = bool
+  default     = true
+}
+
 variable "authentication_type" {
   description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
   default     = "Password"
@@ -56,6 +62,17 @@ variable "boot_diagnostics" {
   default = {
     enable = true
   }
+}
+
+variable "bypass_platform_safety_checks_on_user_schedule_enabled" {
+  description = <<-EOT
+    Specifies whether to skip platform scheduled patching when a user schedule is associated with the VM.
+
+    **NOTE**: Can only be set to true when `patch_mode` is set to `AutomaticByPlatform`.
+  EOT
+
+  type    = bool
+  default = true
 }
 
 variable "computer_name" {
@@ -112,6 +129,12 @@ variable "data_disks" {
 
 variable "enable_backup_protected_vm" {
   description = "Enable (`true`) or disable (`false`) a backup protected VM."
+  type        = bool
+  default     = true
+}
+
+variable "encryption_at_host_enabled" {
+  description = "Should all of the disks (including the temp disk) attached to this Virtual Machine be encrypted by enabling Encryption at Host?"
   type        = bool
   default     = true
 }
@@ -244,10 +267,52 @@ variable "os_disk" {
   }
 }
 
+variable "patch_assessment_mode" {
+  description = <<-EOT
+    Specifies the mode of VM Guest Patching for the Virtual Machine. Possible values are AutomaticByPlatform or ImageDefault.
+
+    **NOTE**: If the `patch_assessment_mode` is set to `AutomaticByPlatform` then the `provision_vm_agent` field must be set to `true`.
+
+    Possible values:
+    - `AutomaticByPlatform`
+    - `ImageDefault`
+  EOT
+
+  type    = string
+  default = "AutomaticByPlatform"
+}
+
+variable "patch_mode" {
+  description = <<-EOT
+    Specifies the mode of in-guest patching to this Windows Virtual Machine. For more information on patch modes please see the [product documentation](https://docs.microsoft.com/azure/virtual-machines/automatic-vm-guest-patching#patch-orchestration-modes).
+
+    **NOTE**: If `patch_mode` is set to `AutomaticByPlatform` then `provision_vm_agent` must also be set to true. If the Virtual Machine is using a hotpatching enabled image the `patch_mode` must always be set to `AutomaticByPlatform`.
+
+    Possible values:
+    - `AutomaticByOS`
+    - `AutomaticByPlatform`
+    - `Manual`
+  EOT
+
+  type    = string
+  default = "AutomaticByPlatform"
+}
+
 variable "private_ip_address" {
   description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
   default     = null
   type        = string
+}
+
+variable "provision_vm_agent" {
+  description = <<-EOT
+    Should the Azure VM Agent be provisioned on this Virtual Machine?
+
+    **NOTE**: If `provision_vm_agent` is set to `false` then `allow_extension_operations` must also be set to `false`.
+  EOT
+
+  type    = bool
+  default = true
 }
 
 variable "resource_group_name" {

@@ -140,6 +140,14 @@ Type: `string`
 
 Default: `"azureadmin"`
 
+### <a name="input_allow_extension_operations"></a> [allow\_extension\_operations](#input\_allow\_extension\_operations)
+
+Description: Should Extension Operations be allowed on this Virtual Machine?
+
+Type: `bool`
+
+Default: `true`
+
 ### <a name="input_authentication_type"></a> [authentication\_type](#input\_authentication\_type)
 
 Description: Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`.
@@ -181,6 +189,16 @@ Default:
   "enable": true
 }
 ```
+
+### <a name="input_bypass_platform_safety_checks_on_user_schedule_enabled"></a> [bypass\_platform\_safety\_checks\_on\_user\_schedule\_enabled](#input\_bypass\_platform\_safety\_checks\_on\_user\_schedule\_enabled)
+
+Description: Specifies whether to skip platform scheduled patching when a user schedule is associated with the VM.
+
+**NOTE**: Can only be set to true when `patch_mode` is set to `AutomaticByPlatform`.
+
+Type: `bool`
+
+Default: `true`
 
 ### <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name)
 
@@ -242,6 +260,14 @@ Default: `[]`
 ### <a name="input_enable_backup_protected_vm"></a> [enable\_backup\_protected\_vm](#input\_enable\_backup\_protected\_vm)
 
 Description: Enable (`true`) or disable (`false`) a backup protected VM.
+
+Type: `bool`
+
+Default: `true`
+
+### <a name="input_encryption_at_host_enabled"></a> [encryption\_at\_host\_enabled](#input\_encryption\_at\_host\_enabled)
+
+Description: Should all of the disks (including the temp disk) attached to this Virtual Machine be encrypted by enabling Encryption at Host?
 
 Type: `bool`
 
@@ -336,6 +362,35 @@ Default:
 }
 ```
 
+### <a name="input_patch_assessment_mode"></a> [patch\_assessment\_mode](#input\_patch\_assessment\_mode)
+
+Description: Specifies the mode of VM Guest Patching for the Virtual Machine. Possible values are AutomaticByPlatform or ImageDefault.
+
+**NOTE**: If the `patch_assessment_mode` is set to `AutomaticByPlatform` then the `provision_vm_agent` field must be set to `true`.
+
+Possible values:
+- `AutomaticByPlatform`
+- `ImageDefault`
+
+Type: `string`
+
+Default: `"AutomaticByPlatform"`
+
+### <a name="input_patch_mode"></a> [patch\_mode](#input\_patch\_mode)
+
+Description: Specifies the mode of in-guest patching to this Windows Virtual Machine. For more information on patch modes please see the [product documentation](https://docs.microsoft.com/azure/virtual-machines/automatic-vm-guest-patching#patch-orchestration-modes).
+
+**NOTE**: If `patch_mode` is set to `AutomaticByPlatform` then `provision_vm_agent` must also be set to true. If the Virtual Machine is using a hotpatching enabled image the `patch_mode` must always be set to `AutomaticByPlatform`.
+
+Possible values:
+- `AutomaticByOS`
+- `AutomaticByPlatform`
+- `Manual`
+
+Type: `string`
+
+Default: `"AutomaticByPlatform"`
+
 ### <a name="input_private_ip_address"></a> [private\_ip\_address](#input\_private\_ip\_address)
 
 Description: The static IP address to use. If not set (default), a dynamic IP address is assigned.
@@ -343,6 +398,16 @@ Description: The static IP address to use. If not set (default), a dynamic IP ad
 Type: `string`
 
 Default: `null`
+
+### <a name="input_provision_vm_agent"></a> [provision\_vm\_agent](#input\_provision\_vm\_agent)
+
+Description: Should the Azure VM Agent be provisioned on this Virtual Machine?
+
+**NOTE**: If `provision_vm_agent` is set to `false` then `allow_extension_operations` must also be set to `false`.
+
+Type: `bool`
+
+Default: `true`
 
 ### <a name="input_size"></a> [size](#input\_size)
 

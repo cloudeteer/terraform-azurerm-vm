@@ -46,12 +46,18 @@ resource "azurerm_linux_virtual_machine" "this" {
   resource_group_name = var.resource_group_name
   tags                = merge(var.tags, var.tags_virtual_machine)
 
-  admin_password                  = local.admin_password
-  admin_username                  = var.admin_username
-  computer_name                   = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
-  disable_password_authentication = false
-  network_interface_ids           = local.network_interface_ids
-  size                            = var.size
+  admin_password                                         = local.admin_password
+  admin_username                                         = var.admin_username
+  allow_extension_operations                             = var.allow_extension_operations
+  bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
+  computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  disable_password_authentication                        = false
+  encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  network_interface_ids                                  = local.network_interface_ids
+  patch_assessment_mode                                  = var.patch_assessment_mode
+  patch_mode                                             = var.patch_mode
+  provision_vm_agent                                     = var.provision_vm_agent
+  size                                                   = var.size
 
   dynamic "admin_ssh_key" {
     for_each = var.authentication_type == "SSH" ? [true] : []
@@ -95,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   lifecycle {
-    ignore_changes = [os_disk[0].name]
+    ignore_changes = [os_disk[0].name, gallery_application]
   }
 }
 
@@ -107,12 +113,18 @@ resource "azurerm_windows_virtual_machine" "this" {
   resource_group_name = var.resource_group_name
   tags                = merge(var.tags, var.tags_virtual_machine)
 
-  admin_password        = local.admin_password
-  admin_username        = var.admin_username
-  computer_name         = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
-  network_interface_ids = local.network_interface_ids
-  size                  = var.size
-  zone                  = var.zone
+  admin_password                                         = local.admin_password
+  admin_username                                         = var.admin_username
+  allow_extension_operations                             = var.allow_extension_operations
+  bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
+  computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  network_interface_ids                                  = local.network_interface_ids
+  patch_assessment_mode                                  = var.patch_assessment_mode
+  patch_mode                                             = var.patch_mode
+  provision_vm_agent                                     = var.provision_vm_agent
+  size                                                   = var.size
+  zone                                                   = var.zone
 
   dynamic "boot_diagnostics" {
     for_each = var.boot_diagnostics.enable == true ? [true] : []
@@ -148,7 +160,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   lifecycle {
-    ignore_changes = [os_disk[0].name]
+    ignore_changes = [os_disk[0].name, gallery_application]
   }
 }
 
