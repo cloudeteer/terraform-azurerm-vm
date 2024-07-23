@@ -1,40 +1,4 @@
 #
-# Virtual Machine
-#
-
-module "test" {
-  source              = "cloudeteer/vm/azurerm"
-  name                = "vm-example-dev-we-02"
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
-
-  image        = "Ubuntu2204"
-  key_vault_id = azurerm_key_vault.test.id
-  subnet_id    = azurerm_subnet.test.id
-
-  enable_backup_protected_vm = true
-  backup_policy_id           = azurerm_backup_policy_vm.test.id
-
-  create_public_ip_address = true
-
-  identity = {
-    type = "SystemAssigned"
-  }
-
-  data_disks = [
-    {
-      disk_size_gb = 128
-      lun          = 10
-    },
-    {
-      name         = "test-99"
-      disk_size_gb = 128
-      lun          = 10
-    }
-  ]
-}
-
-#
 # Virtual Machine Resouce Group
 #
 
@@ -113,4 +77,34 @@ resource "azurerm_backup_policy_vm" "test" {
   retention_daily {
     count = 30
   }
+}
+
+#
+# Virtual Machine Module
+#
+
+module "test" {
+  source              = "cloudeteer/vm/azurerm"
+  name                = "vm-example-dev-we-02"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+
+  backup_policy_id           = azurerm_backup_policy_vm.test.id
+  create_public_ip_address   = true
+  enable_backup_protected_vm = true
+  encryption_at_host_enabled = false
+  image                      = "Ubuntu2204"
+  key_vault_id               = azurerm_key_vault.test.id
+  subnet_id                  = azurerm_subnet.test.id
+
+  identity = {
+    type = "SystemAssigned"
+  }
+
+  data_disks = [
+    {
+      disk_size_gb = 128
+      lun          = 10
+    }
+  ]
 }
