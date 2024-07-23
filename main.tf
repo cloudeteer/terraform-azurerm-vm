@@ -44,6 +44,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = merge(var.tags, var.tags_virtual_machine)
 
   admin_password                  = local.admin_password
   admin_username                  = var.admin_username
@@ -104,6 +105,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = merge(var.tags, var.tags_virtual_machine)
 
   admin_password        = local.admin_password
   admin_username        = var.admin_username
@@ -157,6 +159,7 @@ resource "azurerm_network_interface" "this" {
   name                = "nic-${trimprefix(var.name, "vm-")}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 
   ip_configuration {
     name                          = "ipconfig1"
@@ -205,6 +208,7 @@ resource "azurerm_user_assigned_identity" "this" {
   name                = "id-${trimprefix(var.name, "vm-")}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 }
 
 resource "azurerm_public_ip" "this" {
@@ -213,6 +217,7 @@ resource "azurerm_public_ip" "this" {
   name                = "nic-${trimprefix(var.name, "vm-")}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -225,6 +230,7 @@ resource "azurerm_managed_disk" "this" {
   name                = each.value.name
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 
   storage_account_type = each.value.storage_account_type
   create_option        = each.value.create_option

@@ -373,6 +373,22 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_tags"></a> [tags](#input\_tags)
+
+Description: A mapping of tags which should be assigned to all resources in this module.
+
+Type: `map(string)`
+
+Default: `{}`
+
+### <a name="input_tags_virtual_machine"></a> [tags\_virtual\_machine](#input\_tags\_virtual\_machine)
+
+Description: A mapping of tags which should be assigned to the Virtual Machine. This map will be merged with `tags`.
+
+Type: `map(string)`
+
+Default: `{}`
+
 ### <a name="input_zone"></a> [zone](#input\_zone)
 
 Description: Availability Zone in which this Windows Virtual Machine should be located.

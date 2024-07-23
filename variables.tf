@@ -288,6 +288,20 @@ variable "subnet_id" {
   }
 }
 
+variable "tags" {
+  description = "A mapping of tags which should be assigned to all resources in this module."
+
+  type    = map(string)
+  default = {}
+}
+
+variable "tags_virtual_machine" {
+  description = "A mapping of tags which should be assigned to the Virtual Machine. This map will be merged with `tags`."
+
+  type    = map(string)
+  default = {}
+}
+
 variable "zone" {
   description = "Availability Zone in which this Windows Virtual Machine should be located."
 
