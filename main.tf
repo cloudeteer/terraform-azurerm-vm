@@ -263,3 +263,51 @@ locals {
     name = coalesce(element.name, format("disk-%s-%02.0f", trimprefix(var.name, "vm-"), sum([_index, 1])))
   })]
 }
+
+resource "azurerm_virtual_machine_extension" "this" {
+
+  for_each = { for element in [
+    {
+      name                       = "NetworkWatcherAgent"
+      publisher                  = "Microsoft.Azure.NetworkWatcher"
+      type                       = local.is_windows ? "NetworkWatcherAgentWindows" : (local.is_linux ? "NetworkWatcherAgentLinux" : null)
+      type_handler_version       = "1.0"
+      auto_upgrade_minor_version = true
+      automatic_upgrade_enabled  = true
+    },
+    {
+
+      name                       = "AzureMonitorAgent"
+      publisher                  = "Microsoft.Azure.Monitor"
+      type                       = local.is_windows ? "AzureMonitorWindowsAgent" : (local.is_linux ? "AzureMonitorLinuxAgent" : null)
+      type_handler_version       = "1.0"
+      auto_upgrade_minor_version = true
+      automatic_upgrade_enabled  = true
+    },
+    {
+      name                       = "AzurePolicy"
+      publisher                  = "Microsoft.GuestConfiguration"
+      type                       = local.is_windows ? "ConfigurationforWindows" : (local.is_linux ? "ConfigurationForLinux" : null)
+      type_handler_version       = "1.0"
+      auto_upgrade_minor_version = true
+      automatic_upgrade_enabled  = true
+    },
+    local.is_windows ? {
+      name                       = "AntiMalware"
+      publisher                  = "Microsoft.Azure.Security"
+      type                       = "IaaSAntimalware"
+      type_handler_version       = "1.0"
+      auto_upgrade_minor_version = true
+      automatic_upgrade_enabled  = false
+    } : null
+  ] : element.name => element if try(element.type, null) != null && contains(var.extensions, try(element.name, "")) }
+
+  virtual_machine_id = local.virtual_machine.id
+
+  auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
+  automatic_upgrade_enabled  = each.value.automatic_upgrade_enabled
+  name                       = each.value.name
+  publisher                  = each.value.publisher
+  type                       = each.value.type
+  type_handler_version       = each.value.type_handler_version
+}

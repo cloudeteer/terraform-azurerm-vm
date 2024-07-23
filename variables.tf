@@ -139,6 +139,27 @@ variable "encryption_at_host_enabled" {
   default     = true
 }
 
+variable "extensions" {
+  description = <<-EOT
+    List of extensions to enable.
+
+    Possible values:
+    - `NetworkWatcherAgent`
+    - `AzureMonitorAgent`
+    - `AzurePolicy`
+    - `AntiMalware`
+  EOT
+
+  type = list(string)
+
+  default = [
+    "NetworkWatcherAgent",
+    "AzureMonitorAgent",
+    "AzurePolicy",
+    "AntiMalware",
+  ]
+}
+
 variable "identity" {
   description = <<-EOT
     The Azure managed identity to assign to the virtual machine.

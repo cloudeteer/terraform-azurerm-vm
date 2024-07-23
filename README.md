@@ -64,6 +64,7 @@ The following resources are used by this module:
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
 - [azurerm_user_assigned_identity.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) (resource)
 - [azurerm_virtual_machine_data_disk_attachment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
+- [azurerm_virtual_machine_extension.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 - [random_password.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
 - [tls_private_key.this](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
@@ -272,6 +273,29 @@ Description: Should all of the disks (including the temp disk) attached to this 
 Type: `bool`
 
 Default: `true`
+
+### <a name="input_extensions"></a> [extensions](#input\_extensions)
+
+Description: List of extensions to enable.
+
+Possible values:
+- `NetworkWatcherAgent`
+- `AzureMonitorAgent`
+- `AzurePolicy`
+- `AntiMalware`
+
+Type: `list(string)`
+
+Default:
+
+```json
+[
+  "NetworkWatcherAgent",
+  "AzureMonitorAgent",
+  "AzurePolicy",
+  "AntiMalware"
+]
+```
 
 ### <a name="input_identity"></a> [identity](#input\_identity)
 
