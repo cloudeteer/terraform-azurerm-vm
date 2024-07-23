@@ -206,7 +206,7 @@ resource "tls_private_key" "this" {
 #trivy:ignore:avd-azu-0017
 #trivy:ignore:avd-azu-0013
 resource "azurerm_key_vault_secret" "this" {
-  count = local.create_password || local.create_ssh_key_pair ? 1 : 0
+  count = var.store_secret_in_key_vault ? 1 : 0
 
   name         = "${var.name}-${var.admin_username}-${lower(var.authentication_type)}"
   content_type = var.authentication_type

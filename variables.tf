@@ -191,14 +191,14 @@ variable "key_vault_id" {
   default     = null
   type        = string
 
-  validation {
-    condition = var.key_vault_id == null ? (
-      (var.authentication_type == "Password" && var.admin_password != null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key != null)
-      ) : (
-      (var.authentication_type == "Password" && var.admin_password == null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key == null)
-    )
-    error_message = "Invalid combination of key_vault_id, admin_password, and admin_ssh_public_key. If key_vault_id is null, admin_password or admin_ssh_public_key must be non-null. If key_vault_id is not null, admin_password and admin_ssh_public_key must be null."
-  }
+  # validation {
+  #   condition = var.key_vault_id == null ? (
+  #     (var.authentication_type == "Password" && var.admin_password != null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key != null)
+  #     ) : (
+  #     (var.authentication_type == "Password" && var.admin_password == null) || (var.authentication_type == "SSH" && var.admin_ssh_public_key == null)
+  #   )
+  #   error_message = "Invalid combination of key_vault_id, admin_password, and admin_ssh_public_key. If key_vault_id is null, admin_password or admin_ssh_public_key must be non-null. If key_vault_id is not null, admin_password and admin_ssh_public_key must be null."
+  # }
 }
 
 variable "location" {
@@ -340,6 +340,11 @@ variable "size" {
 
   type    = string
   default = "Standard_DS1_v2"
+}
+
+variable "store_secret_in_key_vault" {
+  type    = bool
+  default = true
 }
 
 variable "subnet_id" {

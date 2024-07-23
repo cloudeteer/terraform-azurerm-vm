@@ -430,6 +430,14 @@ Type: `string`
 
 Default: `"Standard_DS1_v2"`
 
+### <a name="input_store_secret_in_key_vault"></a> [store\_secret\_in\_key\_vault](#input\_store\_secret\_in\_key\_vault)
+
+Description: n/a
+
+Type: `bool`
+
+Default: `true`
+
 ### <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)
 
 Description: The ID of the subnet where the virtual machine's primary network interface should be located.
