@@ -24,3 +24,7 @@ output "key_vault_secret_id" {
 output "identity" {
   value = local.virtual_machine.identity
 }
+
+output "id" {
+  value = local.virtual_machine.id
+}
