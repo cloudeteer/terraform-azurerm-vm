@@ -334,6 +334,8 @@ Default: `true`
 
 Description: Should all of the disks (including the temp disk) attached to this Virtual Machine be encrypted by enabling Encryption at Host?
 
+**NOTE**: Requires `Microsoft.Compute/EncryptionAtHost` to be enabled at the subscription level.
+
 Type: `bool`
 
 Default: `true`
