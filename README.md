@@ -102,7 +102,7 @@ module "example" {
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 3.111.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 3.111)
 
 - <a name="provider_random"></a> [random](#provider\_random) (~> 3.0)
 
