@@ -10,6 +10,7 @@ variables {
   admin_password             = "Pa$$w0rd"
   enable_backup_protected_vm = false
   image                      = "Ubuntu2204"
+  store_secret_in_key_vault  = false
 }
 
 run "test_input_subnet_id" {

@@ -1,4 +1,8 @@
 provider "azurerm" {
+  features {}
+}
+
+provider "azurerm" {
   alias = "example_key_vault"
   features {}
 }
@@ -15,18 +19,6 @@ variable "key_vault_id" {
   type = string
 }
 
-# Store the password by yourself in a Key Vault on a different provider
-resource "azurerm_key_vault_secret" "example" {
-  provider = azurerm.example_key_vault
-
-  name         = "vm-example-dev-we-01-azureadmin-password"
-  content_type = "Password"
-  key_vault_id = var.key_vault_id
-
-  # Get the secret value from the module output
-  value = module.example.admin_password
-}
-
 module "example" {
   source = "cloudeteer/vm/azurerm"
 
@@ -40,4 +32,16 @@ module "example" {
 
   # Disable store in Azure Key Vault by the module
   store_secret_in_key_vault = false
+}
+
+# Store the password by yourself in a Key Vault on a different provider
+resource "azurerm_key_vault_secret" "example" {
+  provider = azurerm.example_key_vault
+
+  name         = "vm-example-dev-we-01-azureadmin-password"
+  content_type = "Password"
+  key_vault_id = var.key_vault_id
+
+  # Get the secret value from the module output
+  value = module.example.admin_password
 }

@@ -14,6 +14,8 @@ sort:
 content: |-
   ## Usage
 
+  {{ include "examples/usage/main.md" }}
+
   ```hcl
   {{ include "examples/usage/main.tf" }}
   ```

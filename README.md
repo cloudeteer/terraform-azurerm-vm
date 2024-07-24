@@ -16,6 +16,8 @@ This module is designed to simplify the deployment and management of virtual mac
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 
+This example demonstrates the usage of the virtual machine module with default settings. It sets up all necessary dependencies, including a resource group, virtual network, subnet, recovery services vault, backup policy, and key vault, to ensure seamless deployment.
+
 ```hcl
 resource "azurerm_resource_group" "example" {
   name     = "rg-example-dev-we-01"

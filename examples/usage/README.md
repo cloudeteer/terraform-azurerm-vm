@@ -1,6 +1,6 @@
-# Example: Full Deployment
+# Example: Usage
 
-This example demonstrates how to deploy a fully-featured virtual machine (VM) with all necessary dependencies using this Terraform module.
+This primary usage example is also included in the [README.md](../../README.md) of this module. It demonstrates the virtual machine module using as many default values as possible.
 
 ## Prerequisites
 
@@ -33,5 +33,3 @@ Before you begin, ensure you have the following:
 - [Terraform Azure Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [Terraform Configuration Language](https://www.terraform.io/docs/language/index.html)
 - [Azure Virtual Machine Documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/)
-
-This example provides a starting point for deploying a full-featured virtual machine in Azure. Customize the configuration as needed to fit your specific requirements.

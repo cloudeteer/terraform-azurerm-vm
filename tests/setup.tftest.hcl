@@ -3,8 +3,9 @@ provider "azurerm" {
 }
 
 variables {
+  name                = "vm-tftest-dev-we-01"
   location            = "West Europe"
-  resource_group_name = "rg-test-dev-we-01"
+  resource_group_name = "rg-tftest-dev-we-01"
 }
 
 run "setup_tests" {
@@ -17,9 +18,9 @@ run "deploy_module_windows" {
   command = apply
 
   variables {
-    backup_policy_id = null
-    image            = "Win2022Datacenter"
-    name             = "vm-example-dev-we-01"
+    image = "Win2022Datacenter"
+
+    backup_policy_id = run.setup_tests.backup_policy_id
     key_vault_id     = run.setup_tests.key_vault_id
     subnet_id        = run.setup_tests.subnet_id
   }
@@ -29,9 +30,9 @@ run "deploy_module_linux" {
   command = apply
 
   variables {
-    name             = "vm-example-dev-we-02"
-    backup_policy_id = null
-    image            = "Ubuntu2204"
+    image = "Ubuntu2204"
+
+    backup_policy_id = run.setup_tests.backup_policy_id
     key_vault_id     = run.setup_tests.key_vault_id
     subnet_id        = run.setup_tests.subnet_id
   }
