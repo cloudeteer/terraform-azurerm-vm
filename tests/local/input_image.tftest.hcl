@@ -1,16 +1,9 @@
-provider "azurerm" {
-  features {}
-}
+mock_provider "azurerm" {}
+mock_provider "random" {}
+mock_provider "tls" {}
 
 variables {
-  name                = "vm-example-dev-we-01"
-  location            = "West Europe"
-  resource_group_name = "rg-example-dev-we-01"
-
-  admin_password             = "Pa$$w0rd"
-  enable_backup_protected_vm = false
-  store_secret_in_key_vault  = false
-  subnet_id                  = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
+  image = null
 }
 
 run "test_input_image_urn_alias" {

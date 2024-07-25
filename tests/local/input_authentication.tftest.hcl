@@ -1,23 +1,6 @@
-mock_provider "azurerm" {
-  mock_resource "azurerm_subnet" {
-    defaults = {
-      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
-    }
-  }
-}
-
+mock_provider "azurerm" {}
 mock_provider "random" {}
 mock_provider "tls" {}
-
-variables {
-  name                = "vm-example-dev-we-01"
-  location            = "West Europe"
-  resource_group_name = "rg-example-dev-we-01"
-
-  enable_backup_protected_vm = false
-  subnet_id                  = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
-  key_vault_id               = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.KeyVault/vaults/kv"
-}
 
 run "test_input_authentication_windows_default" {
   command = plan
@@ -33,6 +16,7 @@ run "test_input_authentication_windows_default" {
 }
 
 run "test_input_authentication_windows_password" {
+
   command = plan
 
   variables {
@@ -50,9 +34,9 @@ run "test_input_authentication_windows_password_explicit" {
   command = plan
 
   variables {
-    image                     = "Win2022Datacenter"
+    admin_password            = bcrypt(uuid())
     authentication_type       = "Password"
-    admin_password            = "@sdfqw3r7y"
+    image                     = "Win2022Datacenter"
     store_secret_in_key_vault = false
   }
 
@@ -90,8 +74,8 @@ run "test_input_authentication_linux_password" {
   command = plan
 
   variables {
-    image               = "Ubuntu2204"
     authentication_type = "Password"
+    image               = "Ubuntu2204"
   }
 
   assert {
@@ -104,9 +88,9 @@ run "test_input_authentication_linux_password_explicit" {
   command = plan
 
   variables {
-    image                     = "Ubuntu2204"
+    admin_password            = bcrypt(uuid())
     authentication_type       = "Password"
-    admin_password            = "@sdfqw3r7y"
+    image                     = "Ubuntu2204"
     store_secret_in_key_vault = false
   }
 
@@ -120,8 +104,8 @@ run "test_input_authentication_linux_ssh" {
   command = plan
 
   variables {
-    image               = "Ubuntu2204"
     authentication_type = "SSH"
+    image               = "Ubuntu2204"
   }
 
   assert {
@@ -139,9 +123,9 @@ run "test_input_authentication_linux_ssh_explicit" {
   command = plan
 
   variables {
-    image                     = "Ubuntu2204"
-    authentication_type       = "SSH"
     admin_ssh_public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDwVwmmz4jNNg5oQYVjpaer8R86TgyI3Ge+NqdFksjAHFO5ZK/Ds2PQb06jXeH/OS2iNBQEBcGiAob6Vx15mJd0iByGcmsHmFkTJeZND84JQ3oUT7jZwoF6Rofe1bW2N6tVRINJYB1qGFLSu1vx4jd4OuWQRh3tzmWy686WCy4XEaVNqYXPVocvHU7XM27wMPOvsAV+JlRXmfSYKvAqH/wCV7FzPsWq7cu7zGH2nuvFWGwtJt+Q5Nxh6V6C/5j4ZF/5/q9tBzpR39uPPtzGEBc5572G7BX0Rl5RbfvLBRTTI54K7DwujJ5l9E24VThqIRh/WqHTvfHJ85sQudRrS0V/ example"
+    authentication_type       = "SSH"
+    image                     = "Ubuntu2204"
     store_secret_in_key_vault = false
   }
 
