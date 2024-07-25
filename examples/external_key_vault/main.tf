@@ -28,7 +28,7 @@ variable "location" {
 }
 
 module "example" {
-  source = "../.."
+  source = "cloudeteer/vm/azurerm"
 
   name                = "vm-example-dev-we-01"
   location            = var.location
