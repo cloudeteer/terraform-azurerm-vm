@@ -10,13 +10,15 @@ variables {
 
 run "setup_tests" {
   command = apply
+
   module {
     source = "./tests/remote"
   }
 }
 
 run "deploy_module_windows" {
-  command = plan
+  command = apply
+
   variables {
     image = "Win2022Datacenter"
 
@@ -27,7 +29,8 @@ run "deploy_module_windows" {
 }
 
 run "deploy_module_linux" {
-  command = plan
+  command = apply
+
   variables {
     image = "Ubuntu2204"
 
