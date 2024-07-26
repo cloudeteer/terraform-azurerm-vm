@@ -526,6 +526,30 @@ Type: `string`
 
 Default: `"AutomaticByPlatform"`
 
+### <a name="input_plan"></a> [plan](#input\_plan)
+
+Description: The plan configuration for the Marketplace Image used to create a Virtual Machine.
+
+Required arguments:
+
+Argument | Description
+-- | --
+`name` | Specifies the Name of the Marketplace Image this Virtual Machine should be created from.
+`product` | Specifies the Product of the Marketplace Image this Virtual Machine should be created from.
+`publisher` | Specifies the Publisher of the Marketplace Image this Virtual Machine should be created from.
+
+Type:
+
+```hcl
+object({
+    name      = string
+    product   = string
+    publisher = string
+  })
+```
+
+Default: `null`
+
 ### <a name="input_private_ip_address"></a> [private\_ip\_address](#input\_private\_ip\_address)
 
 Description: The static IP address to use. If not set (default), a dynamic IP address is assigned.
@@ -580,6 +604,23 @@ Common sizes:
 Type: `string`
 
 Default: `"Standard_DS1_v2"`
+
+### <a name="input_source_image_id"></a> [source\_image\_id](#input\_source\_image\_id)
+
+Description: The ID of the Image which this Virtual Machine should be created from.
+
+Possible Image ID types include:
+
+- Image ID
+- Shared Image ID
+- Shared Image Version ID
+- Community Gallery Image ID
+- Community Gallery Image Version ID
+- Shared Gallery Image IDs and Shared Gallery Image Version ID
+
+Type: `string`
+
+Default: `null`
 
 ### <a name="input_store_secret_in_key_vault"></a> [store\_secret\_in\_key\_vault](#input\_store\_secret\_in\_key\_vault)
 

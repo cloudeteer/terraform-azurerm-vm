@@ -394,6 +394,28 @@ variable "patch_mode" {
   default = "AutomaticByPlatform"
 }
 
+variable "plan" {
+  description = <<-EOT
+  The plan configuration for the Marketplace Image used to create a Virtual Machine.
+
+  Required arguments:
+
+  Argument | Description
+  -- | --
+  `name` | Specifies the Name of the Marketplace Image this Virtual Machine should be created from.
+  `product` | Specifies the Product of the Marketplace Image this Virtual Machine should be created from.
+  `publisher` | Specifies the Publisher of the Marketplace Image this Virtual Machine should be created from.
+  EOT
+
+  type = object({
+    name      = string
+    product   = string
+    publisher = string
+  })
+
+  default = null
+}
+
 variable "private_ip_address" {
   description = "The static IP address to use. If not set (default), a dynamic IP address is assigned."
   default     = null
@@ -450,6 +472,24 @@ variable "size" {
 
   type    = string
   default = "Standard_DS1_v2"
+}
+
+variable "source_image_id" {
+  description = <<-EOT
+  The ID of the Image which this Virtual Machine should be created from.
+
+  Possible Image ID types include:
+
+  - Image ID
+  - Shared Image ID
+  - Shared Image Version ID
+  - Community Gallery Image ID
+  - Community Gallery Image Version ID
+  - Shared Gallery Image IDs and Shared Gallery Image Version ID
+  EOT
+
+  type    = string
+  default = null
 }
 
 variable "store_secret_in_key_vault" {

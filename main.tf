@@ -64,6 +64,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   proximity_placement_group_id                           = var.proximity_placement_group_id
   secure_boot_enabled                                    = var.secure_boot_enabled
   size                                                   = var.size
+  source_image_id                                        = var.source_image_id
   virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
   vtpm_enabled                                           = var.vtpm_enabled
   zone                                                   = var.zone
@@ -102,11 +103,23 @@ resource "azurerm_linux_virtual_machine" "this" {
     write_accelerator_enabled        = var.os_disk.write_accelerator_enabled
   }
 
-  source_image_reference {
-    publisher = local.image.publisher
-    offer     = local.image.offer
-    sku       = local.image.sku
-    version   = local.image.version
+  dynamic "plan" {
+    for_each = var.plan[*]
+    content {
+      name      = var.plan.name
+      product   = var.plan.product
+      publisher = var.plan.publisher
+    }
+  }
+
+  dynamic "source_image_reference" {
+    for_each = var.source_image_id == null ? [true] : []
+    content {
+      publisher = local.image.publisher
+      offer     = local.image.offer
+      sku       = local.image.sku
+      version   = local.image.version
+    }
   }
 
   lifecycle {
@@ -139,6 +152,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   proximity_placement_group_id                           = var.proximity_placement_group_id
   secure_boot_enabled                                    = var.secure_boot_enabled
   size                                                   = var.size
+  source_image_id                                        = var.source_image_id
   timezone                                               = var.timezone
   virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
   vtpm_enabled                                           = var.vtpm_enabled
@@ -170,13 +184,24 @@ resource "azurerm_windows_virtual_machine" "this" {
     write_accelerator_enabled        = var.os_disk.write_accelerator_enabled
   }
 
-  source_image_reference {
-    publisher = local.image.publisher
-    offer     = local.image.offer
-    sku       = local.image.sku
-    version   = local.image.version
+  dynamic "plan" {
+    for_each = var.plan[*]
+    content {
+      name      = var.plan.name
+      product   = var.plan.product
+      publisher = var.plan.publisher
+    }
   }
 
+  dynamic "source_image_reference" {
+    for_each = var.source_image_id == null ? [true] : []
+    content {
+      publisher = local.image.publisher
+      offer     = local.image.offer
+      sku       = local.image.sku
+      version   = local.image.version
+    }
+  }
   lifecycle {
     ignore_changes = [os_disk[0].name, gallery_application]
   }
