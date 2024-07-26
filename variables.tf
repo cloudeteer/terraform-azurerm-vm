@@ -3,6 +3,51 @@ locals {
   linux_license_types   = ["RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA", "SLES_BYOS", "SLES_SAP", "SLES_HPC"]
 }
 
+variable "additional_capabilities" {
+  description = <<-EOT
+  Enable additional capabilities.
+
+  Optional arguments:
+
+  Argument | Description
+  -- | --
+  `ultra_ssd_enabled` | Should the capacity to enable Data Disks of the UltraSSD_LRS storage account type be supported on this Virtual Machine?
+  `hibernation_enabled` | Whether to enable the hibernation capability or not.
+  EOT
+
+  type = object({
+    ultra_ssd_enabled   = optional(bool)
+    hibernation_enabled = optional(bool)
+  })
+
+  default = null
+}
+
+variable "additional_unattend_content" {
+  description = <<-EOT
+    Additional content for the unattend.xml file used during Windows installation. This feature is not supported on Linux Virtual Machines.
+
+    Required arguments:
+
+    Argument | Description
+    -- | --
+    `content` | The XML formatted content that is added to the unattend.xml file for the specified path and component.
+    `setting` | The name of the setting to which the content applies. Possible values are `AutoLogon` and `FirstLogonCommands`.
+  EOT
+
+  type = object({
+    content = string
+    setting = string
+  })
+
+  default = null
+
+  validation {
+    condition     = var.additional_unattend_content == null ? true : local.is_windows
+    error_message = "Additional unanttend content can only be defined for Windows virtual machines."
+  }
+}
+
 variable "admin_password" {
   description = "Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key_vault_id."
   default     = null

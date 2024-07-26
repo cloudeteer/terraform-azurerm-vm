@@ -69,6 +69,14 @@ resource "azurerm_linux_virtual_machine" "this" {
   vtpm_enabled                                           = var.vtpm_enabled
   zone                                                   = var.zone
 
+  dynamic "additional_capabilities" {
+    for_each = var.additional_capabilities[*]
+    content {
+      ultra_ssd_enabled   = var.additional_capabilities.ultra_ssd_enabled
+      hibernation_enabled = var.additional_capabilities.hibernation_enabled
+    }
+  }
+
   dynamic "admin_ssh_key" {
     for_each = var.authentication_type == "SSH" ? [true] : []
     content {
@@ -157,6 +165,22 @@ resource "azurerm_windows_virtual_machine" "this" {
   virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
   vtpm_enabled                                           = var.vtpm_enabled
   zone                                                   = var.zone
+
+  dynamic "additional_capabilities" {
+    for_each = var.additional_capabilities[*]
+    content {
+      ultra_ssd_enabled   = var.additional_capabilities.ultra_ssd_enabled
+      hibernation_enabled = var.additional_capabilities.hibernation_enabled
+    }
+  }
+
+  dynamic "additional_unattend_content" {
+    for_each = var.additional_unattend_content[*]
+    content {
+      content = var.additional_unattend_content.content
+      setting = var.additional_unattend_content.setting
+    }
+  }
 
   dynamic "boot_diagnostics" {
     for_each = var.boot_diagnostics.enable == true ? [true] : []

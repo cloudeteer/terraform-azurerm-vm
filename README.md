@@ -178,6 +178,50 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_additional_capabilities"></a> [additional\_capabilities](#input\_additional\_capabilities)
+
+Description: Enable additional capabilities.
+
+Optional arguments:
+
+Argument | Description
+-- | --
+`ultra_ssd_enabled` | Should the capacity to enable Data Disks of the UltraSSD\_LRS storage account type be supported on this Virtual Machine?
+`hibernation_enabled` | Whether to enable the hibernation capability or not.
+
+Type:
+
+```hcl
+object({
+    ultra_ssd_enabled   = optional(bool)
+    hibernation_enabled = optional(bool)
+  })
+```
+
+Default: `null`
+
+### <a name="input_additional_unattend_content"></a> [additional\_unattend\_content](#input\_additional\_unattend\_content)
+
+Description: Additional content for the unattend.xml file used during Windows installation. This feature is not supported on Linux Virtual Machines.
+
+Required arguments:
+
+Argument | Description
+-- | --
+`content` | The XML formatted content that is added to the unattend.xml file for the specified path and component.
+`setting` | The name of the setting to which the content applies. Possible values are `AutoLogon` and `FirstLogonCommands`.
+
+Type:
+
+```hcl
+object({
+    content = string
+    setting = string
+  })
+```
+
+Default: `null`
+
 ### <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password)
 
 Description: Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key\_vault\_id.
