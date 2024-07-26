@@ -1,3 +1,8 @@
+locals {
+  windows_license_types = ["None", "Windows_Client", "Windows_Server"]
+  linux_license_types   = ["RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA", "SLES_BYOS", "SLES_SAP", "SLES_HPC"]
+}
+
 variable "admin_password" {
   description = "Password to use for the local administrator on this virtual machine. If not set, a password will be generated and stored in the Key Vault specified by key_vault_id."
   default     = null
@@ -31,6 +36,13 @@ variable "authentication_type" {
     condition     = var.authentication_type == "Password" || (var.authentication_type == "SSH" && !local.is_windows)
     error_message = "On Windows operating systems, authentication_type = \"SSH\" is not supported. Use authentication_type = \"Password\" for Windows images."
   }
+}
+
+variable "availability_set_id" {
+  description = "Specifies the ID of the Availability Set in which the Virtual Machine should exist"
+
+  type    = string
+  default = null
 }
 
 variable "backup_policy_id" {
@@ -100,6 +112,13 @@ variable "create_public_ip_address" {
   type        = bool
 }
 
+variable "custom_data" {
+  description = "The Base64-Encoded Custom Data which should be used for this Virtual Machine."
+
+  type    = string
+  default = null
+}
+
 variable "data_disks" {
   description = <<-EOT
     Additional disks to be attached to the virtual machine.
@@ -131,6 +150,18 @@ variable "data_disks" {
   }))
 
   default = []
+}
+
+variable "enable_automatic_updates" {
+  description = "Specifies whether Automatic Updates are enabled for Windows Virtual Machines. The default setting is `true`. This feature is not supported on Linux Virtual Machines."
+
+  type    = bool
+  default = null
+
+  validation {
+    condition     = var.enable_automatic_updates == null ? true : local.is_windows
+    error_message = "Automatic updates can only be enabled for Windows virtual machines."
+  }
 }
 
 variable "enable_backup_protected_vm" {
@@ -233,6 +264,34 @@ variable "key_vault_id" {
   #   )
   #   error_message = "Invalid combination of key_vault_id, admin_password, and admin_ssh_public_key. If key_vault_id is null, admin_password or admin_ssh_public_key must be non-null. If key_vault_id is not null, admin_password and admin_ssh_public_key must be null."
   # }
+}
+
+variable "license_type" {
+  description = <<-EOT
+  Specifies the license type to be used for this Virtual Machine.
+
+  Possible values:
+
+  - For Windows images (using Azure Hybrid Use Benefit): `None`, `Windows_Client`, `Windows_Server`.
+  - For Linux images: `RHEL_BYOS`, `RHEL_BASE`, `RHEL_EUS`, `RHEL_SAPAPPS`, `RHEL_SAPHA`, `RHEL_BASESAPAPPS`, `RHEL_BASESAPHA`, `SLES_BYOS`, `SLES_SAP`, `SLES_HPC`.
+  EOT
+
+  type    = string
+  default = null
+
+  validation {
+    condition = (
+      var.license_type == null ? true :
+      local.is_windows && contains(local.windows_license_types, var.license_type)
+      ||
+      local.is_linux && contains(local.linux_license_types, var.license_type)
+    )
+    error_message = <<-EOT
+      Invalid value for 'license_type'.
+      For Windows images, allowed values are: ${join(", ", local.windows_license_types)}.
+      For Linux images, allowed values are: ${join(", ", local.linux_license_types)}.
+    EOT
+  }
 }
 
 variable "location" {
@@ -352,9 +411,23 @@ variable "provision_vm_agent" {
   default = true
 }
 
+variable "proximity_placement_group_id" {
+  description = "The ID of the Proximity Placement Group which the Virtual Machine should be assigned to."
+
+  type    = string
+  default = null
+}
+
 variable "resource_group_name" {
   description = "The name of the resource group in which the virtual machine should exist. Changing this forces a new resource to be created."
   type        = string
+}
+
+variable "secure_boot_enabled" {
+  description = "Specifies whether secure boot should be enabled on the virtual machine."
+
+  type    = bool
+  default = true
 }
 
 variable "size" {
@@ -407,6 +480,36 @@ variable "tags_virtual_machine" {
 
   type    = map(string)
   default = {}
+}
+
+variable "timezone" {
+  description = "Specifies the Time Zone which should be used by the Virtual Machine, [the possible values are defined here](https://jackstromberg.com/2017/01/list-of-time-zones-consumed-by-azure/)"
+
+  type    = string
+  default = null
+
+  validation {
+    condition     = var.timezone == null ? true : local.is_windows
+    error_message = "Timezone can only be set for Windows virtual machines."
+  }
+}
+
+variable "virtual_machine_scale_set_id" {
+  description = <<-EOT
+    Specifies the Orchestrated Virtual Machine Scale Set that this Virtual Machine should be created within.
+
+    **NOTE**: To update `virtual_machine_scale_set_id` the Preview Feature `Microsoft.Compute/SingleFDAttachDetachVMToVmss` needs to be enabled, see the [documentation](https://review.learn.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-attach-detach-vm#enroll-in-the-preview) for more information.
+  EOT
+
+  type    = string
+  default = null
+}
+
+variable "vtpm_enabled" {
+  description = "Specifies if vTPM (virtual Trusted Platform Module) and Trusted Launch is enabled for the Virtual Machine."
+
+  type    = bool
+  default = true
 }
 
 variable "zone" {

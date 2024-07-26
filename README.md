@@ -54,6 +54,7 @@ resource "azurerm_backup_policy_vm" "example" {
   name                = "bkpvm-example-dev-we-01"
   resource_group_name = azurerm_resource_group.example.name
 
+  policy_type         = "V2"
   recovery_vault_name = azurerm_recovery_services_vault.example.name
   timezone            = "UTC"
 
@@ -217,6 +218,14 @@ Type: `string`
 
 Default: `"Password"`
 
+### <a name="input_availability_set_id"></a> [availability\_set\_id](#input\_availability\_set\_id)
+
+Description: Specifies the ID of the Availability Set in which the Virtual Machine should exist
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id)
 
 Description: The ID of the backup policy to use.
@@ -289,6 +298,14 @@ Type: `bool`
 
 Default: `false`
 
+### <a name="input_custom_data"></a> [custom\_data](#input\_custom\_data)
+
+Description: The Base64-Encoded Custom Data which should be used for this Virtual Machine.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_data_disks"></a> [data\_disks](#input\_data\_disks)
 
 Description: Additional disks to be attached to the virtual machine.
@@ -323,6 +340,14 @@ list(object({
 ```
 
 Default: `[]`
+
+### <a name="input_enable_automatic_updates"></a> [enable\_automatic\_updates](#input\_enable\_automatic\_updates)
+
+Description: Specifies whether Automatic Updates are enabled for Windows Virtual Machines. The default setting is `true`. This feature is not supported on Linux Virtual Machines.
+
+Type: `bool`
+
+Default: `null`
 
 ### <a name="input_enable_backup_protected_vm"></a> [enable\_backup\_protected\_vm](#input\_enable\_backup\_protected\_vm)
 
@@ -390,6 +415,19 @@ Default: `null`
 ### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
 
 Description: Key Vault ID to store the generated admin password or admin SSH private key. Required when admin\_password or admin\_ssh\_public\_key is not set. Must not be set if either admin\_password or admin\_ssh\_public\_key is set.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_license_type"></a> [license\_type](#input\_license\_type)
+
+Description: Specifies the license type to be used for this Virtual Machine.
+
+Possible values:
+
+- For Windows images (using Azure Hybrid Use Benefit): `None`, `Windows_Client`, `Windows_Server`.
+- For Linux images: `RHEL_BYOS`, `RHEL_BASE`, `RHEL_EUS`, `RHEL_SAPAPPS`, `RHEL_SAPHA`, `RHEL_BASESAPAPPS`, `RHEL_BASESAPHA`, `SLES_BYOS`, `SLES_SAP`, `SLES_HPC`.
 
 Type: `string`
 
@@ -506,6 +544,22 @@ Type: `bool`
 
 Default: `true`
 
+### <a name="input_proximity_placement_group_id"></a> [proximity\_placement\_group\_id](#input\_proximity\_placement\_group\_id)
+
+Description: The ID of the Proximity Placement Group which the Virtual Machine should be assigned to.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_secure_boot_enabled"></a> [secure\_boot\_enabled](#input\_secure\_boot\_enabled)
+
+Description: Specifies whether secure boot should be enabled on the virtual machine.
+
+Type: `bool`
+
+Default: `true`
+
 ### <a name="input_size"></a> [size](#input\_size)
 
 Description: The [SKU](https://cloudprice.net/) to use for this virtual machine.
@@ -558,6 +612,32 @@ Description: A mapping of tags which should be assigned to the Virtual Machine. 
 Type: `map(string)`
 
 Default: `{}`
+
+### <a name="input_timezone"></a> [timezone](#input\_timezone)
+
+Description: Specifies the Time Zone which should be used by the Virtual Machine, [the possible values are defined here](https://jackstromberg.com/2017/01/list-of-time-zones-consumed-by-azure/)
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id)
+
+Description: Specifies the Orchestrated Virtual Machine Scale Set that this Virtual Machine should be created within.
+
+**NOTE**: To update `virtual_machine_scale_set_id` the Preview Feature `Microsoft.Compute/SingleFDAttachDetachVMToVmss` needs to be enabled, see the [documentation](https://review.learn.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-attach-detach-vm#enroll-in-the-preview) for more information.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_vtpm_enabled"></a> [vtpm\_enabled](#input\_vtpm\_enabled)
+
+Description: Specifies if vTPM (virtual Trusted Platform Module) and Trusted Launch is enabled for the Virtual Machine.
+
+Type: `bool`
+
+Default: `true`
 
 ### <a name="input_zone"></a> [zone](#input\_zone)
 

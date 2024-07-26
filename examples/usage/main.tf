@@ -33,6 +33,7 @@ resource "azurerm_backup_policy_vm" "example" {
   name                = "bkpvm-example-dev-we-01"
   resource_group_name = azurerm_resource_group.example.name
 
+  policy_type         = "V2"
   recovery_vault_name = azurerm_recovery_services_vault.example.name
   timezone            = "UTC"
 

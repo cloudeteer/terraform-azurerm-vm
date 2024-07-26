@@ -36,6 +36,7 @@ locals {
   network_interface_ids      = concat(azurerm_network_interface.this[*].id, var.network_interface_ids != null ? var.network_interface_ids : [])
   virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
   create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(coalescelist(var.identity.identity_ids, []), [])) == 0
+  enable_automatic_updates   = var.enable_automatic_updates != null ? var.enable_automatic_updates : local.is_windows
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
@@ -49,15 +50,23 @@ resource "azurerm_linux_virtual_machine" "this" {
   admin_password                                         = local.admin_password
   admin_username                                         = var.admin_username
   allow_extension_operations                             = var.allow_extension_operations
+  availability_set_id                                    = var.availability_set_id
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  custom_data                                            = var.custom_data
   disable_password_authentication                        = false
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids
   patch_assessment_mode                                  = var.patch_assessment_mode
   patch_mode                                             = var.patch_mode
   provision_vm_agent                                     = var.provision_vm_agent
+  proximity_placement_group_id                           = var.proximity_placement_group_id
+  secure_boot_enabled                                    = var.secure_boot_enabled
   size                                                   = var.size
+  virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
+  vtpm_enabled                                           = var.vtpm_enabled
+  zone                                                   = var.zone
 
   dynamic "admin_ssh_key" {
     for_each = var.authentication_type == "SSH" ? [true] : []
@@ -116,14 +125,23 @@ resource "azurerm_windows_virtual_machine" "this" {
   admin_password                                         = local.admin_password
   admin_username                                         = var.admin_username
   allow_extension_operations                             = var.allow_extension_operations
+  availability_set_id                                    = var.availability_set_id
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  custom_data                                            = var.custom_data
+  enable_automatic_updates                               = local.enable_automatic_updates
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids
   patch_assessment_mode                                  = var.patch_assessment_mode
   patch_mode                                             = var.patch_mode
   provision_vm_agent                                     = var.provision_vm_agent
+  proximity_placement_group_id                           = var.proximity_placement_group_id
+  secure_boot_enabled                                    = var.secure_boot_enabled
   size                                                   = var.size
+  timezone                                               = var.timezone
+  virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
+  vtpm_enabled                                           = var.vtpm_enabled
   zone                                                   = var.zone
 
   dynamic "boot_diagnostics" {
@@ -182,6 +200,19 @@ resource "azurerm_network_interface" "this" {
   }
 }
 
+resource "azurerm_public_ip" "this" {
+  count = var.create_public_ip_address ? 1 : 0
+
+  name                = "nic-${trimprefix(var.name, "vm-")}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  tags                = var.tags
+
+  allocation_method = "Static"
+  sku               = "Standard"
+  sku_tier          = "Regional"
+}
+
 resource "azurerm_backup_protected_vm" "this" {
   count = var.enable_backup_protected_vm ? 1 : 0
 
@@ -221,19 +252,6 @@ resource "azurerm_user_assigned_identity" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
   tags                = var.tags
-}
-
-resource "azurerm_public_ip" "this" {
-  count = var.create_public_ip_address ? 1 : 0
-
-  name                = "nic-${trimprefix(var.name, "vm-")}"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-
-  allocation_method = "Static"
-  sku               = "Standard"
-  sku_tier          = "Regional"
 }
 
 resource "azurerm_managed_disk" "this" {

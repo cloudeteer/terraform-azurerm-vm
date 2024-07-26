@@ -59,6 +59,7 @@ resource "azurerm_backup_policy_vm" "tftest" {
   name                = "bkpvm-tftest-dev-we-01"
   resource_group_name = azurerm_resource_group.tftest.name
 
+  policy_type         = "V2"
   recovery_vault_name = azurerm_recovery_services_vault.tftest.name
   timezone            = "UTC"
 
