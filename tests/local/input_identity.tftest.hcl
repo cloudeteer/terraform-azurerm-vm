@@ -6,7 +6,7 @@ run "test_identity_none" {
   command = plan
 
   assert {
-    condition     = local.create_identity == false && length(output.identity) == 0
+    condition     = local.create_identity == false && output.user_assigned_identity == null && output.system_assigned_identity == null
     error_message = "Expected that no identity would be created."
   }
 }

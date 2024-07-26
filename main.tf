@@ -37,6 +37,10 @@ locals {
   virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
   create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(coalescelist(var.identity.identity_ids, []), [])) == 0
   enable_automatic_updates   = var.enable_automatic_updates != null ? var.enable_automatic_updates : local.is_windows
+
+  data_disks = [for _index, element in var.data_disks : merge(element, {
+    name = coalesce(element.name, format("disk-%s-%02.0f", trimprefix(var.name, "vm-"), sum([_index, 1])))
+  })]
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
@@ -325,12 +329,6 @@ resource "azurerm_virtual_machine_data_disk_attachment" "this" {
   caching            = each.value.caching
 }
 
-locals {
-  data_disks = [for _index, element in var.data_disks : merge(element, {
-    name = coalesce(element.name, format("disk-%s-%02.0f", trimprefix(var.name, "vm-"), sum([_index, 1])))
-  })]
-}
-
 resource "azurerm_virtual_machine_extension" "this" {
 
   for_each = { for element in [
@@ -343,7 +341,6 @@ resource "azurerm_virtual_machine_extension" "this" {
       automatic_upgrade_enabled  = true
     },
     {
-
       name                       = "AzureMonitorAgent"
       publisher                  = "Microsoft.Azure.Monitor"
       type                       = local.is_windows ? "AzureMonitorWindowsAgent" : (local.is_linux ? "AzureMonitorLinuxAgent" : null)

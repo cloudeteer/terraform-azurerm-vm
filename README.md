@@ -738,23 +738,35 @@ The following outputs are exported:
 
 ### <a name="output_admin_password"></a> [admin\_password](#output\_admin\_password)
 
-Description: n/a
+Description: The admin password of the virtual machine.
 
 ### <a name="output_admin_ssh_private_key"></a> [admin\_ssh\_private\_key](#output\_admin\_ssh\_private\_key)
 
-Description: n/a
+Description: The private SSH key of the admin user.
 
 ### <a name="output_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#output\_admin\_ssh\_public\_key)
 
-Description: n/a
+Description: The piblic SSH key of the admin user.
+
+### <a name="output_admin_username"></a> [admin\_username](#output\_admin\_username)
+
+Description: The admin username of the virtual machine.
+
+### <a name="output_data_disks"></a> [data\_disks](#output\_data\_disks)
+
+Description: A list of data disks attached to the virtual machine. Each list element is an map with the following keys:
+
+Attributes:
+
+Attribute | Description
+-- | --
+`attachment_id` | The ID of the virtual machine data disk attachment
+`id`| The ID of the managed data disk.
+`name` | The name of the managed data disk.
 
 ### <a name="output_id"></a> [id](#output\_id)
 
-Description: n/a
-
-### <a name="output_identity"></a> [identity](#output\_identity)
-
-Description: n/a
+Description: The ID of the virtual machine.
 
 ### <a name="output_image"></a> [image](#output\_image)
 
@@ -763,4 +775,75 @@ Description: n/a
 ### <a name="output_key_vault_secret_id"></a> [key\_vault\_secret\_id](#output\_key\_vault\_secret\_id)
 
 Description: n/a
+
+### <a name="output_network_interface"></a> [network\_interface](#output\_network\_interface)
+
+Description: n/a
+
+### <a name="output_private_ip_address"></a> [private\_ip\_address](#output\_private\_ip\_address)
+
+Description: The primary private IP address assigned to this virtual machine.
+
+### <a name="output_private_ip_addresses"></a> [private\_ip\_addresses](#output\_private\_ip\_addresses)
+
+Description: A list of all private IP addresses assigned to this virtual machine.
+
+### <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip)
+
+Description: n/a
+
+### <a name="output_public_ip_address"></a> [public\_ip\_address](#output\_public\_ip\_address)
+
+Description: The primary public IP address assigned to this virtual machine.
+
+### <a name="output_public_ip_addresses"></a> [public\_ip\_addresses](#output\_public\_ip\_addresses)
+
+Description: A list of all public IP addresses assigned to this virtual machine.
+
+### <a name="output_system_assigned_identity"></a> [system\_assigned\_identity](#output\_system\_assigned\_identity)
+
+Description: The primary user assigned identity of the virtual machine
+
+Attributes:
+
+Attribute | Description
+-- | --
+`principal_id` | The Principal ID of the system assigned identity.
+`tenant_id` | The Tenant ID of the system assigned identity.
+
+### <a name="output_user_assigned_identity"></a> [user\_assigned\_identity](#output\_user\_assigned\_identity)
+
+Description: The primary user assigned identity of the virtual machine
+
+Attributes:
+
+Attribute | Description
+-- | --
+`client_id` | The client id in uuid format of the user assigned identity.
+`id` | The resource id of the user assgined identity.
+`name` | The name of the user assigned identity.
+`principal_id` | The Principal ID of the user assigned identity.
+`tenant_id` | The Tenant ID of the user assigned identity.
+
+### <a name="output_user_assigned_identity_ids"></a> [user\_assigned\_identity\_ids](#output\_user\_assigned\_identity\_ids)
+
+Description: A list of all user assigned identities of the virtual machine.
+
+### <a name="output_virtual_machine_extensions"></a> [virtual\_machine\_extensions](#output\_virtual\_machine\_extensions)
+
+Description: A list of virtual machine extensions installed on this virtual machine by this module. Each list element is a map with the following attributes:
+
+Attribute | Description
+-- | --
+`id` | The ID of the extension peering.
+`name` | The name of the extension peering.
+`publisher` | The publisher of the extension.
+`type` | The type of the extension.
+`type_handler_version` | The version of the extension.
+`auto_upgrade_minor_version` | Indicates whether the platform deploys the latest minor version update of the extension handler.
+`automatic_upgrade_enabled` | Indicates whether the extension is automatically updated whenever the publisher releases a new version.
+
+### <a name="output_virtual_machine_id"></a> [virtual\_machine\_id](#output\_virtual\_machine\_id)
+
+Description: A unique 128-bit identifier for this virtual machine (UUID).
 <!-- END_TF_DOCS -->
