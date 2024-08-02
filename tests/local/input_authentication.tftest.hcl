@@ -16,7 +16,6 @@ run "test_input_authentication_windows_default" {
 }
 
 run "test_input_authentication_windows_password" {
-
   command = plan
 
   variables {

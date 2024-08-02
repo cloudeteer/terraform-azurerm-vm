@@ -18,6 +18,8 @@ variables {
 }
 
 run "test_example_external_key_vault" {
+  command = apply
+
   module {
     source = "./examples/external_key_vault"
   }
