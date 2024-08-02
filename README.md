@@ -318,9 +318,7 @@ Default: `true`
 
 ### <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name)
 
-Description: Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
-
-Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+Description: Specifies the hostname to use for this virtual machine. If unspecified, it defaults to `name`.
 
 Type: `string`
 

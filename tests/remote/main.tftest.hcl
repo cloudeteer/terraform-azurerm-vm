@@ -20,7 +20,8 @@ run "deploy_module_windows" {
   command = apply
 
   variables {
-    image = "Win2022Datacenter"
+    image         = "Win2022Datacenter"
+    computer_name = "tftest"
 
     backup_policy_id = run.setup_tests.backup_policy_id
     key_vault_id     = run.setup_tests.key_vault_id

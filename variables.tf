@@ -136,9 +136,7 @@ variable "bypass_platform_safety_checks_on_user_schedule_enabled" {
 
 variable "computer_name" {
   description = <<-EOT
-    Specifies the hostname to use for this virtual machine. If unspecified, it defaults to the first subscrings up to the `-` char without the `vm-` prefix of `name`. If this value is not a valid hostname, you must specify a hostname.
-
-    Example: If `name` is `vm-example-prd-gwc-01`, `computer_name` will be `example`.
+    Specifies the hostname to use for this virtual machine. If unspecified, it defaults to `name`.
   EOT
 
   type    = string

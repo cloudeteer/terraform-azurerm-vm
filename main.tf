@@ -55,7 +55,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   allow_extension_operations                             = var.allow_extension_operations
   availability_set_id                                    = var.availability_set_id
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
-  computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  computer_name                                          = var.computer_name
   custom_data                                            = var.custom_data
   disable_password_authentication                        = false
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
@@ -157,7 +157,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   allow_extension_operations                             = var.allow_extension_operations
   availability_set_id                                    = var.availability_set_id
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
-  computer_name                                          = coalesce(var.computer_name, split("-", trimprefix(var.name, "vm-"))[0])
+  computer_name                                          = var.computer_name
   custom_data                                            = var.custom_data
   enable_automatic_updates                               = local.enable_automatic_updates
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
