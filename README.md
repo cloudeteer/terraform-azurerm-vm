@@ -385,11 +385,11 @@ Default: `[]`
 
 ### <a name="input_enable_automatic_updates"></a> [enable\_automatic\_updates](#input\_enable\_automatic\_updates)
 
-Description: Specifies whether Automatic Updates are enabled for Windows Virtual Machines. The default setting is `true`. This feature is not supported on Linux Virtual Machines.
+Description: Specifies whether Automatic Updates are enabled for Windows Virtual Machines. This feature is not supported on Linux Virtual Machines.
 
 Type: `bool`
 
-Default: `null`
+Default: `true`
 
 ### <a name="input_enable_backup_protected_vm"></a> [enable\_backup\_protected\_vm](#input\_enable\_backup\_protected\_vm)
 

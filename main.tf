@@ -35,7 +35,6 @@ locals {
   network_interface_ids      = concat(azurerm_network_interface.this[*].id, var.network_interface_ids != null ? var.network_interface_ids : [])
   virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
   create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(var.identity.identity_ids, [])) == 0
-  enable_automatic_updates   = var.enable_automatic_updates != null ? var.enable_automatic_updates : local.is_windows
 
   data_disks = [for _index, element in var.data_disks : merge(element, {
     name = coalesce(element.name, format("disk-%s-%02.0f", trimprefix(var.name, "vm-"), sum([_index, 1])))
@@ -159,7 +158,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   computer_name                                          = var.computer_name
   custom_data                                            = var.custom_data
-  enable_automatic_updates                               = local.enable_automatic_updates
+  enable_automatic_updates                               = var.enable_automatic_updates
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
   license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids

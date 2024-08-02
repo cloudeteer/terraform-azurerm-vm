@@ -196,15 +196,10 @@ variable "data_disks" {
 }
 
 variable "enable_automatic_updates" {
-  description = "Specifies whether Automatic Updates are enabled for Windows Virtual Machines. The default setting is `true`. This feature is not supported on Linux Virtual Machines."
+  description = "Specifies whether Automatic Updates are enabled for Windows Virtual Machines. This feature is not supported on Linux Virtual Machines."
 
   type    = bool
-  default = null
-
-  validation {
-    condition     = var.enable_automatic_updates == null ? true : local.is_windows
-    error_message = "Automatic updates can only be enabled for Windows virtual machines."
-  }
+  default = true
 }
 
 variable "enable_backup_protected_vm" {
