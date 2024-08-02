@@ -134,7 +134,13 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   lifecycle {
-    ignore_changes = [os_disk[0].name, gallery_application]
+    ignore_changes = [
+      # Gallery applications are installed via Azure policy.
+      gallery_application,
+
+      # Disk name may change during restore or other manual operations.
+      os_disk[0].name,
+    ]
   }
 }
 
@@ -229,8 +235,15 @@ resource "azurerm_windows_virtual_machine" "this" {
       version   = local.image.version
     }
   }
+
   lifecycle {
-    ignore_changes = [os_disk[0].name, gallery_application]
+    ignore_changes = [
+      # Gallery applications are installed via Azure policy.
+      gallery_application,
+
+      # Disk name may change during restore or other manual operations.
+      os_disk[0].name,
+    ]
   }
 }
 
