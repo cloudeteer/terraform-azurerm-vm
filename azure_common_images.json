@@ -1,0 +1,128 @@
+[
+  {
+    "architecture": "x64",
+    "offer": "CentOS",
+    "publisher": "OpenLogic",
+    "sku": "8_5-gen2",
+    "urn": "OpenLogic:CentOS:8_5-gen2:latest",
+    "urnAlias": "CentOS85Gen2",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "debian-11",
+    "publisher": "Debian",
+    "sku": "11-backports-gen2",
+    "urn": "Debian:debian-11:11-backports-gen2:latest",
+    "urnAlias": "Debian11",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "flatcar-container-linux-free",
+    "publisher": "kinvolk",
+    "sku": "stable-gen2",
+    "urn": "kinvolk:flatcar-container-linux-free:stable-gen2:latest",
+    "urnAlias": "FlatcarLinuxFreeGen2",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "openSUSE-leap-15-4",
+    "publisher": "SUSE",
+    "sku": "gen2",
+    "urn": "SUSE:openSUSE-leap-15-4:gen2:latest",
+    "urnAlias": "OpenSuseLeap154Gen2",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "RHEL",
+    "publisher": "RedHat",
+    "sku": "8-lvm-gen2",
+    "urn": "RedHat:RHEL:8-lvm-gen2:latest",
+    "urnAlias": "RHELRaw8LVMGen2",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "sles-15-sp3",
+    "publisher": "SUSE",
+    "sku": "gen2",
+    "urn": "SUSE:sles-15-sp3:gen2:latest",
+    "urnAlias": "SuseSles15SP3",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "0001-com-ubuntu-server-jammy",
+    "publisher": "Canonical",
+    "sku": "22_04-lts-gen2",
+    "urn": "Canonical:0001-com-ubuntu-server-jammy:22_04-lts-gen2:latest",
+    "urnAlias": "Ubuntu2204",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2022-datacenter-g2",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2022-datacenter-g2:latest",
+    "urnAlias": "Win2022Datacenter",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2022-datacenter-azure-edition-core",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2022-datacenter-azure-edition-core:latest",
+    "urnAlias": "Win2022AzureEditionCore",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2019-datacenter-gensecond",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2019-datacenter-gensecond:latest",
+    "urnAlias": "Win2019Datacenter",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2016-datacenter-gensecond",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2016-datacenter-gensecond:latest",
+    "urnAlias": "Win2016Datacenter",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2012-R2-Datacenter",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2012-R2-Datacenter:latest",
+    "urnAlias": "Win2012R2Datacenter",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2012-Datacenter",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2012-Datacenter:latest",
+    "urnAlias": "Win2012Datacenter",
+    "version": "latest"
+  },
+  {
+    "architecture": "x64",
+    "offer": "WindowsServer",
+    "publisher": "MicrosoftWindowsServer",
+    "sku": "2008-R2-SP1",
+    "urn": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:latest",
+    "urnAlias": "Win2008R2SP1",
+    "version": "latest"
+  }
+]
