@@ -1,5 +1,4 @@
 locals {
-  # TODO: custom images
   azure_common_image_aliases_json = jsondecode(file("${path.module}/azure_common_images.json"))
 
   image = length(split(":", var.image)) == 4 ? {
