@@ -293,7 +293,7 @@ Type:
 
 ```hcl
 object({
-    enable              = optional(bool, true)
+    enabled             = optional(bool, true)
     storage_account_uri = optional(string)
   })
 ```
@@ -302,7 +302,7 @@ Default:
 
 ```json
 {
-  "enable": true
+  "enabled": true
 }
 ```
 

@@ -114,12 +114,12 @@ variable "boot_diagnostics" {
   EOT
 
   type = object({
-    enable              = optional(bool, true)
+    enabled             = optional(bool, true)
     storage_account_uri = optional(string)
   })
 
   default = {
-    enable = true
+    enabled = true
   }
 }
 

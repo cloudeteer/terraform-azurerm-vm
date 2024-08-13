@@ -88,7 +88,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.boot_diagnostics.enable == true ? [true] : []
+    for_each = var.boot_diagnostics.enabled ? [true] : []
     content {
       storage_account_uri = var.boot_diagnostics.storage_account_uri
     }
@@ -191,7 +191,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.boot_diagnostics.enable == true ? [true] : []
+    for_each = var.boot_diagnostics.enabled ? [true] : []
     content {
       storage_account_uri = var.boot_diagnostics.storage_account_uri
     }
