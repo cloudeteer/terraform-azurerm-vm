@@ -1,11 +1,7 @@
-mock_provider "azurerm" {}
-mock_provider "random" {}
-mock_provider "tls" {}
-
-mock_provider "azapi" {
-  source = "tests/local/mock_datasources"
-}
-
+mock_provider "azapi" { source = "tests/local/mocks" }
+mock_provider "azurerm" { source = "tests/local/mocks" }
+mock_provider "random" { source = "tests/local/mocks" }
+mock_provider "tls" { source = "tests/local/mocks" }
 
 run "test_input_authentication_windows_default" {
   command = plan
