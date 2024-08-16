@@ -96,7 +96,7 @@ data "azapi_resource_list" "virtual_machine_images" {
     local.image.sku
   )
 
-  type = "Microsoft.Compute/locations/publishers/artifacttypes/offers/skus/versions@2022-03-01"
+  type = "Microsoft.Compute/locations/publishers/artifacttypes/offers/skus/versions@2024-07-01"
 
   response_export_values = ["*"]
 }
@@ -110,7 +110,7 @@ data "azapi_resource" "virtual_machine_image" {
   )
 
   resource_id = local.virtual_machine_image_id
-  type        = "Microsoft.Compute/locations/publishers/artifacttypes/offers/skus/versions@2022-03-01"
+  type        = "Microsoft.Compute/locations/publishers/artifacttypes/offers/skus/versions@2024-07-01"
 
   response_export_values = ["*"]
 }
