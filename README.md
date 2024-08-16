@@ -15,7 +15,7 @@ This module is designed to simplify the deployment and management of virtual mac
 
 ## Azure Image Quick start templates
 
-<https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/arm-compute/quickstart-templates/aliases.json>
+As documented on the [image](#input_image) input variable, it is possible to use so-called _Image Urn Aliases_ as image to use. These aliases are based on the Azure quickstart templates, which can be found at <https://github.com/Azure/azure-rest-api-specs/blob/main/arm-compute/quickstart-templates/aliases.json>, and which are also used by the `az` CLI when running `az vm image list`.
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
