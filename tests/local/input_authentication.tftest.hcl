@@ -69,6 +69,11 @@ run "test_input_authentication_linux_default" {
     condition     = length(random_password.this) == 1
     error_message = "Password not created."
   }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == false
+    error_message = "Expected password authentication to be enabled."
+  }
 }
 
 run "test_input_authentication_linux_password" {
@@ -83,6 +88,11 @@ run "test_input_authentication_linux_password" {
   assert {
     condition     = length(random_password.this) == 1
     error_message = "Password not created."
+  }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == false
+    error_message = "Expected password authentication to be enabled."
   }
 }
 
@@ -100,6 +110,11 @@ run "test_input_authentication_linux_password_explicit" {
   assert {
     condition     = output.admin_password == var.admin_password
     error_message = "Password does not match."
+  }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == false
+    error_message = "Expected password authentication to be enabled."
   }
 }
 
@@ -120,6 +135,11 @@ run "test_input_authentication_linux_ssh" {
   assert {
     condition     = length(azurerm_key_vault_secret.this) == 1
     error_message = "Expected to have Key Vault secret with generated SSH private key."
+  }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == true
+    error_message = "Expected password authentication to be disabled."
   }
 }
 
@@ -147,5 +167,40 @@ run "test_input_authentication_linux_ssh_explicit" {
   assert {
     condition     = length(azurerm_key_vault_secret.this) == 0
     error_message = "Expected to have no Key Vault secret because admin_ssh_public_key is set."
+  }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == true
+    error_message = "Expected password authentication to be disabled."
+  }
+}
+
+run "test_input_authentication_linux_password_ssh" {
+  command = plan
+
+  variables {
+    authentication_type = "Password, SSH"
+    image               = "Ubuntu2204"
+    operating_system    = "Linux"
+  }
+
+  assert {
+    condition     = length(tls_private_key.this) == 1
+    error_message = "SSH key not created."
+  }
+
+  assert {
+    condition     = length(random_password.this) == 1
+    error_message = "Password not created."
+  }
+
+  assert {
+    condition     = length(azurerm_key_vault_secret.this) == 2
+    error_message = "Expected to have Key Vault secret with generated password and SSH private key."
+  }
+
+  assert {
+    condition     = azurerm_linux_virtual_machine.this[0].disable_password_authentication == false
+    error_message = "Expected password authentication to be enabled."
   }
 }

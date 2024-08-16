@@ -272,7 +272,7 @@ Default: `null`
 
 ### <a name="input_authentication_type"></a> [authentication\_type](#input\_authentication\_type)
 
-Description: Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`.
+Description: Specifies the authentication type to use. Valid options are `Password`, `SSH`, or `Password, SSH`. Windows virtual machines support only `Password`.
 
 Type: `string`
 

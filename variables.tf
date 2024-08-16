@@ -81,13 +81,18 @@ variable "architecture" {
 }
 
 variable "authentication_type" {
-  description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
+  description = "Specifies the authentication type to use. Valid options are `Password`, `SSH`, or `Password, SSH`. Windows virtual machines support only `Password`."
   default     = "Password"
   type        = string
 
   validation {
-    condition     = var.authentication_type == "Password" || (var.authentication_type == "SSH" && !local.is_windows)
-    error_message = "On Windows operating systems, authentication_type = \"SSH\" is not supported. Use authentication_type = \"Password\" for Windows images."
+    condition     = contains(["Password", "SSH", "Password, SSH"], var.authentication_type)
+    error_message = "Valid values for authentication_type are `Password`, `SSH`, or `Password, SSH`."
+  }
+
+  validation {
+    condition     = strcontains(var.authentication_type, "SSH") ? !local.is_windows : true
+    error_message = "On Windows operating systems, authentication type \"SSH\" is not supported. Use authentication type \"Password\" for Windows images."
   }
 }
 

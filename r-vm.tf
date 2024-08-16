@@ -21,7 +21,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   computer_name                                          = var.computer_name
   custom_data                                            = var.custom_data
-  disable_password_authentication                        = false
+  disable_password_authentication                        = !strcontains(var.authentication_type, "Password")
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
   license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids
