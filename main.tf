@@ -34,7 +34,7 @@ locals {
   create_ssh_key_pair        = var.authentication_type == "SSH" && var.admin_ssh_public_key == null
   network_interface_ids      = concat(azurerm_network_interface.this[*].id, var.network_interface_ids != null ? var.network_interface_ids : [])
   virtual_machine            = local.is_linux ? azurerm_linux_virtual_machine.this[0] : (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
-  create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(var.identity.identity_ids, [])) == 0
+  create_identity            = strcontains(try(var.identity.type, ""), "UserAssigned") && length(try(coalescelist(var.identity.identity_ids, []), [])) == 0
 
   data_disks = [for _index, element in var.data_disks : merge(element, {
     name = coalesce(element.name, format("disk-%s-%02.0f", trimprefix(var.name, "vm-"), sum([_index, 1])))
