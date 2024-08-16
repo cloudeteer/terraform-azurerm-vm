@@ -13,6 +13,10 @@
 
 This module is designed to simplify the deployment and management of virtual machines (VMs) in Microsoft Azure. This module provides a flexible and reusable way to create both Linux and Windows VMs, allowing users to specify various configuration parameters such as the VM size, operating system image, network interfaces, and resource group. The module supports both Linux and Windows operating systems and integrates seamlessly with other Azure resources such as virtual networks, subnets, and network interfaces.
 
+## Azure Image Quick start templates
+
+<https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/arm-compute/quickstart-templates/aliases.json>
+
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 
@@ -105,6 +109,8 @@ module "example" {
 
 The following providers are used by this module:
 
+- <a name="provider_azapi"></a> [azapi](#provider\_azapi) (~> 1.14)
+
 - <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 3.111)
 
 - <a name="provider_random"></a> [random](#provider\_random) (~> 3.0)
@@ -129,6 +135,9 @@ The following resources are used by this module:
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 - [random_password.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
 - [tls_private_key.this](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
+- [azapi_client_config.current](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/client_config) (data source)
+- [azapi_resource.virtual_machine_image](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/resource) (data source)
+- [azapi_resource_list.virtual_machine_images](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/resource_list) (data source)
 
 ## Required Inputs
 
@@ -152,7 +161,6 @@ Valid URN aliases are:
 - `Win2016Datacenter`
 - `Win2012R2Datacenter`
 - `Win2012Datacenter`
-- `Win2008R2SP1`
 
 Type: `string`
 
@@ -253,6 +261,14 @@ Description: Should Extension Operations be allowed on this Virtual Machine?
 Type: `bool`
 
 Default: `true`
+
+### <a name="input_architecture"></a> [architecture](#input\_architecture)
+
+Description: The virtual machine's architecture. Valid values are `x86` or `arm`. The default is `null`, which determines the architecture to use based on the virtual machine image offering.
+
+Type: `string`
+
+Default: `null`
 
 ### <a name="input_authentication_type"></a> [authentication\_type](#input\_authentication\_type)
 

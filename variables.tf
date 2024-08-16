@@ -72,6 +72,14 @@ variable "allow_extension_operations" {
   default     = true
 }
 
+variable "architecture" {
+  description = "The virtual machine's architecture. Valid values are `x86` or `arm`. The default is `null`, which determines the architecture to use based on the virtual machine image offering."
+
+  type    = string
+  default = null
+
+}
+
 variable "authentication_type" {
   description = "Specifies the authentication type to use. Valid options are `SSH` or `Password`. Windows virtual machines support only `Password`."
   default     = "Password"
@@ -278,14 +286,13 @@ variable "image" {
     - `Win2016Datacenter`
     - `Win2012R2Datacenter`
     - `Win2012Datacenter`
-    - `Win2008R2SP1`
   EOT
 
   type = string
 
   validation {
-    condition     = length(split(":", var.image)) == 4 || (length(split(":", var.image)) < 4 && contains(local.azure_common_image_aliases_json[*].urnAlias, var.image))
-    error_message = "Unknown image urn alias \"${var.image}\". Valid aliases are: ${join(",", local.azure_common_image_aliases_json[*].urnAlias)}"
+    condition     = length(split(":", var.image)) == 4 || contains(local.azure_quickstart_templates[*].urnAlias, var.image)
+    error_message = "Unknown image urn alias \"${var.image}\". Valid aliases are: ${join(",", local.azure_quickstart_templates[*].urnAlias)}"
   }
 }
 
@@ -352,11 +359,6 @@ variable "operating_system" {
   default     = null
   description = "The virtual machine's operating system. Valid values are `Linux` or `Windows`. The default is `null`, which determines the operating system to use based on the virtual machine image offering."
   type        = string
-
-  validation {
-    condition     = var.operating_system == null && (contains(local.linux_offers, local.image.offer) || contains(local.windows_offers, local.image.offer))
-    error_message = "Cannot determine operating system for image offer \"${local.image.offer}\". Please specify input variable \"operating_system\" manually."
-  }
 }
 
 variable "os_disk" {

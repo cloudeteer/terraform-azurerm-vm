@@ -2,6 +2,10 @@ mock_provider "azurerm" {}
 mock_provider "random" {}
 mock_provider "tls" {}
 
+mock_provider "azapi" {
+  source = "tests/local/mock_datasources"
+}
+
 variables {
   image    = null
   timezone = "UTC"

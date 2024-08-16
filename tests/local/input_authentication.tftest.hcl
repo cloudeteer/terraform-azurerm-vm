@@ -2,6 +2,11 @@ mock_provider "azurerm" {}
 mock_provider "random" {}
 mock_provider "tls" {}
 
+mock_provider "azapi" {
+  source = "tests/local/mock_datasources"
+}
+
+
 run "test_input_authentication_windows_default" {
   command = plan
 
@@ -60,7 +65,8 @@ run "test_input_authentication_linux_default" {
   command = plan
 
   variables {
-    image = "Ubuntu2204"
+    image            = "Ubuntu2204"
+    operating_system = "Linux"
   }
 
   assert {
@@ -75,6 +81,7 @@ run "test_input_authentication_linux_password" {
   variables {
     authentication_type = "Password"
     image               = "Ubuntu2204"
+    operating_system    = "Linux"
   }
 
   assert {
@@ -90,6 +97,7 @@ run "test_input_authentication_linux_password_explicit" {
     admin_password            = bcrypt(uuid())
     authentication_type       = "Password"
     image                     = "Ubuntu2204"
+    operating_system          = "Linux"
     store_secret_in_key_vault = false
   }
 
@@ -105,6 +113,7 @@ run "test_input_authentication_linux_ssh" {
   variables {
     authentication_type = "SSH"
     image               = "Ubuntu2204"
+    operating_system    = "Linux"
   }
 
   assert {
@@ -125,6 +134,7 @@ run "test_input_authentication_linux_ssh_explicit" {
     admin_ssh_public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDwVwmmz4jNNg5oQYVjpaer8R86TgyI3Ge+NqdFksjAHFO5ZK/Ds2PQb06jXeH/OS2iNBQEBcGiAob6Vx15mJd0iByGcmsHmFkTJeZND84JQ3oUT7jZwoF6Rofe1bW2N6tVRINJYB1qGFLSu1vx4jd4OuWQRh3tzmWy686WCy4XEaVNqYXPVocvHU7XM27wMPOvsAV+JlRXmfSYKvAqH/wCV7FzPsWq7cu7zGH2nuvFWGwtJt+Q5Nxh6V6C/5j4ZF/5/q9tBzpR39uPPtzGEBc5572G7BX0Rl5RbfvLBRTTI54K7DwujJ5l9E24VThqIRh/WqHTvfHJ85sQudRrS0V/ example"
     authentication_type       = "SSH"
     image                     = "Ubuntu2204"
+    operating_system          = "Linux"
     store_secret_in_key_vault = false
   }
 
