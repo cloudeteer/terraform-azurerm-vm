@@ -714,7 +714,7 @@ Default: `{}`
 
 ### <a name="input_timezone"></a> [timezone](#input\_timezone)
 
-Description: Specifies the Time Zone which should be used by the Virtual Machine, [the possible values are defined here](https://jackstromberg.com/2017/01/list-of-time-zones-consumed-by-azure/)
+Description: Specifies the Time Zone which should be used by the Virtual Machine, [the possible values are defined here](https://jackstromberg.com/2017/01/list-of-time-zones-consumed-by-azure/). Setting timezone is not supported on Linux Virtual Machines.
 
 Type: `string`
 
