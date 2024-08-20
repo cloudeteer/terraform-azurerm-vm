@@ -34,6 +34,7 @@ module "example" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
+  computer_name    = "example"
   image            = "Win2022Datacenter"
   backup_policy_id = var.backup_policy_id
   subnet_id        = var.subnet_id

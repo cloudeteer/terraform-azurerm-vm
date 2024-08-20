@@ -74,6 +74,7 @@ module "example" {
   resource_group_name = azurerm_resource_group.example.name
 
   backup_policy_id = azurerm_backup_policy_vm.example.id
+  computer_name    = "example"
   image            = "Win2022Datacenter"
   key_vault_id     = azurerm_key_vault.example.id
   subnet_id        = azurerm_subnet.example.id

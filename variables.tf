@@ -154,6 +154,16 @@ variable "computer_name" {
 
   type    = string
   default = null
+
+  validation {
+    condition     = local.is_windows && var.computer_name != null ? length(var.computer_name) <= 15 : true
+    error_message = "Windows computer name can be at most 15 characters."
+  }
+
+  validation {
+    condition     = local.is_windows && var.computer_name == null ? length(var.name) <= 15 : true
+    error_message = "Windows computer name can be at most 15 characters. Variable \"computer_name\" is not set, falling back to \"name\" which is ${length(var.name)} chatacters long. Set \"computer_name\" explicitly."
+  }
 }
 
 variable "create_network_interface" {
