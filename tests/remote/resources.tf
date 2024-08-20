@@ -46,6 +46,14 @@ resource "azurerm_resource_group" "tftest" {
   location = var.location
 }
 
+output "resource_group_name" {
+  value = azurerm_resource_group.tftest.name
+}
+
+output "resource_group_location" {
+  value = azurerm_resource_group.tftest.location
+}
+
 #
 # Backup
 #

@@ -8,17 +8,7 @@ variables {
   backup_policy_id = null
 }
 
-run "test_input_backup_default" {
-  command = plan
-
-  variables {
-    enable_backup_protected_vm = true
-  }
-
-  expect_failures = [var.backup_policy_id]
-}
-
-run "test_input_backup_disabled" {
+run "should_disable_backup_protected_vm" {
   command = plan
 
   variables {
@@ -26,11 +16,21 @@ run "test_input_backup_disabled" {
   }
 }
 
-run "test_input_backup_enabled" {
+run "should_enable_backup_protected_vm" {
   command = plan
 
   variables {
     enable_backup_protected_vm = true
     backup_policy_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example-dev-we-01/providers/Microsoft.RecoveryServices/vaults/rsv-example-dev-we-01/backupPolicies/policy"
   }
+}
+
+run "should_fail_on_enabled_backup_without_backup_policy_id" {
+  command = plan
+
+  variables {
+    enable_backup_protected_vm = true
+  }
+
+  expect_failures = [var.backup_policy_id]
 }

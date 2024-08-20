@@ -8,7 +8,7 @@ variables {
   timezone = "UTC"
 }
 
-run "test_input_timezone_windows" {
+run "should_use_timezone_on_windows" {
   command = plan
 
   variables {
@@ -17,7 +17,7 @@ run "test_input_timezone_windows" {
 }
 
 
-run "test_input_timezone_linux" {
+run "timezone_should_fail_on_linux" {
   command = plan
 
   variables {

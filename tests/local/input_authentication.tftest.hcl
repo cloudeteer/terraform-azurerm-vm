@@ -3,7 +3,7 @@ mock_provider "azurerm" { source = "tests/local/mocks" }
 mock_provider "random" { source = "tests/local/mocks" }
 mock_provider "tls" { source = "tests/local/mocks" }
 
-run "test_input_authentication_windows_default" {
+run "should_create_password_with_defaults_on_windows" {
   command = plan
 
   variables {
@@ -16,7 +16,8 @@ run "test_input_authentication_windows_default" {
   }
 }
 
-run "test_input_authentication_windows_password" {
+run "should_authentication_type_create_password_on_windows" {
+
   command = plan
 
   variables {
@@ -30,7 +31,7 @@ run "test_input_authentication_windows_password" {
   }
 }
 
-run "test_input_authentication_windows_password_explicit" {
+run "should_input_admin_password_output_same_value_on_windows" {
   command = plan
 
   variables {
@@ -46,7 +47,7 @@ run "test_input_authentication_windows_password_explicit" {
   }
 }
 
-run "test_input_authentication_windows_ssh" {
+run "should_not_allow_authentication_type_ssh_on_windows" {
   command = plan
 
   variables {
@@ -57,7 +58,7 @@ run "test_input_authentication_windows_ssh" {
   expect_failures = [var.authentication_type]
 }
 
-run "test_input_authentication_linux_default" {
+run "should_create_password_with_defaults_on_linux" {
   command = plan
 
   variables {
@@ -76,7 +77,7 @@ run "test_input_authentication_linux_default" {
   }
 }
 
-run "test_input_authentication_linux_password" {
+run "should_authentication_type_create_password_on_linux" {
   command = plan
 
   variables {
@@ -96,7 +97,7 @@ run "test_input_authentication_linux_password" {
   }
 }
 
-run "test_input_authentication_linux_password_explicit" {
+run "should_input_admin_password_output_same_value_on_linux" {
   command = plan
 
   variables {
@@ -118,7 +119,7 @@ run "test_input_authentication_linux_password_explicit" {
   }
 }
 
-run "test_input_authentication_linux_ssh" {
+run "should_authentication_type_ssh_create_key_and_store_in_key_vault_on_linux" {
   command = plan
 
   variables {
@@ -143,7 +144,7 @@ run "test_input_authentication_linux_ssh" {
   }
 }
 
-run "test_input_authentication_linux_ssh_explicit" {
+run "should_input_admin_ssh_public_key_output_same_value_on_linux" {
   command = plan
 
   variables {

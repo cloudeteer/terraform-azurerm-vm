@@ -25,7 +25,7 @@ variables {
   image = null
 }
 
-run "test_input_image_urn_alias" {
+run "should_image_fail_on_unknown_urn_alias" {
   command = plan
 
   variables {
@@ -38,7 +38,7 @@ run "test_input_image_urn_alias" {
   ]
 }
 
-run "test_input_operating_system_latest_version" {
+run "should_operating_system_fail_on_unknown_image_urn" {
   command = plan
 
   variables {
@@ -54,7 +54,7 @@ run "test_input_operating_system_explicit_version" {
   }
 }
 
-run "test_output_image" {
+run "should_image_result_in_expected_output" {
   command = plan
 
   variables {

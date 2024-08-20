@@ -7,7 +7,7 @@ variables {
   subnet_id = null
 }
 
-run "test_input_subnet_id" {
+run "should_use_subnet_id" {
   command = plan
 
   variables {
@@ -15,7 +15,7 @@ run "test_input_subnet_id" {
   }
 }
 
-run "test_input_subnet_id_empty" {
+run "should_fail_with_no_subnet_id" {
   command = plan
 
   # https://developer.hashicorp.com/terraform/language/tests#expecting-failures
@@ -24,7 +24,7 @@ run "test_input_subnet_id_empty" {
   ]
 }
 
-run "test_input_interface_ids" {
+run "should_use_network_interface_ids_from_input_only" {
   command = plan
 
   variables {
@@ -34,9 +34,13 @@ run "test_input_interface_ids" {
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkInterfaces/nic2"
     ]
   }
+
+  # TODO: assert
 }
 
-run "test_input_subnet_id_and_network_interface_ids_set" {
+# TODO: Test create_network_interface=false network_interface_ids=null/[]
+
+run "should_assert_three_network_interfaces" {
   command = plan
 
   variables {
@@ -47,9 +51,11 @@ run "test_input_subnet_id_and_network_interface_ids_set" {
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkInterfaces/nic2"
     ]
   }
+
+  # TODO assert
 }
 
-run "test_input_public_ip" {
+run "should_create_public_ip_address" {
   command = plan
 
   variables {

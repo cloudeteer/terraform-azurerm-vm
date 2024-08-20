@@ -3,7 +3,7 @@ mock_provider "azurerm" { source = "tests/local/mocks" }
 mock_provider "random" { source = "tests/local/mocks" }
 mock_provider "tls" { source = "tests/local/mocks" }
 
-run "test_identity_none" {
+run "should_not_create_identity" {
   command = plan
 
   assert {
@@ -12,7 +12,7 @@ run "test_identity_none" {
   }
 }
 
-run "test_identity_user_assigned" {
+run "should_identity_type_create_user_assigned_identity" {
   command = plan
 
   variables {
@@ -27,7 +27,7 @@ run "test_identity_user_assigned" {
   }
 }
 
-run "test_identity_system_assigned" {
+run "should_identity_type_create_system_assigned_identity" {
   command = plan
 
   variables {
@@ -42,7 +42,7 @@ run "test_identity_system_assigned" {
   }
 }
 
-run "test_identity_user_and_system_assigned" {
+run "should_identity_type_create_user_and_system_assigned_identity" {
   command = plan
 
   variables {

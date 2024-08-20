@@ -7,7 +7,7 @@ variables {
   image = null
 }
 
-run "test_input_license_type_windows" {
+run "windows_image_should_match_license_type" {
   command = plan
 
   variables {
@@ -16,7 +16,7 @@ run "test_input_license_type_windows" {
   }
 }
 
-run "test_input_license_type_windows_fail_on_linux_license_type" {
+run "windows_image_should_fail_with_linux_license_type" {
   command = plan
 
   variables {
@@ -27,7 +27,7 @@ run "test_input_license_type_windows_fail_on_linux_license_type" {
   expect_failures = [var.license_type]
 }
 
-run "test_input_license_type_linux" {
+run "linux_image_should_match_linzense_type" {
   command = plan
 
   variables {
@@ -36,7 +36,7 @@ run "test_input_license_type_linux" {
   }
 }
 
-run "test_input_license_type_linux_fail_on_windows_license_type" {
+run "linux_image_should_fail_with_windows_license_type" {
   command = plan
 
   variables {
@@ -47,7 +47,7 @@ run "test_input_license_type_linux_fail_on_windows_license_type" {
   expect_failures = [var.license_type]
 }
 
-run "test_input_license_type_invalid_license_type" {
+run "linux_image_should_fail_with_unknown_license_type" {
   command = plan
 
   variables {
