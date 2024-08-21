@@ -4,6 +4,7 @@ mock_provider "random" { source = "tests/local/mocks" }
 mock_provider "tls" { source = "tests/local/mocks" }
 
 variables {
+  # Unset default, set in variables.auto.tfvars
   image = null
 }
 

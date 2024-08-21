@@ -4,7 +4,10 @@ mock_provider "random" { source = "tests/local/mocks" }
 mock_provider "tls" { source = "tests/local/mocks" }
 
 variables {
-  image    = null
+  # Unset default, set in variables.auto.tfvars
+  image = null
+
+  # Set default timezone for this test file
   timezone = "UTC"
 }
 
