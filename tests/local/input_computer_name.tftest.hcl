@@ -28,3 +28,12 @@ run "use_short_windows_computer_name" {
     computer_name = "a-short-name"
   }
 }
+
+run "linux_computer_name_can_be_longer_then_15_chars" {
+  command = plan
+
+  variables {
+    name  = "a-resource-name-that-is-longer-then-15-chars"
+    image = "Ubuntu2204"
+  }
+}
