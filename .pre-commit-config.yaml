@@ -1,0 +1,33 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/terraform-docs/terraform-docs
+    rev: v0.18.0
+    hooks:
+      - id: terraform-docs-system
+        args: ["."]
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: "v1.92.0"
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_tflint
+        exclude: ^examples/
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+          - --hook-config=--delegate-chdir
+      - id: terraform_tflint
+        alias: terraform_tflint_examples
+        name: Terraform validate examples with tflint
+        files: ^examples/
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.examples.hcl
+          - --hook-config=--delegate-chdir
+      - id: terraform_trivy
+        exclude: ^(examples|tests)/
+        args:
+          - --args=--skip-dirs="examples/"
+          - --args=--skip-dirs="tests/"

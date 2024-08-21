@@ -1,7 +1,7 @@
-formatter: markdown
+formatter: markdown document
 
 settings:
-  anchor: false
+  hide-empty: true
   lockfile: false
 
 output:
@@ -13,6 +13,8 @@ sort:
 
 content: |-
   ## Usage
+
+  {{ include "examples/usage/main.md" }}
 
   ```hcl
   {{ include "examples/usage/main.tf" }}
