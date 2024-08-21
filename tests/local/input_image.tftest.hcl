@@ -81,7 +81,7 @@ run "should_image_result_in_expected_output" {
   }
 }
 
-run "operating_system_should_be_linux" {
+run "operating_system_should_be_linux_with_urn_alias" {
   command = plan
 
   variables {
@@ -94,7 +94,7 @@ run "operating_system_should_be_linux" {
   }
 }
 
-run "operating_system_should_be_linux_2" {
+run "operating_system_should_be_linux_with_full_urn" {
   command = plan
 
   providers = {
@@ -114,7 +114,7 @@ run "operating_system_should_be_linux_2" {
   }
 }
 
-run "operating_system_should_be_linux_3" {
+run "operating_system_should_not_be_linux" {
   command = plan
 
   variables {
@@ -128,7 +128,7 @@ run "operating_system_should_be_linux_3" {
   }
 }
 
-run "operating_system_should_be_windows" {
+run "operating_system_should_be_windows_with_urn_alias" {
   command = plan
 
   variables {
@@ -141,7 +141,7 @@ run "operating_system_should_be_windows" {
   }
 }
 
-run "operating_system_should_be_windows_2" {
+run "operating_system_should_be_windows_with_full_urn" {
   command = plan
 
   variables {
@@ -154,7 +154,7 @@ run "operating_system_should_be_windows_2" {
   }
 }
 
-run "operating_system_should_be_windows_3" {
+run "operating_system_should_not_be_windows" {
   command = plan
 
   variables {
