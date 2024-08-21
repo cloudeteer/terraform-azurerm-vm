@@ -4,8 +4,6 @@ locals {
   )
 }
 
-# TODO: Remove this trivy-ignore line
-# trivy:ignore:avd-azu-0039
 resource "azurerm_linux_virtual_machine" "this" {
   count = local.is_linux ? 1 : 0
 
@@ -21,7 +19,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   computer_name                                          = var.computer_name
   custom_data                                            = var.custom_data
-  disable_password_authentication                        = !strcontains(var.authentication_type, "Password")
+  disable_password_authentication                        = !strcontains(var.authentication_type, "Password") # trivy:ignore:avd-azu-0039
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
   license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids
