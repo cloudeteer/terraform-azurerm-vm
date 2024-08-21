@@ -38,21 +38,24 @@ run "should_image_fail_on_unknown_urn_alias" {
   ]
 }
 
-run "should_operating_system_fail_on_unknown_image_urn" {
-  command = plan
+# TODO: The following tests should fail, but they cannot
+# GitHub issue: https://github.com/cloudeteer/terraform-azurerm-vm/issues/3
+# because we data sources which should fail the the unknown inputs are mocked by tests
+// run "should_operating_system_fail_on_unknown_image_urn" {
+//   command = plan
 
-  variables {
-    image = "UnkownPublisher:UnknownOffer:UnknownSku:latest"
-  }
-}
+//   variables {
+//     image = "UnkownPublisher:UnknownOffer:UnknownSku:latest"
+//   }
+// }
 
-run "test_input_operating_system_explicit_version" {
-  command = plan
+// run "test_input_operating_system_explicit_version" {
+//   command = plan
 
-  variables {
-    image = "UnkownPublisher:UnknownOffer:UnknownSku:1.0.0"
-  }
-}
+//   variables {
+//     image = "UnkownPublisher:UnknownOffer:UnknownSku:1.0.0"
+//   }
+// }
 
 run "should_image_result_in_expected_output" {
   command = plan
