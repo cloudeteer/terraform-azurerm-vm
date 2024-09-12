@@ -1,0 +1,50 @@
+name: "Feature Request"
+description: "Suggest a new feature or improvement."
+title: "[Feature Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to suggest a feature or improvement!
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: "Please describe the feature or improvement you would like to see."
+      placeholder: "Provide a detailed explanation of the feature."
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: "What is the problem this feature will solve or the benefit it will provide? How would you use it?"
+      placeholder: "Explain the context and use case."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: "Any additional context or information that may help with this feature request."
+
+  - type: checkboxes
+    id: terms2
+    attributes:
+      label: Privacy Statement
+      description: "I acknowledge that this is a public repository and confirm that I have not included any sensitive customer data, internal information, or proprietary details in this request."
+      options:
+        - label: I agree
+          required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: "By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/cloudeteer/terraform-governance?tab=coc-ov-file#code-of-conduct)."
+      options:
+        - label: I agree to follow this repository's Code of Conduct
+          required: true
