@@ -1,5 +1,7 @@
 name: module-ci
 on:
+  schedule:
+    - cron: "0 0 * * 0" # weekly on Sunday at 00:00
   push:
     branches:
       - main
@@ -10,9 +12,16 @@ on:
       - synchronize
       - labeled
       - unlabeled
+
 jobs:
   module-ci:
-    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@349-epic-the-revival-of-tf-mod-lib
+    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@main
     permissions:
       contents: write
+      id-token: write
+      issues: write
       pull-requests: read
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}

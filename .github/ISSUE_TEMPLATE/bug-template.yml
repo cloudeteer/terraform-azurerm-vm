@@ -1,0 +1,58 @@
+name: "Bug Report"
+description: "File a bug report."
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Bug Description
+      description: "Also tell us, what did you expect to happen?"
+      placeholder: "Tell us what you see!"
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Terraform-Version
+      description: "What version of Terraform are you running?"
+      placeholder: "Output of 'terraform version'"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: "Please copy and paste any relevant log output. This will be automatically formatted."
+      render: shell
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Relevant Error Messages
+      description: "Please copy and paste any relevant error Messages. This will be automatically formatted."
+      render: shell
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: "Please add any information that might be relevant in solving this bug."
+  - type: checkboxes
+    id: terms2
+    attributes:
+      label: Privacy Statement
+      description: "I acknowledge that this is a public repository and confirm that I have not included any sensitive customer data, internal information, or proprietary details in this report."
+      options:
+        - label: I agree
+          required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: "By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/cloudeteer/terraform-governance?tab=coc-ov-file#code-of-conduct)."
+      options:
+        - label: I agree to follow this repository's Code of Conduct
+          required: truee
