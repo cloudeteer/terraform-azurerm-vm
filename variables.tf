@@ -55,9 +55,20 @@ variable "admin_password" {
 }
 
 variable "admin_ssh_public_key" {
-  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format."
+  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa or ssh-ed25519 format."
   default     = null
   type        = string
+}
+
+variable "admin_ssh_key_algorithm" {
+  description = "The algorithm to use for the admin SSH key pair. Valid values are `RSA` or `ED25519`."
+  default     = "ED25519"
+  type        = string
+
+  validation {
+    condition     = contains(["RSA", "ED25519"], var.admin_ssh_key_algorithm)
+    error_message = "Valid values for ssh_key_algorithm are `RSA` or `ED25519`."
+  }
 }
 
 variable "admin_username" {

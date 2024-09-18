@@ -23,8 +23,8 @@ resource "random_password" "this" {
 
 resource "tls_private_key" "this" {
   count     = local.create_ssh_key_pair ? 1 : 0
-  algorithm = "RSA"
-  rsa_bits  = 4096
+  algorithm = var.admin_ssh_key_algorithm
+  rsa_bits  = var.admin_ssh_key_algorithm == "RSA" ? 4096 : null
 }
 
 #trivy:ignore:avd-azu-0017
