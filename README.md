@@ -112,7 +112,7 @@ The following providers are used by this module:
 
 - <a name="provider_azapi"></a> [azapi](#provider\_azapi) (>= 1.14)
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>= 3.111)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>= 4.1)
 
 - <a name="provider_random"></a> [random](#provider\_random) (>= 3.0)
 
