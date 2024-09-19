@@ -35,8 +35,9 @@ run "deploy_module_linux" {
   command = apply
 
   variables {
-    name  = "vm-tftest-dev-we-01"
-    image = "Ubuntu2204"
+    name                = "vm-tftest-dev-we-01"
+    authentication_type = "SSH"
+    image               = "Ubuntu2204"
 
     backup_policy_id    = run.setup_tests.backup_policy_id
     key_vault_id        = run.setup_tests.key_vault_id
