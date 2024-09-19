@@ -11,7 +11,7 @@ locals {
     null
   )
 
-  admin_ssh_private_key = local.create_ssh_key_pair ? one(tls_private_key.this[*].private_key_openssh) : null
+  admin_ssh_private_key = local.create_ssh_key_pair ? trimspace(one(tls_private_key.this[*].private_key_openssh)) : null
   create_password       = strcontains(var.authentication_type, "Password") && var.admin_password == null
   create_ssh_key_pair   = strcontains(var.authentication_type, "SSH") && var.admin_ssh_public_key == null
 }
