@@ -5,11 +5,6 @@ provider "azurerm" {
 run "setup_tests" {
   command = apply
 
-  variables {
-    location            = "West Europe"
-    resource_group_name = "rg-tftest-dev-we-01"
-  }
-
   module {
     source = "./tests/remote"
   }

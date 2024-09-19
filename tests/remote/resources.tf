@@ -33,17 +33,19 @@ provider "azurerm" {
   }
 }
 
-variable "location" {
-  type = string
-}
+#
+# Resource Group
+#
 
-variable "resource_group_name" {
-  type = string
+resource "random_string" "rg_suffix" {
+  length  = 3
+  special = false
+  upper   = false
 }
 
 resource "azurerm_resource_group" "tftest" {
-  name     = var.resource_group_name
-  location = var.location
+  name     = "rg-tftest-dev-euw-${random_string.rg_suffix.result}"
+  location = "westeurope"
 }
 
 output "resource_group_name" {
@@ -58,94 +60,52 @@ output "resource_group_location" {
 # Backup
 #
 
-resource "azurerm_recovery_services_vault" "tftest" {
-  name                = "rsv-tftest-dev-we-01"
-  location            = azurerm_resource_group.tftest.location
-  resource_group_name = azurerm_resource_group.tftest.name
+data "azurerm_resources" "recovery_services_vault" {
+  resource_group_name = "rg-tfmodtest-prd-euw-01"
 
-  sku                 = "Standard"
-  soft_delete_enabled = false
-  storage_mode_type   = "GeoRedundant"
-}
+  type = "Microsoft.RecoveryServices/vaults"
 
-resource "azurerm_backup_policy_vm" "tftest" {
-  name                = "bkpvm-tftest-dev-we-01"
-  resource_group_name = azurerm_resource_group.tftest.name
-
-  policy_type         = "V2"
-  recovery_vault_name = azurerm_recovery_services_vault.tftest.name
-  timezone            = "UTC"
-
-  backup {
-    frequency = "Daily"
-    time      = "23:00"
-  }
-
-  retention_daily {
-    count = 30
+  required_tags = {
+    service = "terraform-module-tests"
   }
 }
 
 output "backup_policy_id" {
-  value = azurerm_backup_policy_vm.tftest.id
+  value = "${one(data.azurerm_resources.recovery_services_vault.resources[*].id)}/backupPolicies/EnhancedPolicy"
 }
 
 #
 # Key Vault
 #
 
-data "azurerm_client_config" "current" {}
+data "azurerm_resources" "key_vault" {
+  resource_group_name = "rg-tfmodtest-prd-euw-01"
 
-resource "random_string" "tftest" {
-  length  = 3
-  special = false
-  upper   = false
-}
+  type = "Microsoft.KeyVault/vaults"
 
-resource "azurerm_key_vault" "tftest" {
-  name                = "kv-tftest-dev-we-01-${random_string.tftest.result}"
-  location            = azurerm_resource_group.tftest.location
-  resource_group_name = azurerm_resource_group.tftest.name
-
-  purge_protection_enabled = false
-  sku_name                 = "standard"
-  tenant_id                = data.azurerm_client_config.current.tenant_id
-
-  access_policy {
-    object_id = data.azurerm_client_config.current.object_id
-    tenant_id = data.azurerm_client_config.current.tenant_id
-
-    secret_permissions = [
-      "Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"
-    ]
+  required_tags = {
+    service = "terraform-module-tests"
   }
 }
 
 output "key_vault_id" {
-  value = azurerm_key_vault.tftest.id
+  value = one(data.azurerm_resources.key_vault.resources[*].id)
 }
-
 
 #
 # Network
 #
 
-resource "azurerm_virtual_network" "tftest" {
-  name                = "vnet-tftest-dev-we-01"
-  location            = azurerm_resource_group.tftest.location
-  resource_group_name = azurerm_resource_group.tftest.name
+data "azurerm_resources" "virtual_network" {
+  resource_group_name = "rg-tfmodtest-prd-euw-01"
 
-  address_space = ["10.0.0.0/16"]
-}
+  type = "Microsoft.Network/virtualNetworks"
 
-resource "azurerm_subnet" "tftest" {
-  name                = "snet-tftest-dev-we-01"
-  resource_group_name = azurerm_resource_group.tftest.name
-
-  address_prefixes     = ["10.0.1.0/24"]
-  virtual_network_name = azurerm_virtual_network.tftest.name
+  required_tags = {
+    service = "terraform-module-tests"
+  }
 }
 
 output "subnet_id" {
-  value = azurerm_subnet.tftest.id
+  value = "${one(data.azurerm_resources.virtual_network.resources[*].id)}/subnets/DefaultSubnet"
 }
