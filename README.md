@@ -239,6 +239,14 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_admin_ssh_key_algorithm"></a> [admin\_ssh\_key\_algorithm](#input\_admin\_ssh\_key\_algorithm)
+
+Description: The algorithm to use for the admin SSH key pair. Valid values are `RSA` or `ED25519`.
+
+Type: `string`
+
+Default: `"ED25519"`
+
 ### <a name="input_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#input\_admin\_ssh\_public\_key)
 
 Description: Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa or ssh-ed25519 format.
@@ -680,14 +688,6 @@ Possible Image ID types include:
 Type: `string`
 
 Default: `null`
-
-### <a name="input_ssh_key_algorithm"></a> [ssh\_key\_algorithm](#input\_ssh\_key\_algorithm)
-
-Description: The algorithm to use for the SSH key pair. Valid values are `RSA` or `ED25519`.
-
-Type: `string`
-
-Default: `"ED25519"`
 
 ### <a name="input_store_secret_in_key_vault"></a> [store\_secret\_in\_key\_vault](#input\_store\_secret\_in\_key\_vault)
 
