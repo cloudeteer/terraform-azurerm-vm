@@ -10,6 +10,14 @@ repos:
     hooks:
       - id: terraform-docs-system
         args: ["."]
+  - repo: local
+    hooks:
+      - id: tfsort
+        name: Sort Terraform variables
+        language: system
+        types: [terraform]
+        entry: bash -c 'for f in $@; do tfsort "$f"; done' --
+        files: ^variables|outputs\.tf$
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.92.0"
     hooks:
