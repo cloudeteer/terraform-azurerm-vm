@@ -45,6 +45,9 @@ resource "random_string" "rg_suffix" {
 resource "azurerm_resource_group" "tftest" {
   name     = "rg-tftest-dev-euw-${random_string.rg_suffix.result}"
   location = "westeurope"
+  tags = {
+    terraform-module = "terraform-azurerm-vm"
+  }
 }
 
 output "resource_group_name" {
