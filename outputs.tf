@@ -94,14 +94,62 @@ output "system_assigned_identity" {
 }
 
 output "image" {
-  value = local.image
+  description = <<-EOT
+    The virtual machine operating system image to use.
+
+    Attributes:
+
+    Attribute | Description
+    -- | --
+    `publisher` | The publisher of the image.
+    `offer` | The offer of the image.
+    `sku` | The SKU of the image.
+    `version` | The version of the image.
+    `architecture` | The virtual machine achitecture. Can be `x86` or `arm64`.
+    `operating_system` | The operating system. Can be `Windows` or `Linux`.
+
+  EOT
+
+  value = local.image_full
 }
 
 output "key_vault_secret_id" {
-  value = try(azurerm_key_vault_secret.this[0].id, null)
+  description = <<-EOT
+    Key Vault Secret IDs for generated secrets.
+
+    Attributes:
+
+    Attribute | Description
+    -- | --
+    `admin_password` | The Key Vault secret ID for the password generated when variable `admin_password` is unset, and variable `authentication_type` is set to `Password`.
+    `admin_ssh_private_key` | The Key Vault secret ID for the SSH private key generated when variable `admin_ssh_public_key` is unset, and variable `authentication_type` is set to `SSH`.
+  EOT
+
+  value = try({
+    admin_password        = try(azurerm_key_vault_secret.this.Password, null)
+    admin_ssh_private_key = try(azurerm_key_vault_secret.this.SSH, null)
+  }, null)
 }
 
 output "network_interface" {
+  description = <<-EOT
+    The network interface create by this module, if `create_network_interface` ist set.
+
+    Attributes:
+
+    Attribute | Description
+    -- | --
+    `applied_dns_servers` | If the Virtual Machine using this Network Interface is part of an Availability Set, then this list will have the union of all DNS servers from all Network Interfaces that are part of the Availability Set.
+    `id` | The ID of the Network Interface.
+    `internal_domain_name_suffix` | The DNS name can be constructed by concatenating the VM name with this value.
+    `mac_address` | The Media Access Control (MAC) Address of the Network Interface.
+    `name` | The name of the Network Interface.
+    `private_ip_address` | The first private IP address of the network interface.
+    || **NOTE**: If `private_ip_address` is unset Azure will allocate an IP Address on Network Interface creation.
+    `private_ip_addresses` | The private IP addresses of the network interface.
+    || **NOTE**: If `private_ip_address` is unset Azure will allocate an IP Address on Network Interface creation.
+  EOT
+
   value = one([for resource in azurerm_network_interface.this : {
     applied_dns_servers         = resource.applied_dns_servers
     id                          = resource.id
@@ -124,10 +172,18 @@ output "private_ip_addresses" {
 }
 
 output "public_ip" {
+  description = <<-EOT
+    The public IP created by this module, if `create_public_ip_address` is set.
+
+    Attribute | Description
+    -- | --
+    `id` | The ID of the Public IP.
+    `ip_address` | The IP address value that was allocated.
+  EOT
+
   value = one([for resource in azurerm_public_ip.this : {
     id         = resource.id
     ip_address = resource.ip_address
-    fqdn       = resource.fqdn
   }])
 }
 
