@@ -55,7 +55,7 @@ variable "admin_password" {
 }
 
 variable "admin_ssh_key_algorithm" {
-  description = "The algorithm to use for the admin SSH key pair. Valid values are `RSA` or `ED25519`."
+  description = "Algorithm for the admin SSH key pair, used only if `authentication_type` is `SSH` and no `admin_ssh_public_key` is provided. Valid values: `RSA`, `ED25519`."
   default     = "ED25519"
   type        = string
 }
