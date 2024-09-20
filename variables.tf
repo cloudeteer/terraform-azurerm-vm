@@ -54,8 +54,14 @@ variable "admin_password" {
   type        = string
 }
 
+variable "admin_ssh_key_algorithm" {
+  description = "Algorithm for the admin SSH key pair, used only if `authentication_type` is `SSH` and no `admin_ssh_public_key` is provided. Valid values: `RSA`, `ED25519`."
+  default     = "ED25519"
+  type        = string
+}
+
 variable "admin_ssh_public_key" {
-  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format."
+  description = "Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa or ssh-ed25519 format."
   default     = null
   type        = string
 }

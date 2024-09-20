@@ -148,7 +148,7 @@ run "should_input_admin_ssh_public_key_output_same_value_on_linux" {
   command = plan
 
   variables {
-    admin_ssh_public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDwVwmmz4jNNg5oQYVjpaer8R86TgyI3Ge+NqdFksjAHFO5ZK/Ds2PQb06jXeH/OS2iNBQEBcGiAob6Vx15mJd0iByGcmsHmFkTJeZND84JQ3oUT7jZwoF6Rofe1bW2N6tVRINJYB1qGFLSu1vx4jd4OuWQRh3tzmWy686WCy4XEaVNqYXPVocvHU7XM27wMPOvsAV+JlRXmfSYKvAqH/wCV7FzPsWq7cu7zGH2nuvFWGwtJt+Q5Nxh6V6C/5j4ZF/5/q9tBzpR39uPPtzGEBc5572G7BX0Rl5RbfvLBRTTI54K7DwujJ5l9E24VThqIRh/WqHTvfHJ85sQudRrS0V/ example"
+    admin_ssh_public_key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGPAi7Yj75umWSxD0r73EZhbuIDJzD5bfBwRIJmrm8oj example"
     authentication_type       = "SSH"
     image                     = "Ubuntu2204"
     operating_system          = "Linux"

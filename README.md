@@ -112,7 +112,7 @@ The following providers are used by this module:
 
 - <a name="provider_azapi"></a> [azapi](#provider\_azapi) (>= 1.14)
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>= 3.111)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>= 4.1)
 
 - <a name="provider_random"></a> [random](#provider\_random) (>= 3.0)
 
@@ -239,9 +239,17 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_admin_ssh_key_algorithm"></a> [admin\_ssh\_key\_algorithm](#input\_admin\_ssh\_key\_algorithm)
+
+Description: Algorithm for the admin SSH key pair, used only if `authentication_type` is `SSH` and no `admin_ssh_public_key` is provided. Valid values: `RSA`, `ED25519`.
+
+Type: `string`
+
+Default: `"ED25519"`
+
 ### <a name="input_admin_ssh_public_key"></a> [admin\_ssh\_public\_key](#input\_admin\_ssh\_public\_key)
 
-Description: Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa format.
+Description: Public key to use for SSH authentication. Must be at least 2048-bit and in ssh-rsa or ssh-ed25519 format.
 
 Type: `string`
 
