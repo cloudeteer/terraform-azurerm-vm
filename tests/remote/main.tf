@@ -51,12 +51,12 @@ resource "azurerm_resource_group" "tftest" {
 module "tftest_01" {
   source = "../.."
 
-  name                = "vm-tftest-dev-euw-01"
+  name                = "vm-tftestwindows-dev-euw-${random_string.tftest.result}"
   location            = azurerm_resource_group.tftest.location
   resource_group_name = azurerm_resource_group.tftest.name
 
   backup_policy_id = local.backup_policy_id
-  computer_name    = "tftest"
+  computer_name    = "tftest-windows"
   image            = "Win2022Datacenter"
   key_vault_id     = local.key_vault_id
   subnet_id        = local.subnet_id
@@ -65,13 +65,13 @@ module "tftest_01" {
 module "tftest_02" {
   source = "../.."
 
-  name                = "vm-tftest-dev-euw-02"
+  name                = "vm-tftestlinux-dev-euw-${random_string.tftest.result}"
   location            = azurerm_resource_group.tftest.location
   resource_group_name = azurerm_resource_group.tftest.name
 
   authentication_type = "SSH"
   backup_policy_id    = local.backup_policy_id
-  computer_name       = "tftest"
+  computer_name       = "tftest-linux"
   image               = "Ubuntu2204"
   key_vault_id        = local.key_vault_id
   subnet_id           = local.subnet_id
