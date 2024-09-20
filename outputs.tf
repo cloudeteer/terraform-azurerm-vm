@@ -1,8 +1,3 @@
-output "admin_username" {
-  description = "The admin username of the virtual machine."
-  value       = local.virtual_machine.admin_username
-}
-
 output "admin_password" {
   description = "The admin password of the virtual machine."
   value       = local.admin_password
@@ -18,6 +13,11 @@ output "admin_ssh_private_key" {
 output "admin_ssh_public_key" {
   description = "The piblic SSH key of the admin user."
   value       = local.admin_ssh_public_key
+}
+
+output "admin_username" {
+  description = "The admin username of the virtual machine."
+  value       = local.virtual_machine.admin_username
 }
 
 output "data_disks" {
@@ -43,54 +43,6 @@ output "data_disks" {
 output "id" {
   value       = local.virtual_machine.id
   description = "The ID of the virtual machine."
-}
-
-output "user_assigned_identity" {
-  description = <<-EOT
-    The primary user assigned identity of the virtual machine
-
-    Attributes:
-
-    Attribute | Description
-    -- | --
-    `client_id` | The client id in uuid format of the user assigned identity.
-    `id` | The resource id of the user assgined identity.
-    `name` | The name of the user assigned identity.
-    `principal_id` | The Principal ID of the user assigned identity.
-    `tenant_id` | The Tenant ID of the user assigned identity.
-  EOT
-
-  value = one([for resource in azurerm_user_assigned_identity.this : {
-    client_id    = resource.client_id
-    id           = resource.id
-    name         = resource.name
-    principal_id = resource.principal_id
-    tenant_id    = resource.tenant_id
-  }])
-}
-
-output "user_assigned_identity_ids" {
-  description = "A list of all user assigned identities of the virtual machine."
-
-  value = local.virtual_machine.identity[*].identity_ids
-}
-
-output "system_assigned_identity" {
-  description = <<-EOT
-    The primary user assigned identity of the virtual machine
-
-    Attributes:
-
-    Attribute | Description
-    -- | --
-    `principal_id` | The Principal ID of the system assigned identity.
-    `tenant_id` | The Tenant ID of the system assigned identity.
-  EOT
-
-  value = one([for identity in local.virtual_machine.identity : {
-    principal_id = identity.principal_id
-    tenant_id    = identity.tenant_id
-  }])
 }
 
 output "image" {
@@ -139,6 +91,54 @@ output "public_ip_address" {
 output "public_ip_addresses" {
   description = "A list of all public IP addresses assigned to this virtual machine."
   value       = local.virtual_machine.public_ip_addresses
+}
+
+output "system_assigned_identity" {
+  description = <<-EOT
+    The primary user assigned identity of the virtual machine
+
+    Attributes:
+
+    Attribute | Description
+    -- | --
+    `principal_id` | The Principal ID of the system assigned identity.
+    `tenant_id` | The Tenant ID of the system assigned identity.
+  EOT
+
+  value = one([for identity in local.virtual_machine.identity : {
+    principal_id = identity.principal_id
+    tenant_id    = identity.tenant_id
+  }])
+}
+
+output "user_assigned_identity" {
+  description = <<-EOT
+    The primary user assigned identity of the virtual machine
+
+    Attributes:
+
+    Attribute | Description
+    -- | --
+    `client_id` | The client id in uuid format of the user assigned identity.
+    `id` | The resource id of the user assgined identity.
+    `name` | The name of the user assigned identity.
+    `principal_id` | The Principal ID of the user assigned identity.
+    `tenant_id` | The Tenant ID of the user assigned identity.
+  EOT
+
+  value = one([for resource in azurerm_user_assigned_identity.this : {
+    client_id    = resource.client_id
+    id           = resource.id
+    name         = resource.name
+    principal_id = resource.principal_id
+    tenant_id    = resource.tenant_id
+  }])
+}
+
+output "user_assigned_identity_ids" {
+  description = "A list of all user assigned identities of the virtual machine."
+
+  value = local.virtual_machine.identity[*].identity_ids
 }
 
 output "virtual_machine_extensions" {
