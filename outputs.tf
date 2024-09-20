@@ -101,16 +101,18 @@ output "image" {
 
     Attribute | Description
     -- | --
-    `publisher` | The publisher of the image.
-    `offer` | The offer of the image.
-    `sku` | The SKU of the image.
-    `version` | The version of the image.
-    `architecture` | The virtual machine achitecture. Can be `x86` or `arm64`.
-    `operating_system` | The operating system. Can be `Windows` or `Linux`.
-
+     `architecture` | The image architecture.
+     `offer` | The image offer.
+     `operating_system` | The image operating system.
+     `publisher` | The image publisher.
+     `sku` | The image Stock Keeping Unit (SKU).
+     `urn` | The full image URN.
+     `urnAlias` | The image alias URN.
+     || **NOTE**: Only [Azure Image Quick start templates](#azure-image-quick-start-templates) have an alias URN
+     `version` | The image version.
   EOT
 
-  value = local.image_full
+  value = local.image
 }
 
 output "key_vault_secret_id" {
