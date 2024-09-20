@@ -126,8 +126,8 @@ output "key_vault_secret_id" {
   EOT
 
   value = try({
-    admin_password        = try(azurerm_key_vault_secret.this.Password, null)
-    admin_ssh_private_key = try(azurerm_key_vault_secret.this.SSH, null)
+    admin_password        = try(azurerm_key_vault_secret.this["Password"], null)
+    admin_ssh_private_key = try(azurerm_key_vault_secret.this["SSH"], null)
   }, null)
 }
 
