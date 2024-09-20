@@ -19,7 +19,7 @@ repos:
         entry: bash -c 'for f in $@; do tfsort "$f"; done' --
         files: ^variables|outputs\.tf$
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: "v1.92.0"
+    rev: "v1.96.1"
     hooks:
       - id: terraform_fmt
       - id: terraform_tflint
