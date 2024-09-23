@@ -15,7 +15,7 @@ on:
 
 jobs:
   module-ci:
-    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@main
+    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@42-use-a-specific-terraform-version-during-githubu-actions
     permissions:
       contents: write
       id-token: write
