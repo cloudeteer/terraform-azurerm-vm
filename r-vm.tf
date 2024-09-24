@@ -123,6 +123,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   custom_data                                            = var.custom_data
   enable_automatic_updates                               = var.enable_automatic_updates
   encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  hotpatching_enabled                                    = var.hotpatching_enabled
   license_type                                           = var.license_type
   network_interface_ids                                  = local.network_interface_ids
   patch_assessment_mode                                  = var.patch_assessment_mode
