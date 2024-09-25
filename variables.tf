@@ -285,6 +285,11 @@ variable "hotpatching_enabled" {
     condition     = var.hotpatching_enabled == false ? true : local.is_windows
     error_message = "Hotpatching can only be set for Windows virtual machines."
   }
+
+  validation {
+    condition     = var.hotpatching_enabled == true ? true : var.bypass_platform_safety_checks_on_user_schedule_enabled
+    error_message = "Only one of the following options can be set to true: either bypass_platform_safety_checks_on_user_schedule_enabled or hotpatching_enabled."
+  }
 }
 
 variable "identity" {
