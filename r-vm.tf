@@ -216,7 +216,7 @@ data "azurerm_managed_disk" "this" {
 }
 
 resource "azapi_resource_action" "this" {
-  type        = "Microsoft.Compute/disks@2022-03-02"
+  type        = "Microsoft.Compute/disks@2024-03-02"
   resource_id = data.azurerm_managed_disk.this.id
   method      = "PATCH"
 
