@@ -211,7 +211,7 @@ resource "azurerm_windows_virtual_machine" "this" {
 }
 
 data "azurerm_managed_disk" "this" {
-  name = local.virtual_machine.os_disk[0].name
+  name                = local.virtual_machine.os_disk[0].name
   resource_group_name = var.resource_group_name
 }
 
