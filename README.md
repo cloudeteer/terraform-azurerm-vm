@@ -114,7 +114,7 @@ The following providers are used by this module:
 
 - <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>= 4.1)
 
-- <a name="provider_random"></a> [random](#provider\_random) (>= 3.0)
+- <a name="provider_random"></a> [random](#provider\_random) (>= 3.1)
 
 - <a name="provider_tls"></a> [tls](#provider\_tls) (>= 4.0)
 
