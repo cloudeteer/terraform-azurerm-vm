@@ -140,7 +140,6 @@ The following resources are used by this module:
 - [azapi_client_config.current](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/client_config) (data source)
 - [azapi_resource.virtual_machine_image](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/resource) (data source)
 - [azapi_resource_list.virtual_machine_images](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/resource_list) (data source)
-- [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/managed_disk) (data source)
 
 ## Required Inputs
 
