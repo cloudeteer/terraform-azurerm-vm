@@ -210,14 +210,9 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 }
 
-data "azurerm_managed_disk" "this" {
-  name                = local.virtual_machine.os_disk[0].name
-  resource_group_name = var.resource_group_name
-}
-
 resource "azapi_resource_action" "this" {
   type        = "Microsoft.Compute/disks@2024-03-02"
-  resource_id = data.azurerm_managed_disk.this.id
+  resource_id = "${join("/", slice(split("/", local.virtual_machine.id), 0, 5))}/providers/Microsoft.Compute/disks/${local.virtual_machine.os_disk[0].name}"
   method      = "PATCH"
 
   body = {
