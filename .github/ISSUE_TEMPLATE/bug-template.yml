@@ -55,4 +55,4 @@ body:
       description: "By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/cloudeteer/terraform-governance?tab=coc-ov-file#code-of-conduct)."
       options:
         - label: I agree to follow this repository's Code of Conduct
-          required: truee
+          required: true
