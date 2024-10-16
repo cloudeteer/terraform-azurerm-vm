@@ -48,7 +48,7 @@ resource "azurerm_virtual_machine_extension" "this" {
       (local.is_windows ? local.windows_extenstion : []),
       (local.is_linux ? local.linux_extensions : [])
     ) :
-    element.name => element if contains(var.extensions, element.name)
+    element.name => element if contains(var.extensions, element.name) && var.allow_extension_operations
   }
 
   virtual_machine_id = local.virtual_machine.id
