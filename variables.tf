@@ -257,6 +257,8 @@ variable "extensions" {
     - `AzureMonitorAgent`
     - `AzurePolicy`
     - `AntiMalware`
+
+    Note: The extensions listed here will only be applied if `allow_extension_operations` is set to `true`. If `allow_extension_operations` is set to `false`, this list will be ignored and no extensions will be created.
   EOT
 
   type = list(string)
