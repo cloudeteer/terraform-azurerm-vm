@@ -445,7 +445,7 @@ Possible values:
 - `AzurePolicy`
 - `AntiMalware`
 
-Note: The extensions listed here will only be applied if `allow_extension_operations` is set to `true`. If `allow_extension_operations` is set to `false`, this list will be ignored and no extensions will be created.
+**NOTE**: The extensions listed here will only be applied if `allow_extension_operations` is set to `true` (default). If `allow_extension_operations` is set to `false`, this list will be ignored and no extensions will be created.
 
 Type: `list(string)`
 
