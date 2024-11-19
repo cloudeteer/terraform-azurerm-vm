@@ -291,7 +291,7 @@ variable "hotpatching_enabled" {
   }
 
   validation {
-    condition     = var.hotpatching_enabled == true ? true : var.bypass_platform_safety_checks_on_user_schedule_enabled
+    condition     = (var.hotpatching_enabled && !var.bypass_platform_safety_checks_on_user_schedule_enabled) || (!var.hotpatching_enabled && var.bypass_platform_safety_checks_on_user_schedule_enabled) || (!var.hotpatching_enabled && !var.bypass_platform_safety_checks_on_user_schedule_enabled)
     error_message = "Only one of the following options can be set to true: either bypass_platform_safety_checks_on_user_schedule_enabled or hotpatching_enabled."
   }
 }
