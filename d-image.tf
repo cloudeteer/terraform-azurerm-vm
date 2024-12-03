@@ -29,7 +29,7 @@ locals {
 
   virtual_machine_image = (
     length(data.azapi_resource.virtual_machine_image) > 0 ?
-    jsondecode(one(data.azapi_resource.virtual_machine_image[*].output)) :
+    one(data.azapi_resource.virtual_machine_image[*].output) :
     null
   )
 
@@ -49,7 +49,7 @@ locals {
 
   virtual_machine_images = (
     length(data.azapi_resource_list.virtual_machine_images) > 0 ?
-    jsondecode(one(data.azapi_resource_list.virtual_machine_images[*].output)) :
+    one(data.azapi_resource_list.virtual_machine_images[*].output) :
     []
   )
 
