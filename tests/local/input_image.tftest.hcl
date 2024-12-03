@@ -9,14 +9,14 @@ mock_provider "azapi" {
 
   mock_data "azapi_resource" {
     defaults = {
-      output = <<-JSON
-      {
-        "properties": {
-          "architecture": "x64",
-          "osDiskImage": { "operatingSystem": "Linux" }
+      output = {
+        properties = {
+          architecture = "x64",
+          osDiskImage = {
+            operatingSystem = "Linux"
+          }
         }
       }
-    JSON
     }
   }
 }
