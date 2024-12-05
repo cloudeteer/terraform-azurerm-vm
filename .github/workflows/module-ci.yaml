@@ -14,10 +14,9 @@ jobs:
   module-ci:
     uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@main
     permissions:
-      contents: write
-      id-token: write
+      contents: read
       issues: write
-      pull-requests: read
+      id-token: write
     secrets:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
