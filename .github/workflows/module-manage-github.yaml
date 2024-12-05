@@ -15,4 +15,7 @@ on:
 jobs:
   module-manage-github:
     uses: cloudeteer/terraform-governance/.github/workflows/module-github.yaml@main
+    permissions:
+      contents: write
+      pull-requests: read
     secrets: inherit
