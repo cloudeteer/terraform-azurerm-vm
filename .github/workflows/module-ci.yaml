@@ -1,17 +1,14 @@
 name: module-ci
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 0" # weekly on Sunday at 00:00
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - opened
       - edited
       - synchronize
-      - labeled
-      - unlabeled
+      - ready_for_review
 
 jobs:
   module-ci:
