@@ -157,6 +157,8 @@ Valid URN aliases are:
 - `RHELRaw8LVMGen2`
 - `SuseSles15SP3`
 - `Ubuntu2204`
+- `Ubuntu2404`
+- `Ubuntu2404Pro`
 - `Win2022Datacenter`
 - `Win2022AzureEditionCore`
 - `Win2019Datacenter`
