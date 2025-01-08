@@ -66,6 +66,7 @@ resource "azurerm_key_vault" "example" {
   }
 }
 
+#trivy:ignore:avd-azu-0039
 module "example" {
   source = "cloudeteer/vm/azurerm"
 
