@@ -159,8 +159,10 @@ Valid URN aliases are:
 - `FlatcarLinuxFreeGen2`
 - `OpenSuseLeap154Gen2`
 - `RHELRaw8LVMGen2`
-- `SuseSles15SP3`
+- `SuseSles15SP5`
 - `Ubuntu2204`
+- `Ubuntu2404`
+- `Ubuntu2404Pro`
 - `Win2022Datacenter`
 - `Win2022AzureEditionCore`
 - `Win2019Datacenter`
