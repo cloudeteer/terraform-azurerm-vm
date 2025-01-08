@@ -27,6 +27,7 @@ variable "location" {
   type = string
 }
 
+#trivy:ignore:avd-azu-0039
 module "example" {
   source = "cloudeteer/vm/azurerm"
 

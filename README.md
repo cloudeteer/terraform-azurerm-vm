@@ -22,6 +22,9 @@ As documented on the [image](#input_image) input variable, it is possible to use
 
 This example demonstrates the usage of the virtual machine module with default settings. It sets up all necessary dependencies, including a resource group, virtual network, subnet, recovery services vault, backup policy, and key vault, to ensure seamless deployment.
 
+> [!TIP]
+> Our module enables password-based login for Linux virtual machines, configurable via the `authentication_type` input variable. If the [`disable_password_authentication`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine.html#disable_password_authentication-1) setting on the [`azurerm_linux_virtual_machine`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) resource within this module is not explicitly set to `false`, [Trivy](https://trivy.dev) will flag a high-severity warning. To suppress this warning, add the comment `#trivy:ignore:avd-azu-0039` directly above the Terraform module definition, as shown in the example below.
+
 ```hcl
 resource "azurerm_resource_group" "example" {
   name     = "rg-example-dev-we-01"
@@ -91,6 +94,7 @@ resource "azurerm_key_vault" "example" {
   }
 }
 
+#trivy:ignore:avd-azu-0039
 module "example" {
   source = "cloudeteer/vm/azurerm"
 
