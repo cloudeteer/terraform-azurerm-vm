@@ -270,7 +270,7 @@ variable "entra_id_login" {
   }
 
   validation {
-    condition     = (var.entra_id_login.enabled && lenght(var.entra_id_login.principal_ids > 0)) || !var.entra_id_login.enabled
+    condition     = (var.entra_id_login.enabled && length(var.entra_id_login.principal_ids) > 0) || !var.entra_id_login.enabled
     error_message = "'entra_id_login' is enabled, but 'principal_ids' are empty."
   }
 
