@@ -1,6 +1,11 @@
 locals {
   windows_license_types = ["None", "Windows_Client", "Windows_Server"]
-  linux_license_types   = ["RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA", "SLES_BYOS", "SLES_SAP", "SLES_HPC"]
+  linux_license_types = [
+    "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
+    "SLES_BYOS", "SLES_SAP", "SLES_HPC"
+  ]
+  identity_type = (var.entra_id_login.enabled ? (try(var.identity.type, "") == "UserAssigned" ?
+  replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") : "SystemAssigned") : "")
 }
 
 variable "additional_capabilities" {
@@ -246,6 +251,29 @@ variable "encryption_at_host_enabled" {
 
   type    = bool
   default = true
+}
+
+variable "entra_id_login" {
+  description = "Configuration for enabling EntraID-based login for virtual machines. Set 'enabled' to true to activate the feature and specify the list of 'principal_ids' that are allowed to log in. Note: This feature requires at least 1GB of memory, and certain SKUs like 'Standard_B1ls', 'Basic_A0', and 'Standard_A0' are not supported."
+  type = object({
+    enabled       = optional(bool)
+    principal_ids = optional(list(string))
+  })
+  default = ({
+    enabled       = false
+    principal_ids = []
+  })
+
+  validation {
+    condition     = (var.entra_id_login.enabled && (var.size != "Standard_B1ls" && var.size != "Basic_A0" && var.size != "Standard_A0")) || !var.entra_id_login.enabled
+    error_message = "The EntraID Extension must have at least 1GB of Memory. Please chosse a greater SKU."
+  }
+
+  validation {
+    condition     = (var.entra_id_login.enabled && lenght(var.entra_id_login.principal_ids > 0)) || !var.entra_id_login.enabled
+    error_message = "'entra_id_login' is enabled, but 'principal_ids' are empty."
+  }
+
 }
 
 variable "extensions" {

@@ -24,6 +24,7 @@ locals {
       auto_upgrade_minor_version = true
       automatic_upgrade_enabled  = true
     },
+
   ]
 
   windows_extenstion = [
@@ -42,7 +43,8 @@ locals {
 
 resource "azurerm_virtual_machine_extension" "this" {
 
-  for_each = { for element in
+  for_each = {
+    for element in
     concat(
       local.common_extensions,
       (local.is_windows ? local.windows_extenstion : []),
@@ -59,4 +61,15 @@ resource "azurerm_virtual_machine_extension" "this" {
   publisher                  = each.value.publisher
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
+}
+
+resource "azurerm_virtual_machine_extension" "entra_id_login" {
+
+  count = var.entra_id_login.enabled ? 1 : 0
+
+  name                 = "EntraIDLogin"
+  publisher            = "Microsoft.Azure.ActiveDirectory"
+  type                 = local.is_linux ? "AADSSHLoginForLinux" : "AADLoginForWindows"
+  type_handler_version = "1.0"
+  virtual_machine_id   = local.virtual_machine.id
 }
