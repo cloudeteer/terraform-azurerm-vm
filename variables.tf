@@ -4,8 +4,13 @@ locals {
     "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
     "SLES_BYOS", "SLES_SAP", "SLES_HPC"
   ]
-  identity_type = (var.entra_id_login.enabled ? (try(var.identity.type, "") == "UserAssigned" ?
-  replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") : "SystemAssigned") : "")
+  identity_type = (
+    var.entra_id_login.enabled ? (
+      try(var.identity.type, "") == "UserAssigned" ?
+      replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") :
+      "SystemAssigned"
+    ) :
+  null)
 }
 
 variable "additional_capabilities" {
@@ -254,24 +259,27 @@ variable "encryption_at_host_enabled" {
 }
 
 variable "entra_id_login" {
-  description = "Configuration for enabling EntraID-based login for virtual machines. Set 'enabled' to true to activate the feature and specify the list of 'principal_ids' that are allowed to log in. Note: This feature requires at least 1GB of memory, and certain SKUs like 'Standard_B1ls', 'Basic_A0', and 'Standard_A0' are not supported."
+  description = <<-EOD
+      Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and define the list of `principal_ids` permitted to log in.
+    **Note**: This feature requires at least 1GB of memory and is not supported on certain SKUs, including `Standard_B1ls`, `Basic_A0`, and `Standard_A0`.
+  EOD
   type = object({
     enabled       = optional(bool)
-    principal_ids = optional(list(string))
+    principal_ids = optional(list(string), [])
   })
   default = ({
-    enabled       = false
-    principal_ids = []
+    enabled = false
   })
 
   validation {
-    condition     = (var.entra_id_login.enabled && (var.size != "Standard_B1ls" && var.size != "Basic_A0" && var.size != "Standard_A0")) || !var.entra_id_login.enabled
-    error_message = "The EntraID Extension must have at least 1GB of Memory. Please chosse a greater SKU."
+    condition = (!var.entra_id_login.enabled ? true :
+    !contains(["Standard_B1ls", "Basic_A0", "Standard_A0"], var.size))
+    error_message = "Entra ID Extension requires at least 1GB of memory; set var.size to an SKU that meets this requirement."
   }
 
   validation {
-    condition     = (var.entra_id_login.enabled && length(var.entra_id_login.principal_ids) > 0) || !var.entra_id_login.enabled
-    error_message = "'entra_id_login' is enabled, but 'principal_ids' are empty."
+    condition     = !var.entra_id_login.enabled ? true : length(var.entra_id_login.principal_ids) > 0
+    error_message = "When 'entra_id_login.enabled' is 'true', 'principal_ids' must contain at least one valid principal ID."
   }
 
 }

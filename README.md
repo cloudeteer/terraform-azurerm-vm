@@ -445,14 +445,15 @@ Default: `true`
 
 ### <a name="input_entra_id_login"></a> [entra\_id\_login](#input\_entra\_id\_login)
 
-Description: Configuration for enabling EntraID-based login for virtual machines. Set 'enabled' to true to activate the feature and specify the list of 'principal\_ids' that are allowed to log in. Note: This feature requires at least 1GB of memory, and certain SKUs like 'Standard\_B1ls', 'Basic\_A0', and 'Standard\_A0' are not supported.
+Description:   Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and define the list of `principal_ids` permitted to log in.
+**Note**: This feature requires at least 1GB of memory and is not supported on certain SKUs, including `Standard_B1ls`, `Basic_A0`, and `Standard_A0`.
 
 Type:
 
 ```hcl
 object({
     enabled       = optional(bool)
-    principal_ids = optional(list(string))
+    principal_ids = optional(list(string), [])
   })
 ```
 
@@ -460,8 +461,7 @@ Default:
 
 ```json
 {
-  "enabled": false,
-  "principal_ids": []
+  "enabled": false
 }
 ```
 

@@ -16,7 +16,7 @@ run "entra_id_extension_and_identity_type_should_be_created" {
   }
 
   assert {
-    condition     = length(azurerm_virtual_machine_extension.entra_id_login) != 0
+    condition     = length(azurerm_virtual_machine_extension.entra_id_login) == 1
     error_message = "It is not possible to install the AAD-Extension without a given 'principal_id'."
   }
 
@@ -47,7 +47,7 @@ run "entra_id_extension_and_add_identity_type_should_be_created" {
   }
 
   assert {
-    condition     = length(azurerm_virtual_machine_extension.entra_id_login) != 0
+    condition     = length(azurerm_virtual_machine_extension.entra_id_login) == 1
     error_message = "It is not possible to install the AAD-Extension without a given 'principal_id'."
   }
 
@@ -76,7 +76,7 @@ run "nothing_should_be_created_regarding_entra_id_login" {
   }
 
   assert {
-    condition     = local.identity_type == ""
+    condition     = local.identity_type == var.identity
     error_message = "No identity type should be created when 'entra_id_login' is disabled."
   }
 

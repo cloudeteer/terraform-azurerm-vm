@@ -61,7 +61,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   dynamic "identity" {
     for_each = try(var.identity.type, null) != null || var.entra_id_login.enabled ? [true] : []
     content {
-      type         = var.entra_id_login.enabled ? local.identity_type : var.identity.type
+      type         = local.identity_type
       identity_ids = try(coalescelist(var.identity.identity_ids, azurerm_user_assigned_identity.this[*].id), null)
     }
   }
