@@ -59,4 +59,8 @@ resource "azurerm_virtual_machine_extension" "this" {
   publisher                  = each.value.publisher
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
