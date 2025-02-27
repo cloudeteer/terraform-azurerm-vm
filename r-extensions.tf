@@ -72,4 +72,8 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
   type                 = local.is_linux ? "AADSSHLoginForLinux" : "AADLoginForWindows"
   type_handler_version = "1.0"
   virtual_machine_id   = local.virtual_machine.id
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
