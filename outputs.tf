@@ -33,11 +33,13 @@ output "data_disks" {
     `name` | The name of the managed data disk.
   EOT
 
-  value = [for resource in azurerm_managed_disk.this : {
-    attachment_id = azurerm_virtual_machine_data_disk_attachment.this[resource.name].id
-    id            = resource.id
-    name          = resource.name
-  }]
+  value = [
+    for resource in azurerm_managed_disk.this : {
+      attachment_id = azurerm_virtual_machine_data_disk_attachment.this[resource.name].id
+      id            = resource.id
+      name          = resource.name
+    }
+  ]
 }
 
 output "id" {
@@ -104,15 +106,17 @@ output "network_interface" {
     || **NOTE**: If `private_ip_address` is unset Azure will allocate an IP Address on Network Interface creation.
   EOT
 
-  value = one([for resource in azurerm_network_interface.this : {
-    applied_dns_servers         = resource.applied_dns_servers
-    id                          = resource.id
-    internal_domain_name_suffix = resource.internal_domain_name_suffix
-    mac_address                 = resource.mac_address
-    name                        = resource.name
-    private_ip_address          = resource.private_ip_address
-    private_ip_addresses        = resource.private_ip_addresses
-  }])
+  value = one([
+    for resource in azurerm_network_interface.this : {
+      applied_dns_servers         = resource.applied_dns_servers
+      id                          = resource.id
+      internal_domain_name_suffix = resource.internal_domain_name_suffix
+      mac_address                 = resource.mac_address
+      name                        = resource.name
+      private_ip_address          = resource.private_ip_address
+      private_ip_addresses        = resource.private_ip_addresses
+    }
+  ])
 }
 
 output "private_ip_address" {
@@ -135,10 +139,12 @@ output "public_ip" {
     `ip_address` | The IP address value that was allocated.
   EOT
 
-  value = one([for resource in azurerm_public_ip.this : {
-    id         = resource.id
-    ip_address = resource.ip_address
-  }])
+  value = one([
+    for resource in azurerm_public_ip.this : {
+      id         = resource.id
+      ip_address = resource.ip_address
+    }
+  ])
 }
 
 output "public_ip_address" {
@@ -163,10 +169,12 @@ output "system_assigned_identity" {
     `tenant_id` | The Tenant ID of the system assigned identity.
   EOT
 
-  value = one([for identity in local.virtual_machine.identity : {
-    principal_id = identity.principal_id
-    tenant_id    = identity.tenant_id
-  }])
+  value = one([
+    for identity in local.virtual_machine.identity : {
+      principal_id = identity.principal_id
+      tenant_id    = identity.tenant_id
+    }
+  ])
 }
 
 output "user_assigned_identity" {
@@ -184,13 +192,15 @@ output "user_assigned_identity" {
     `tenant_id` | The Tenant ID of the user assigned identity.
   EOT
 
-  value = one([for resource in azurerm_user_assigned_identity.this : {
-    client_id    = resource.client_id
-    id           = resource.id
-    name         = resource.name
-    principal_id = resource.principal_id
-    tenant_id    = resource.tenant_id
-  }])
+  value = one([
+    for resource in azurerm_user_assigned_identity.this : {
+      client_id    = resource.client_id
+      id           = resource.id
+      name         = resource.name
+      principal_id = resource.principal_id
+      tenant_id    = resource.tenant_id
+    }
+  ])
 }
 
 output "user_assigned_identity_ids" {
@@ -214,15 +224,17 @@ output "virtual_machine_extensions" {
     `automatic_upgrade_enabled` | Indicates whether the extension is automatically updated whenever the publisher releases a new version.
   EOT
 
-  value = [for resource in azurerm_virtual_machine_extension.this : {
-    id                         = resource.id
-    name                       = resource.name
-    publisher                  = resource.publisher
-    type                       = resource.type
-    type_handler_version       = resource.type_handler_version
-    auto_upgrade_minor_version = resource.auto_upgrade_minor_version
-    automatic_upgrade_enabled  = resource.automatic_upgrade_enabled
-  }]
+  value = [
+    for resource in azurerm_virtual_machine_extension.this : {
+      id                         = resource.id
+      name                       = resource.name
+      publisher                  = resource.publisher
+      type                       = resource.type
+      type_handler_version       = resource.type_handler_version
+      auto_upgrade_minor_version = resource.auto_upgrade_minor_version
+      automatic_upgrade_enabled  = resource.automatic_upgrade_enabled
+    }
+  ]
 }
 
 output "virtual_machine_id" {
