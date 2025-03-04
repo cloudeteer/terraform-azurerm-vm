@@ -1,6 +1,16 @@
 locals {
   windows_license_types = ["None", "Windows_Client", "Windows_Server"]
-  linux_license_types   = ["RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA", "SLES_BYOS", "SLES_SAP", "SLES_HPC"]
+  linux_license_types = [
+    "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
+    "SLES_BYOS", "SLES_SAP", "SLES_HPC"
+  ]
+  identity_type = (
+    var.entra_id_login.enabled ? (
+      try(var.identity.type, "") == "UserAssigned" ?
+      replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") :
+      "SystemAssigned"
+    ) :
+  null)
 }
 
 variable "additional_capabilities" {
@@ -246,6 +256,32 @@ variable "encryption_at_host_enabled" {
 
   type    = bool
   default = true
+}
+
+variable "entra_id_login" {
+  description = <<-EOD
+      Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and define the list of `principal_ids` permitted to log in.
+    **Note**: This feature requires at least 1GB of memory and is not supported on certain SKUs, including `Standard_B1ls`, `Basic_A0`, and `Standard_A0`.
+  EOD
+  type = object({
+    enabled       = optional(bool)
+    principal_ids = optional(list(string), [])
+  })
+  default = ({
+    enabled = false
+  })
+
+  validation {
+    condition = (!var.entra_id_login.enabled ? true :
+    !contains(["Standard_B1ls", "Basic_A0", "Standard_A0"], var.size))
+    error_message = "Entra ID Extension requires at least 1GB of memory; set var.size to an SKU that meets this requirement."
+  }
+
+  validation {
+    condition     = !var.entra_id_login.enabled ? true : length(var.entra_id_login.principal_ids) > 0
+    error_message = "When 'entra_id_login.enabled' is 'true', 'principal_ids' must contain at least one valid principal ID."
+  }
+
 }
 
 variable "extensions" {
