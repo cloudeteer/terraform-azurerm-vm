@@ -81,3 +81,24 @@ run "nothing_should_be_created_regarding_entra_id_login" {
   }
 
 }
+
+run "entra_id_extension_and_identity_type_is_given" {
+  command = plan
+
+  variables {
+    extensions = []
+    identity = {
+      type = "SystemAssigned, UserAssigned" }
+    entra_id_login = {
+      enabled       = true
+      principal_ids = ["00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000001"]
+    }
+
+  }
+
+  assert {
+    condition     = local.identity_type == "SystemAssigned, UserAssigned"
+    error_message = "Keep 'SystemAssigned, UserAssigned' in case of usage."
+  }
+
+}
