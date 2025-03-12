@@ -88,7 +88,7 @@ run "entra_id_extension_and_identity_type_is_given" {
   variables {
     extensions = []
     identity = {
-      type = "SystemAssigned, UserAssigned" }
+    type = "SystemAssigned, UserAssigned" }
     entra_id_login = {
       enabled       = true
       principal_ids = ["00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000001"]
