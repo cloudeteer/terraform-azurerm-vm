@@ -7,8 +7,8 @@ locals {
 
   identity_type = (
     var.entra_id_login.enabled ? (
-      try(var.identity.type, "") == "UserAssigned" ?
-      replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") :
+      strcontains(try(var.identity.type, ""), "UserAssigned") ?
+      replace(var.identity.type, var.identity.type, "SystemAssigned, UserAssigned") :
       "SystemAssigned"
     ) :
   try(var.identity.type, null))
