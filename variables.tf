@@ -4,13 +4,14 @@ locals {
     "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
     "SLES_BYOS", "SLES_SAP", "SLES_HPC"
   ]
+
   identity_type = (
     var.entra_id_login.enabled ? (
       try(var.identity.type, "") == "UserAssigned" ?
       replace(var.identity.type, "UserAssigned", "SystemAssigned, UserAssigned") :
       "SystemAssigned"
     ) :
-  null)
+  try(var.identity.type, null))
 }
 
 variable "additional_capabilities" {
