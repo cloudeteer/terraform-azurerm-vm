@@ -398,7 +398,7 @@ Optional parameters:
 Parameter | Description
 -- | --
 `caching` | Specifies the caching requirements for this Data Disk. Possible values include `None`, `ReadOnly` and `ReadWrite`.
-`create_option` | The method to use when creating the managed disk. Possible values include: `Empty` - Create an empty managed disk.
+`create_option` | The method to use when creating the managed disk. Possible values include: `Empty` - Create an empty managed disk. `Copy` - Copy an existing managed disk or snapshot (specified with `source_resource_id`).
 `name` | Specifies the name of the Managed Disk. If omitted a name will be generated based on `name`.
 `storage_account_type` | The type of storage to use for the managed disk. Possible values are `Standard_LRS`, `StandardSSD_ZRS`, `Premium_LRS`, `PremiumV2_LRS`, `Premium_ZRS`, `StandardSSD_LRS` or `UltraSSD_LRS`.
 
@@ -411,6 +411,7 @@ list(object({
     disk_size_gb         = number
     lun                  = number
     name                 = optional(string)
+    source_resource_id   = optional(string)
     storage_account_type = optional(string, "Premium_LRS")
   }))
 ```

@@ -20,9 +20,10 @@ resource "azurerm_managed_disk" "this" {
   resource_group_name = var.resource_group_name
   tags                = var.tags
 
-  storage_account_type = each.value.storage_account_type
   create_option        = each.value.create_option
   disk_size_gb         = each.value.disk_size_gb
+  source_resource_id   = each.value.source_resource_id
+  storage_account_type = each.value.storage_account_type
   zone                 = var.zone
 }
 
