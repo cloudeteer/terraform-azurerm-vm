@@ -411,8 +411,8 @@ list(object({
     disk_size_gb         = number
     lun                  = number
     name                 = optional(string)
-    storage_account_type = optional(string, "Premium_LRS")
     source_resource_id   = optional(string)
+    storage_account_type = optional(string, "Premium_LRS")
   }))
 ```
 
