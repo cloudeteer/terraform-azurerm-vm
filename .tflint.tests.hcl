@@ -6,7 +6,7 @@ plugin "terraform" {
   enabled = true
 
   source  = "github.com/terraform-linters/tflint-ruleset-terraform"
-  version = "0.9.1"
+  version = "0.12.0"
 
   preset = "all"
 }
@@ -15,7 +15,7 @@ plugin "azurerm" {
   enabled = true
 
   source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
-  version = "0.27.0"
+  version = "0.28.0"
 }
 
 rule "terraform_unused_required_providers" {
