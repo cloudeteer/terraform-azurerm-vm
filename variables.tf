@@ -236,6 +236,54 @@ variable "data_disks" {
   default = []
 }
 
+variable "domain_join" {
+  description = <<-EOT
+    Enable domain join for the virtual machine. This feature is not supported on Linux Virtual Machines.
+
+    Required parameters:
+
+    Parameter | Description
+    -- | --
+    `enabled` | Whether to enable (`true`) or disable (`false`) domain join.
+    `domain_name` | The name of the domain to join.
+    `ou_path` | The Organizational Unit (OU) path in which to place the computer account.
+    `join_user` | The username of the user who has permission to join the domain.
+
+    Optional parameters:
+
+    Parameter | Description
+    -- | --
+    `options` | Additional options for domain join. Default is `"3"`.
+    `restart` | Whether to restart the VM after joining the domain. Default is `true`.
+  EOT
+
+  type = object({
+    enabled = bool
+
+    domain_name = string
+    join_user   = string
+    ou_path     = string
+
+    options = optional(string, "3")
+    restart = optional(bool, true)
+  })
+
+  default = {
+    enabled = false
+
+    domain_name = null
+    join_user   = null
+    ou_path     = null
+  }
+}
+
+variable "domain_join_password" {
+  type        = string
+  description = "Password for the domain join user (`domain_join.join_user`)."
+  sensitive   = true
+  default     = null
+}
+
 variable "enable_automatic_updates" {
   description = "Specifies whether Automatic Updates are enabled for Windows Virtual Machines. This feature is not supported on Linux Virtual Machines."
 
