@@ -138,6 +138,7 @@ The following resources are used by this module:
 - [azurerm_role_assignment.entra_id_login](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
 - [azurerm_user_assigned_identity.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) (resource)
 - [azurerm_virtual_machine_data_disk_attachment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
+- [azurerm_virtual_machine_extension.domain_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
 - [azurerm_virtual_machine_extension.entra_id_login](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
 - [azurerm_virtual_machine_extension.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
 - [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
@@ -417,6 +418,60 @@ list(object({
 ```
 
 Default: `[]`
+
+### <a name="input_domain_join"></a> [domain\_join](#input\_domain\_join)
+
+Description: Enable domain join for the virtual machine. This feature is not supported on Linux Virtual Machines.
+
+Required parameters:
+
+Parameter | Description
+-- | --
+`enabled` | Whether to enable (`true`) or disable (`false`) domain join.
+`domain_name` | The name of the domain to join.
+`ou_path` | The Organizational Unit (OU) path in which to place the computer account.
+`join_user` | The username of the user who has permission to join the domain.
+
+Optional parameters:
+
+Parameter | Description
+-- | --
+`options` | Additional options for domain join. Default is `"3"`.
+`restart` | Whether to restart the VM after joining the domain. Default is `true`.
+
+Type:
+
+```hcl
+object({
+    enabled = bool
+
+    domain_name = string
+    join_user   = string
+    ou_path     = string
+
+    options = optional(string, "3")
+    restart = optional(bool, true)
+  })
+```
+
+Default:
+
+```json
+{
+  "domain_name": null,
+  "enabled": false,
+  "join_user": null,
+  "ou_path": null
+}
+```
+
+### <a name="input_domain_join_password"></a> [domain\_join\_password](#input\_domain\_join\_password)
+
+Description: Password for the domain join user (`domain_join.join_user`).
+
+Type: `string`
+
+Default: `null`
 
 ### <a name="input_enable_automatic_updates"></a> [enable\_automatic\_updates](#input\_enable\_automatic\_updates)
 

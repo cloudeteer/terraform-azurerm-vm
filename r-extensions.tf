@@ -81,3 +81,32 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
     ignore_changes = [tags]
   }
 }
+
+resource "azurerm_virtual_machine_extension" "domain_join" {
+  count = var.domain_join.enabled ? 1 : 0
+
+  name                       = "DomainJoin"
+  publisher                  = "Microsoft.Compute"
+  type                       = "JsonADDomainExtension"
+  type_handler_version       = "1.0"
+  auto_upgrade_minor_version = true
+  automatic_upgrade_enabled  = false
+
+  virtual_machine_id = local.virtual_machine.id
+
+  settings = jsonencode({
+    Name    = var.domain_join.domain_name,
+    OUPath  = var.domain_join.ou_path,
+    User    = var.domain_join.join_user,
+    Restart = var.domain_join.restart,
+    Options = var.domain_join.options
+  })
+
+  protected_settings = jsonencode({
+    Password = var.domain_join_password
+  })
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
+}
