@@ -109,4 +109,12 @@ resource "azurerm_virtual_machine_extension" "domain_join" {
   lifecycle {
     ignore_changes = [tags]
   }
+
+  depends_on = [
+    # The Domain Join extension restarts the virtual machine, which may conflict
+    # with the installation of other extensions. To avoid such conflicts, we add
+    # a dependency on the Domain Join extension.
+    azurerm_virtual_machine_extension.entra_id_login,
+    azurerm_virtual_machine_extension.this
+  ]
 }
