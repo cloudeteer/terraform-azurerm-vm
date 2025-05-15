@@ -681,13 +681,14 @@ Default: `"AutomaticByPlatform"`
 
 ### <a name="input_patch_mode"></a> [patch\_mode](#input\_patch\_mode)
 
-Description: Specifies the mode of in-guest patching to this Windows Virtual Machine. For more information on patch modes please see the [product documentation](https://docs.microsoft.com/azure/virtual-machines/automatic-vm-guest-patching#patch-orchestration-modes).
+Description: Specifies the mode of in-guest patching to this Virtual Machine. Defaults to AutomaticByPlatform. For more information on patch modes please see the [product documentation](https://docs.microsoft.com/azure/virtual-machines/automatic-vm-guest-patching#patch-orchestration-modes).
 
 **NOTE**: If `patch_mode` is set to `AutomaticByPlatform` then `provision_vm_agent` must also be set to true. If the Virtual Machine is using a hotpatching enabled image the `patch_mode` must always be set to `AutomaticByPlatform`.
 
 Possible values:
 - `AutomaticByOS`
 - `AutomaticByPlatform`
+- `ImageDefault`
 - `Manual`
 
 Type: `string`
