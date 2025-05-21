@@ -20,5 +20,5 @@ resource "azurerm_role_assignment" "entra_id_login" {
   principal_id = each.value
   scope = (local.is_linux ? azurerm_linux_virtual_machine.this[0].id :
   azurerm_windows_virtual_machine.this[0].id)
-  role_definition_id = "Virtual Machine Administrator Login"
+  role_definition_name = "Virtual Machine Administrator Login"
 }
