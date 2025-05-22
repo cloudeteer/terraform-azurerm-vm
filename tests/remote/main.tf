@@ -75,4 +75,11 @@ module "tftest_02" {
   image               = "Ubuntu2204"
   key_vault_id        = local.key_vault_id
   subnet_id           = local.subnet_id
+
+  entra_id_login = {
+    enabled                   = true
+    principal_ids             = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
+    admin_login_principal_ids = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
+    user_login_principal_ids  = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
+  }
 }
