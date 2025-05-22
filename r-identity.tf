@@ -14,7 +14,12 @@ resource "azurerm_user_assigned_identity" "this" {
   tags                = var.tags
 }
 
-resource "azurerm_role_assignment" "entra_id_login" {
+moved {
+  from = azurerm_role_assignment.entra_id_login
+  to   = azurerm_role_assignment.entra_id_login_admin
+}
+
+resource "azurerm_role_assignment" "entra_id_login_admin" {
   for_each = (
     var.entra_id_login.enabled
     ? toset(concat(var.entra_id_login.principal_ids, var.entra_id_login.admin_login_principal_ids))
