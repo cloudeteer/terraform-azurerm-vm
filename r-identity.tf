@@ -18,25 +18,3 @@ moved {
   from = azurerm_role_assignment.entra_id_login
   to   = azurerm_role_assignment.entra_id_login_admin
 }
-
-resource "azurerm_role_assignment" "entra_id_login_admin" {
-  for_each = (
-    var.entra_id_login.enabled
-    ? toset(concat(var.entra_id_login.principal_ids, var.entra_id_login.admin_login_principal_ids))
-    : []
-  )
-
-  principal_id         = each.value
-  role_definition_name = "Virtual Machine Administrator Login"
-  scope                = local.virtual_machine.id
-}
-
-resource "azurerm_role_assignment" "entra_id_login_user" {
-  for_each = (
-    var.entra_id_login.enabled ? toset(var.entra_id_login.user_login_principal_ids) : []
-  )
-
-  principal_id         = each.value
-  role_definition_name = "Virtual Machine User Login"
-  scope                = local.virtual_machine.id
-}
