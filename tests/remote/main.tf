@@ -78,8 +78,8 @@ module "tftest_02" {
 
   entra_id_login = {
     enabled                   = true
-    principal_ids             = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
-    admin_login_principal_ids = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
-    user_login_principal_ids  = ["c7d07362-db52-416c-a17c-4b152781b9cc"]
+    principal_ids             = ["52c45cde-8aa6-45a7-b717-686d20a2fbbf"]
+    admin_login_principal_ids = ["52c45cde-8aa6-45a7-b717-686d20a2fbbf"]
+    user_login_principal_ids  = ["52c45cde-8aa6-45a7-b717-686d20a2fbbf"]
   }
 }
