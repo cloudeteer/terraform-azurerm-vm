@@ -25,6 +25,19 @@ resource "azurerm_managed_disk" "this" {
   source_resource_id   = each.value.source_resource_id
   storage_account_type = each.value.storage_account_type
   zone                 = var.zone
+
+  lifecycle {
+    ignore_changes = [
+      # The following properties are ignored to facilitate VM restore operations via Azure Backup:
+      # - name, create_option, source_resource_id: These may be changed by Azure during restore, so ignoring them prevents unnecessary recreation of disks.
+      # - tags["RSVaultBackup"]: This tag is managed by Azure Backup and may change independently.
+      # Note: Renaming disks requires manual deletion of the old disk and creation of a new one, as Terraform will not automatically handle this due to ignore_changes.
+      name,
+      create_option,
+      source_resource_id,
+      tags["RSVaultBackup"]
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "this" {
