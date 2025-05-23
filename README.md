@@ -128,7 +128,7 @@ The following providers are used by this module:
 
 The following resources are used by this module:
 
-- [azapi_resource_action.this](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource_action) (resource)
+- [azapi_resource_action.add_tags_to_osdisk](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource_action) (resource)
 - [azurerm_backup_protected_vm.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/backup_protected_vm) (resource)
 - [azurerm_key_vault_secret.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
 - [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
