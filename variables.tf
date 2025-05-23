@@ -218,8 +218,9 @@ variable "data_disks" {
     Parameter | Description
     -- | --
     `caching` | Specifies the caching requirements for this Data Disk. Possible values include `None`, `ReadOnly` and `ReadWrite`.
-    `create_option` | The method to use when creating the managed disk. Possible values include: `Empty` - Create an empty managed disk. `Copy` - Copy an existing managed disk or snapshot (specified with `source_resource_id`).
+    `create_option` | The method to use when creating the managed disk. Possible values include: `Empty` - Create an empty managed disk. `Copy` - Copy an existing managed disk or snapshot (specified with `source_resource_id`). `Restore` - Set by Azure Backup or Site Recovery on a restored disk (specified with `source_resource_id`).
     `name` | Specifies the name of the Managed Disk. If omitted a name will be generated based on `name`.
+    `source_resource_id` | The ID of an existing Managed Disk or Snapshot to copy when `create_option` is `Cop`y or the recovery point to restore when `create_option` is `Restore`.
     `storage_account_type` | The type of storage to use for the managed disk. Possible values are `Standard_LRS`, `StandardSSD_ZRS`, `Premium_LRS`, `PremiumV2_LRS`, `Premium_ZRS`, `StandardSSD_LRS` or `UltraSSD_LRS`.
   EOT
 

@@ -34,8 +34,8 @@ output "data_disks" {
   EOT
 
   value = [
-    for resource in azurerm_managed_disk.this : {
-      attachment_id = azurerm_virtual_machine_data_disk_attachment.this[resource.name].id
+    for name, resource in azurerm_managed_disk.this : {
+      attachment_id = azurerm_virtual_machine_data_disk_attachment.this[name].id
       id            = resource.id
       name          = resource.name
     }
