@@ -21,11 +21,6 @@ run "entra_id_extension_and_identity_type_should_be_created" {
   }
 
   assert {
-    condition     = length(azurerm_role_assignment.entra_id_login) != 0
-    error_message = "It is not possible to install the AAD-Extension without a given 'principal_id'."
-  }
-
-  assert {
     condition     = local.identity_type == "SystemAssigned"
     error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
@@ -52,11 +47,6 @@ run "entra_id_extension_and_add_identity_type_should_be_created" {
   }
 
   assert {
-    condition     = length(azurerm_role_assignment.entra_id_login) != 0
-    error_message = "It is not possible to install the AAD-Extension without a given 'principal_id'."
-  }
-
-  assert {
     condition     = local.identity_type == "SystemAssigned, UserAssigned"
     error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
@@ -71,7 +61,12 @@ run "nothing_should_be_created_regarding_entra_id_login" {
   }
 
   assert {
-    condition     = length(azurerm_role_assignment.entra_id_login) == 0
+    condition     = length(azurerm_role_assignment.entra_id_login_admin) == 0
+    error_message = "No role_assignment for EntraID should be created when 'entra_id_login' is disabled."
+  }
+
+  assert {
+    condition     = length(azurerm_role_assignment.entra_id_login_user) == 0
     error_message = "No role_assignment for EntraID should be created when 'entra_id_login' is disabled."
   }
 
