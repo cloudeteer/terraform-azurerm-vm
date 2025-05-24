@@ -82,6 +82,29 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
   }
 }
 
+resource "azurerm_role_assignment" "entra_id_login_admin" {
+  for_each = (
+    var.entra_id_login.enabled
+    ? toset(concat(var.entra_id_login.principal_ids, var.entra_id_login.admin_login_principal_ids))
+    : []
+  )
+
+  principal_id         = each.value
+  role_definition_name = "Virtual Machine Administrator Login"
+  scope                = local.virtual_machine.id
+}
+
+resource "azurerm_role_assignment" "entra_id_login_user" {
+  for_each = (
+    var.entra_id_login.enabled ? toset(var.entra_id_login.user_login_principal_ids) : []
+  )
+
+  principal_id         = each.value
+  role_definition_name = "Virtual Machine User Login"
+  scope                = local.virtual_machine.id
+}
+
+
 resource "azurerm_virtual_machine_extension" "domain_join" {
   count = var.domain_join.enabled ? 1 : 0
 

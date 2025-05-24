@@ -14,10 +14,7 @@ resource "azurerm_user_assigned_identity" "this" {
   tags                = var.tags
 }
 
-resource "azurerm_role_assignment" "entra_id_login" {
-  for_each = var.entra_id_login.enabled ? toset(var.entra_id_login.principal_ids) : []
-
-  principal_id         = each.value
-  role_definition_name = "Virtual Machine Administrator Login"
-  scope                = local.virtual_machine.id
+moved {
+  from = azurerm_role_assignment.entra_id_login
+  to   = azurerm_role_assignment.entra_id_login_admin
 }
