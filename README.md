@@ -135,7 +135,8 @@ The following resources are used by this module:
 - [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
-- [azurerm_role_assignment.entra_id_login](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
+- [azurerm_role_assignment.entra_id_login_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
+- [azurerm_role_assignment.entra_id_login_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
 - [azurerm_user_assigned_identity.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) (resource)
 - [azurerm_virtual_machine_data_disk_attachment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
 - [azurerm_virtual_machine_extension.domain_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
@@ -502,15 +503,22 @@ Default: `true`
 
 ### <a name="input_entra_id_login"></a> [entra\_id\_login](#input\_entra\_id\_login)
 
-Description:   Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and define the list of `principal_ids` permitted to log in.
+Description: Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and specify the lists of `admin_login_principal_ids` and `user_login_principal_ids` that are permitted to log in.
+
 **Note**: This feature requires at least 1GB of memory and is not supported on certain SKUs, including `Standard_B1ls`, `Basic_A0`, and `Standard_A0`.
+
+**Note**: When specifying `admin_login_principal_ids` or `user_login_principal_ids`, this module will create Azure role assignments for those principals. The user deploying this module must have sufficient permissions to create role assignments (typically the `Owner` role or a custom role with the necessary permissions).
+
+**Deprecation Notice**: The `principal_ids` argument is deprecated and will be removed in version 2.0 of this module. Please use `admin_login_principal_ids` and `user_login_principal_ids` instead.
 
 Type:
 
 ```hcl
 object({
-    enabled       = optional(bool)
-    principal_ids = optional(list(string), [])
+    enabled                   = optional(bool)
+    principal_ids             = optional(list(string), []) # !! DEPRECATED !!
+    admin_login_principal_ids = optional(list(string), [])
+    user_login_principal_ids  = optional(list(string), [])
   })
 ```
 

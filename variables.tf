@@ -311,13 +311,22 @@ variable "encryption_at_host_enabled" {
 
 variable "entra_id_login" {
   description = <<-EOD
-      Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and define the list of `principal_ids` permitted to log in.
+    Configures Entra ID-based login for virtual machines. Set `enabled` to `true` to activate this feature and specify the lists of `admin_login_principal_ids` and `user_login_principal_ids` that are permitted to log in.
+
     **Note**: This feature requires at least 1GB of memory and is not supported on certain SKUs, including `Standard_B1ls`, `Basic_A0`, and `Standard_A0`.
+
+    **Note**: When specifying `admin_login_principal_ids` or `user_login_principal_ids`, this module will create Azure role assignments for those principals. The user deploying this module must have sufficient permissions to create role assignments (typically the `Owner` role or a custom role with the necessary permissions).
+
+    **Deprecation Notice**: The `principal_ids` argument is deprecated and will be removed in version 2.0 of this module. Please use `admin_login_principal_ids` and `user_login_principal_ids` instead.
   EOD
+
   type = object({
-    enabled       = optional(bool)
-    principal_ids = optional(list(string), [])
+    enabled                   = optional(bool)
+    principal_ids             = optional(list(string), []) # !! DEPRECATED !!
+    admin_login_principal_ids = optional(list(string), [])
+    user_login_principal_ids  = optional(list(string), [])
   })
+
   default = ({
     enabled = false
   })
