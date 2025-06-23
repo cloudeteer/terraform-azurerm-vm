@@ -338,8 +338,13 @@ variable "entra_id_login" {
   }
 
   validation {
-    condition     = !var.entra_id_login.enabled ? true : length(var.entra_id_login.principal_ids) > 0
-    error_message = "When 'entra_id_login.enabled' is 'true', 'principal_ids' must contain at least one valid principal ID."
+    condition = anytrue([
+      !var.entra_id_login.enabled,
+      length(var.entra_id_login.principal_ids) > 0,
+      length(var.entra_id_login.admin_login_principal_ids) > 0,
+      length(var.entra_id_login.user_login_principal_ids) > 0
+    ])
+    error_message = "When 'entra_id_login.enabled' is 'true', 'admin_login_principal_ids' or 'user_login_principal_ids' must contain at least one valid principal ID."
   }
 
 }
