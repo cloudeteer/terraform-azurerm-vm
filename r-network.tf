@@ -15,6 +15,8 @@ resource "azurerm_network_interface" "this" {
   resource_group_name = var.resource_group_name
   tags                = var.tags
 
+  dns_servers = var.dns_servers
+
   ip_configuration {
     name                          = "ipconfig1"
     private_ip_address            = var.private_ip_address

@@ -421,6 +421,14 @@ list(object({
 
 Default: `[]`
 
+### <a name="input_dns_servers"></a> [dns\_servers](#input\_dns\_servers)
+
+Description: A list of DNS server IP addresses to assign to the primary network interface of the virtual machine. These servers will override the default DNS settings provided by the subnet or virtual network.
+
+Type: `list(string)`
+
+Default: `[]`
+
 ### <a name="input_domain_join"></a> [domain\_join](#input\_domain\_join)
 
 Description: Enable domain join for the virtual machine. This feature is not supported on Linux Virtual Machines.
