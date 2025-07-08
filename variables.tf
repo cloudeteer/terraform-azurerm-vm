@@ -1,10 +1,4 @@
 locals {
-  windows_license_types = ["None", "Windows_Client", "Windows_Server"]
-  linux_license_types = [
-    "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
-    "SLES_BYOS", "SLES_SAP", "SLES_HPC"
-  ]
-
   identity_type = (
     var.entra_id_login.enabled ? (
       strcontains(try(var.identity.type, ""), "UserAssigned") ?
@@ -12,6 +6,11 @@ locals {
       "SystemAssigned"
     ) :
   try(var.identity.type, null))
+  linux_license_types = [
+    "RHEL_BYOS", "RHEL_BASE", "RHEL_EUS", "RHEL_SAPAPPS", "RHEL_SAPHA", "RHEL_BASESAPAPPS", "RHEL_BASESAPHA",
+    "SLES_BYOS", "SLES_SAP", "SLES_HPC"
+  ]
+  windows_license_types = ["None", "Windows_Client", "Windows_Server"]
 }
 
 variable "additional_capabilities" {
@@ -234,6 +233,13 @@ variable "data_disks" {
     storage_account_type = optional(string, "Premium_LRS")
   }))
 
+  default = []
+}
+
+variable "dns_servers" {
+  description = "A list of DNS server IP addresses to assign to the primary network interface of the virtual machine. These servers will override the default DNS settings provided by the subnet or virtual network."
+
+  type    = list(string)
   default = []
 }
 
