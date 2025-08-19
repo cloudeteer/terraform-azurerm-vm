@@ -601,9 +601,8 @@ Default: `null`
 
 Description: The resource ID of the Azure Key Vault where the generated admin password or SSH private key should be stored as a secret.
 
-Required when `store_secret_in_key_vault` is `true`.
-
-Must be `null` when `store_secret_in_key_vault` is `false`.
+- Required when `store_secret_in_key_vault` is `true`.
+- Must be `null` when `store_secret_in_key_vault` is `false`.
 
 Type: `string`
 
@@ -817,7 +816,6 @@ Default: `null`
 Description: Whether to store generated secrets (admin password or SSH private key) in an Azure Key Vault.
 
 - If `true`, you must provide `key_vault_id`.
-
 - If `false`, `key_vault_id` must be null and no secrets will be stored.
 
 Type: `bool`
