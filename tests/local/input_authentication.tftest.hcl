@@ -40,7 +40,7 @@ run "should_input_admin_password_output_same_value_on_windows" {
     image                     = "Win2022Datacenter"
     store_secret_in_key_vault = false
     # Unset default, set in variables.auto.tfvars
-    key_vault_id              = null
+    key_vault_id = null
   }
 
   assert {
@@ -109,7 +109,7 @@ run "should_input_admin_password_output_same_value_on_linux" {
     operating_system          = "Linux"
     store_secret_in_key_vault = false
     # Unset default, set in variables.auto.tfvars
-    key_vault_id              = null
+    key_vault_id = null
   }
 
   assert {
@@ -158,7 +158,7 @@ run "should_input_admin_ssh_public_key_output_same_value_on_linux" {
     operating_system          = "Linux"
     store_secret_in_key_vault = false
     # Unset default, set in variables.auto.tfvars
-    key_vault_id              = null
+    key_vault_id = null
   }
 
   assert {
