@@ -39,6 +39,7 @@ run "should_input_admin_password_output_same_value_on_windows" {
     authentication_type       = "Password"
     image                     = "Win2022Datacenter"
     store_secret_in_key_vault = false
+    # Unset default, set in variables.auto.tfvars
     key_vault_id              = null
   }
 
@@ -107,6 +108,7 @@ run "should_input_admin_password_output_same_value_on_linux" {
     image                     = "Ubuntu2204"
     operating_system          = "Linux"
     store_secret_in_key_vault = false
+    # Unset default, set in variables.auto.tfvars
     key_vault_id              = null
   }
 
@@ -155,6 +157,7 @@ run "should_input_admin_ssh_public_key_output_same_value_on_linux" {
     image                     = "Ubuntu2204"
     operating_system          = "Linux"
     store_secret_in_key_vault = false
+    # Unset default, set in variables.auto.tfvars
     key_vault_id              = null
   }
 
