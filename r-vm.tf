@@ -2,6 +2,11 @@ locals {
   virtual_machine = (local.is_linux ? azurerm_linux_virtual_machine.this[0] :
     (local.is_windows ? azurerm_windows_virtual_machine.this[0] : null)
   )
+  tags_virtual_machine = merge(
+    var.tags,
+    var.tags_virtual_machine,
+    (var.key_vault_id != null ? { key_vault_id = var.key_vault_id } : {})
+  )
 }
 
 # trivy:ignore:avd-azu-0039
@@ -11,7 +16,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  tags                = merge(var.tags, var.tags_virtual_machine)
+  tags                = local.tags_virtual_machine
 
   admin_password                                         = local.admin_password
   admin_username                                         = var.admin_username
@@ -113,7 +118,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  tags                = merge(var.tags, var.tags_virtual_machine)
+  tags                = local.tags_virtual_machine
 
   admin_password                                         = local.admin_password
   admin_username                                         = var.admin_username
