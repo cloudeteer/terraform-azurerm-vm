@@ -697,7 +697,7 @@ variable "store_secret_in_key_vault" {
   Whether to store generated secrets (admin password or SSH private key) in an Azure Key Vault.
 
   - If `true`, you must provide `key_vault_id`.
-  - If `false`, `key_vault_id` must be null and no secrets will be stored.
+  - If `false`, `key_vault_id` must be unset and no secrets will be stored.
   EOT
 
   type    = bool
