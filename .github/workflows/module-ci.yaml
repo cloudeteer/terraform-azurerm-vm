@@ -12,7 +12,7 @@ on:
 
 jobs:
   module-ci:
-    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@main
+    uses: cloudeteer/terraform-governance/.github/workflows/module-ci.yaml@OE-593
     permissions:
       contents: read
       issues: write
