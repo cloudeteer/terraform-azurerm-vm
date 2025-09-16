@@ -22,7 +22,7 @@ run "entra_id_extension_and_identity_type_should_be_created" {
 
   assert {
     condition     = local.identity_type == "SystemAssigned"
-    error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
+    error_message = "It is not possible to install the EntraID-Extension without setting the Identity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
 }
 
@@ -49,7 +49,7 @@ run "entra_id_extension_and_add_identity_type_should_be_created" {
 
   assert {
     condition     = local.identity_type == "SystemAssigned, UserAssigned"
-    error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
+    error_message = "It is not possible to install the EntraID-Extension without setting the Identity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
 }
 
