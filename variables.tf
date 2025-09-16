@@ -342,17 +342,6 @@ variable "entra_id_login" {
     !contains(["Standard_B1ls", "Basic_A0", "Standard_A0"], var.size))
     error_message = "Entra ID Extension requires at least 1GB of memory; set var.size to an SKU that meets this requirement."
   }
-
-  validation {
-    condition = anytrue([
-      !var.entra_id_login.enabled,
-      length(var.entra_id_login.principal_ids) > 0,
-      length(var.entra_id_login.admin_login_principal_ids) > 0,
-      length(var.entra_id_login.user_login_principal_ids) > 0
-    ])
-    error_message = "When 'entra_id_login.enabled' is 'true', 'admin_login_principal_ids' or 'user_login_principal_ids' must contain at least one valid principal ID."
-  }
-
 }
 
 variable "extensions" {
