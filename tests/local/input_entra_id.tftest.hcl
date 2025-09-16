@@ -97,3 +97,30 @@ run "entra_id_extension_and_identity_type_is_given" {
     error_message = "Keep 'SystemAssigned, UserAssigned' in case of usage."
   }
 }
+
+run "entra_id_extension_created_without_principal_ids_and_no_role_assignments" {
+  command = plan
+
+  variables {
+    extensions = []
+
+    entra_id_login = {
+      enabled = true
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_virtual_machine_extension.entra_id_login) == 1
+    error_message = "The EntraID extension should be created even if no principal IDs are provided."
+  }
+
+  assert {
+    condition     = length(azurerm_role_assignment.entra_id_login_user) == 0
+    error_message = "No user role assignments should be created when no principal IDs are provided for EntraID login."
+  }
+
+  assert {
+    condition     = length(azurerm_role_assignment.entra_id_login_admin) == 0
+    error_message = "No admin role assignments should be created when no principal IDs are provided for EntraID login."
+  }
+}
