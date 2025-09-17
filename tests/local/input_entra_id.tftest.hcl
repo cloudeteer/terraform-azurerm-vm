@@ -8,11 +8,11 @@ run "entra_id_extension_and_identity_type_should_be_created" {
 
   variables {
     extensions = []
+
     entra_id_login = {
       enabled                   = true
       admin_login_principal_ids = ["00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000001"]
     }
-
   }
 
   assert {
@@ -22,9 +22,8 @@ run "entra_id_extension_and_identity_type_should_be_created" {
 
   assert {
     condition     = local.identity_type == "SystemAssigned"
-    error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
+    error_message = "It is not possible to install the EntraID-Extension without setting the Identity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
-
 }
 
 run "entra_id_extension_and_add_identity_type_should_be_created" {
@@ -32,13 +31,15 @@ run "entra_id_extension_and_add_identity_type_should_be_created" {
 
   variables {
     extensions = []
+
     identity = {
-    type = "UserAssigned" }
+      type = "UserAssigned"
+    }
+
     entra_id_login = {
       enabled                   = true
       admin_login_principal_ids = ["00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000001"]
     }
-
   }
 
   assert {
@@ -48,9 +49,8 @@ run "entra_id_extension_and_add_identity_type_should_be_created" {
 
   assert {
     condition     = local.identity_type == "SystemAssigned, UserAssigned"
-    error_message = "It is not possible to install the EntraID-Extension without setting the Idenity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
+    error_message = "It is not possible to install the EntraID-Extension without setting the Identity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
-
 }
 
 run "nothing_should_be_created_regarding_entra_id_login" {
@@ -74,7 +74,6 @@ run "nothing_should_be_created_regarding_entra_id_login" {
     condition     = local.identity_type == var.identity
     error_message = "No identity type should be created when 'entra_id_login' is disabled."
   }
-
 }
 
 run "entra_id_extension_and_identity_type_is_given" {
@@ -82,18 +81,46 @@ run "entra_id_extension_and_identity_type_is_given" {
 
   variables {
     extensions = []
+
     identity = {
-    type = "SystemAssigned, UserAssigned" }
+      type = "SystemAssigned, UserAssigned"
+    }
+
     entra_id_login = {
       enabled                   = true
       admin_login_principal_ids = ["00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000001"]
     }
-
   }
 
   assert {
     condition     = local.identity_type == "SystemAssigned, UserAssigned"
     error_message = "Keep 'SystemAssigned, UserAssigned' in case of usage."
   }
+}
 
+run "entra_id_extension_created_without_principal_ids_and_no_role_assignments" {
+  command = plan
+
+  variables {
+    extensions = []
+
+    entra_id_login = {
+      enabled = true
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_virtual_machine_extension.entra_id_login) == 1
+    error_message = "The EntraID extension should be created even if no principal IDs are provided."
+  }
+
+  assert {
+    condition     = length(azurerm_role_assignment.entra_id_login_user) == 0
+    error_message = "No user role assignments should be created when no principal IDs are provided for EntraID login."
+  }
+
+  assert {
+    condition     = length(azurerm_role_assignment.entra_id_login_admin) == 0
+    error_message = "No admin role assignments should be created when no principal IDs are provided for EntraID login."
+  }
 }
