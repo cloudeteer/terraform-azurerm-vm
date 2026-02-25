@@ -221,6 +221,7 @@ variable "data_disks" {
     `name` | Specifies the name of the Managed Disk. If omitted a name will be generated based on `name`.
     `source_resource_id` | The ID of an existing Managed Disk or Snapshot to copy when `create_option` is `Cop`y or the recovery point to restore when `create_option` is `Restore`.
     `storage_account_type` | The type of storage to use for the managed disk. Possible values are `Standard_LRS`, `StandardSSD_ZRS`, `Premium_LRS`, `PremiumV2_LRS`, `Premium_ZRS`, `StandardSSD_LRS` or `UltraSSD_LRS`.
+    `tags` | Tags specific to this data disk.
   EOT
 
   type = list(object({
@@ -231,6 +232,7 @@ variable "data_disks" {
     name                 = optional(string)
     source_resource_id   = optional(string)
     storage_account_type = optional(string, "Premium_LRS")
+    tags                 = optional(map(string), {})
   }))
 
   default = []

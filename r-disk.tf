@@ -18,7 +18,7 @@ resource "azurerm_managed_disk" "this" {
   name                = each.value.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  tags                = var.tags
+  tags                = merge(var.tags, each.value.tags)
 
   create_option        = each.value.create_option
   disk_size_gb         = each.value.disk_size_gb
