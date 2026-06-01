@@ -66,7 +66,9 @@ resource "azurerm_key_vault" "example" {
   }
 }
 
-#trivy:ignore:avd-azu-0039
+# Linux password authentication remains an explicit module feature controlled by authentication_type.
+# Prefer SSH-only authentication where organizational policy requires it.
+#trivy:ignore:AVD-AZU-0039
 module "example" {
   source = "cloudeteer/vm/azurerm"
 
