@@ -76,14 +76,14 @@
         "Windows": {
           "Win2022Datacenter": {
             "publisher": "MicrosoftWindowsServer",
-            "offer": "WindowsServer",
+            "offer": "windowsserver2022",
             "sku": "2022-datacenter-g2",
             "version": "latest",
             "architecture": "x64"
           },
           "Win2022AzureEditionCore": {
             "publisher": "MicrosoftWindowsServer",
-            "offer": "WindowsServer",
+            "offer": "windowsserver2022",
             "sku": "2022-datacenter-azure-edition-core",
             "version": "latest",
             "architecture": "x64"

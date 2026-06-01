@@ -72,11 +72,11 @@ run "should_image_result_in_expected_output" {
   assert {
     condition = output.image == tomap({
       architecture     = "x64"
-      offer            = "WindowsServer"
+      offer            = "windowsserver2022"
       operating_system = "Windows"
       publisher        = "MicrosoftWindowsServer"
       sku              = "2022-datacenter-g2"
-      urn              = "MicrosoftWindowsServer:WindowsServer:2022-datacenter-g2:latest"
+      urn              = "MicrosoftWindowsServer:windowsserver2022:2022-datacenter-g2:latest"
       urnAlias         = "Win2022Datacenter"
       version          = "latest"
     })
