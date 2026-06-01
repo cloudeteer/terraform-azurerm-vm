@@ -23,7 +23,7 @@ As documented on the [image](#input_image) input variable, it is possible to use
 This example demonstrates the usage of the virtual machine module with default settings. It sets up all necessary dependencies, including a resource group, virtual network, subnet, recovery services vault, backup policy, and key vault, to ensure seamless deployment.
 
 > [!TIP]
-> Our module enables password-based login for Linux virtual machines, configurable via the `authentication_type` input variable. If the [`disable_password_authentication`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine.html#disable_password_authentication-1) setting on the [`azurerm_linux_virtual_machine`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) resource within this module is not explicitly set to `false`, [Trivy](https://trivy.dev) will flag a high-severity warning. To suppress this warning, add the comment `#trivy:ignore:avd-azu-0039` directly above the Terraform module definition, as shown in the example below.
+> Our module intentionally keeps password-based login available for Linux virtual machines through the `authentication_type` input variable. Where your security policy requires SSH-only access, set `authentication_type = "SSH"`. When you intentionally allow Linux password authentication and need to suppress the corresponding [Trivy](https://trivy.dev) warning, add the comment `#trivy:ignore:AVD-AZU-0039` directly above the Terraform module definition, as shown in the example below.
 
 ```hcl
 resource "azurerm_resource_group" "example" {
@@ -94,7 +94,9 @@ resource "azurerm_key_vault" "example" {
   }
 }
 
-#trivy:ignore:avd-azu-0039
+# Linux password authentication remains an explicit module feature controlled by authentication_type.
+# Prefer SSH-only authentication where organizational policy requires it.
+#trivy:ignore:AVD-AZU-0039
 module "example" {
   source = "cloudeteer/vm/azurerm"
 
@@ -134,6 +136,8 @@ The following resources are used by this module:
 - [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
 - [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface_security_group_association.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
+- [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) (resource)
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
 - [azurerm_role_assignment.entra_id_login_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
 - [azurerm_role_assignment.entra_id_login_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
@@ -610,6 +614,17 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_key_vault_secret_expiration_date"></a> [key\_vault\_secret\_expiration\_date](#input\_key\_vault\_secret\_expiration\_date)
+
+Description: The RFC3339 timestamp to assign as `expiration_date` on generated Azure Key Vault secrets.
+
+- Applies only when `store_secret_in_key_vault` is `true`.
+- Leave as `null` to keep generated secrets without an explicit expiry date.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_license_type"></a> [license\_type](#input\_license\_type)
 
 Description: Specifies the license type to be used for this Virtual Machine.
@@ -628,6 +643,17 @@ Default: `null`
 Description: A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine.
 
 Type: `list(string)`
+
+Default: `null`
+
+### <a name="input_network_security_group_id"></a> [network\_security\_group\_id](#input\_network\_security\_group\_id)
+
+Description: The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
+
+- Applies only when `create_network_interface` is `true`.
+- If omitted and `create_network_interface` is `true`, this module creates and associates a default Network Security Group.
+
+Type: `string`
 
 Default: `null`
 

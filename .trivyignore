@@ -1,0 +1,4 @@
+# AVD-AZU-0068 / AZU-0068
+# Module-managed NICs are always associated with an NSG in r-network.tf.
+# This generic module also supports externally supplied NIC IDs, which are consumer-managed.
+AZU-0068

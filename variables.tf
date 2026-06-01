@@ -461,6 +461,28 @@ variable "key_vault_id" {
   }
 }
 
+variable "key_vault_secret_expiration_date" {
+  description = <<-EOT
+  The RFC3339 timestamp to assign as `expiration_date` on generated Azure Key Vault secrets.
+
+  - Applies only when `store_secret_in_key_vault` is `true`.
+  - Leave as `null` to keep generated secrets without an explicit expiry date.
+  EOT
+
+  default = null
+  type    = string
+
+  validation {
+    condition     = var.key_vault_secret_expiration_date == null ? true : var.store_secret_in_key_vault
+    error_message = "key_vault_secret_expiration_date can only be set when store_secret_in_key_vault is true."
+  }
+
+  validation {
+    condition     = var.key_vault_secret_expiration_date == null ? true : can(formatdate("", var.key_vault_secret_expiration_date))
+    error_message = "key_vault_secret_expiration_date must be a valid RFC3339 timestamp, for example 2030-01-01T00:00:00Z."
+  }
+}
+
 variable "license_type" {
   description = <<-EOT
   Specifies the license type to be used for this Virtual Machine.
@@ -503,6 +525,18 @@ variable "network_interface_ids" {
   default     = null
   description = "A list of network interface IDs to attach to this virtual machine. The first network interface ID in this list will be the primary network interface of the virtual machine. If `subnet_id` is set, then the network interface created by this module will be the primary network interface of the virtual machine."
   type        = list(string)
+}
+
+variable "network_security_group_id" {
+  description = <<-EOT
+  The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
+
+  - Applies only when `create_network_interface` is `true`.
+  - If omitted and `create_network_interface` is `true`, this module creates and associates a default Network Security Group.
+  EOT
+
+  default = null
+  type    = string
 }
 
 variable "operating_system" {
