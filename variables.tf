@@ -188,6 +188,18 @@ variable "create_network_interface" {
   default     = true
 }
 
+variable "accelerated_networking_enabled" {
+  description = "Enable accelerated networking on the network interface created by this module. Only applies when create_network_interface is true."
+  type        = bool
+  default     = false
+}
+
+variable "ip_forwarding_enabled" {
+  description = "Enable ip forwarding on the network interface created by this module. Only applies when create_network_interface is true."
+  type        = bool
+  default     = false
+}
+
 variable "create_public_ip_address" {
   description = "If set to `true` a Azure public IP address will be created and assigned to the default network interface."
   default     = false
