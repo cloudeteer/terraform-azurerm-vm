@@ -13,6 +13,12 @@ locals {
   windows_license_types = ["None", "Windows_Client", "Windows_Server"]
 }
 
+variable "accelerated_networking_enabled" {
+  description = "Enable accelerated networking on the network interface created by this module. Only applies when create_network_interface is true."
+  type        = bool
+  default     = false
+}
+
 variable "additional_capabilities" {
   description = <<-EOT
   Enable additional capabilities.
@@ -186,18 +192,6 @@ variable "create_network_interface" {
   description = "Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined."
   type        = bool
   default     = true
-}
-
-variable "accelerated_networking_enabled" {
-  description = "Enable accelerated networking on the network interface created by this module. Only applies when create_network_interface is true."
-  type        = bool
-  default     = false
-}
-
-variable "ip_forwarding_enabled" {
-  description = "Enable ip forwarding on the network interface created by this module. Only applies when create_network_interface is true."
-  type        = bool
-  default     = false
 }
 
 variable "create_public_ip_address" {
@@ -454,6 +448,12 @@ variable "image" {
     condition     = length(split(":", var.image)) == 4 || contains(local.azure_quickstart_templates[*].urnAlias, var.image)
     error_message = "Unknown image urn alias \"${var.image}\". Valid aliases are: ${join(",", local.azure_quickstart_templates[*].urnAlias)}"
   }
+}
+
+variable "ip_forwarding_enabled" {
+  description = "Enable ip forwarding on the network interface created by this module. Only applies when create_network_interface is true."
+  type        = bool
+  default     = false
 }
 
 variable "key_vault_id" {
