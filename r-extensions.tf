@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine_extension" "this" {
   type_handler_version       = each.value.type_handler_version
 
   lifecycle {
-    ignore_changes = [tags,type_handler_version]
+    ignore_changes = [tags, type_handler_version]
   }
 }
 
@@ -78,7 +78,7 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
   virtual_machine_id   = local.virtual_machine.id
 
   lifecycle {
-    ignore_changes = [tags,type_handler_version]
+    ignore_changes = [tags, type_handler_version]
   }
 }
 
@@ -130,7 +130,7 @@ resource "azurerm_virtual_machine_extension" "domain_join" {
   })
 
   lifecycle {
-    ignore_changes = [tags,type_handler_version]
+    ignore_changes = [tags, type_handler_version]
   }
 
   depends_on = [
