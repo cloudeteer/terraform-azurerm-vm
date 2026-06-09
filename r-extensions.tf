@@ -4,7 +4,7 @@ locals {
       name                       = "NetworkWatcherAgent"
       publisher                  = "Microsoft.Azure.NetworkWatcher"
       type                       = format("NetworkWatcherAgent%s", local.image_full.operating_system)
-      type_handler_version       = "1.0"
+      type_handler_version       = "*"
       auto_upgrade_minor_version = true
       automatic_upgrade_enabled  = true
     },
@@ -12,7 +12,7 @@ locals {
       name                       = "AzureMonitorAgent"
       publisher                  = "Microsoft.Azure.Monitor"
       type                       = format("AzureMonitor%sAgent", local.image_full.operating_system)
-      type_handler_version       = "1.0"
+      type_handler_version       = "*"
       auto_upgrade_minor_version = true
       automatic_upgrade_enabled  = true
     },
@@ -20,7 +20,7 @@ locals {
       name                       = "AzurePolicy"
       publisher                  = "Microsoft.GuestConfiguration"
       type                       = format("Configurationfor%s", local.image_full.operating_system)
-      type_handler_version       = "1.0"
+      type_handler_version       = "*"
       auto_upgrade_minor_version = true
       automatic_upgrade_enabled  = true
     },
@@ -32,7 +32,7 @@ locals {
       name                       = "AntiMalware"
       publisher                  = "Microsoft.Azure.Security"
       type                       = "IaaSAntimalware"
-      type_handler_version       = "1.0"
+      type_handler_version       = "*"
       auto_upgrade_minor_version = true
       automatic_upgrade_enabled  = false
     },
@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine_extension" "this" {
   type_handler_version       = each.value.type_handler_version
 
   lifecycle {
-    ignore_changes = [tags]
+    ignore_changes = [tags,type_handler_version]
   }
 }
 
@@ -74,11 +74,11 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
   name                 = "EntraIDLogin"
   publisher            = "Microsoft.Azure.ActiveDirectory"
   type                 = local.is_linux ? "AADSSHLoginForLinux" : "AADLoginForWindows"
-  type_handler_version = "1.0"
+  type_handler_version = "*"
   virtual_machine_id   = local.virtual_machine.id
 
   lifecycle {
-    ignore_changes = [tags]
+    ignore_changes = [tags,type_handler_version]
   }
 }
 
@@ -111,7 +111,7 @@ resource "azurerm_virtual_machine_extension" "domain_join" {
   name                       = "DomainJoin"
   publisher                  = "Microsoft.Compute"
   type                       = "JsonADDomainExtension"
-  type_handler_version       = "1.0"
+  type_handler_version       = "*"
   auto_upgrade_minor_version = true
   automatic_upgrade_enabled  = false
 
@@ -130,7 +130,7 @@ resource "azurerm_virtual_machine_extension" "domain_join" {
   })
 
   lifecycle {
-    ignore_changes = [tags]
+    ignore_changes = [tags,type_handler_version]
   }
 
   depends_on = [
