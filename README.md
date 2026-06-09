@@ -202,6 +202,14 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_accelerated_networking_enabled"></a> [accelerated\_networking\_enabled](#input\_accelerated\_networking\_enabled)
+
+Description: Enable accelerated networking on the network interface created by this module. Only applies when create\_network\_interface is true.
+
+Type: `bool`
+
+Default: `false`
+
 ### <a name="input_additional_capabilities"></a> [additional\_capabilities](#input\_additional\_capabilities)
 
 Description: Enable additional capabilities.
@@ -602,6 +610,14 @@ object({
 ```
 
 Default: `null`
+
+### <a name="input_ip_forwarding_enabled"></a> [ip\_forwarding\_enabled](#input\_ip\_forwarding\_enabled)
+
+Description: Enable ip forwarding on the network interface created by this module. Only applies when create\_network\_interface is true.
+
+Type: `bool`
+
+Default: `false`
 
 ### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
 

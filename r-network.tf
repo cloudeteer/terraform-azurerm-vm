@@ -32,6 +32,9 @@ resource "azurerm_network_interface" "this" {
 
   dns_servers = var.dns_servers
 
+  accelerated_networking_enabled = var.accelerated_networking_enabled
+  ip_forwarding_enabled          = var.ip_forwarding_enabled
+
   ip_configuration {
     name                          = "ipconfig1"
     private_ip_address            = var.private_ip_address
