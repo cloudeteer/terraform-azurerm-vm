@@ -380,6 +380,14 @@ Type: `bool`
 
 Default: `true`
 
+### <a name="input_create_network_security_group"></a> [create\_network\_security\_group](#input\_create\_network\_security\_group)
+
+Description: Create (`true`) and associate a default Network Security Group for the module-created network interface when `network_security_group_id` is omitted. If disabled (`false`) and `network_security_group_id` is omitted, no Network Security Group is associated with the module-created network interface.
+
+Type: `bool`
+
+Default: `true`
+
 ### <a name="input_create_public_ip_address"></a> [create\_public\_ip\_address](#input\_create\_public\_ip\_address)
 
 Description: If set to `true` a Azure public IP address will be created and assigned to the default network interface.
@@ -667,7 +675,7 @@ Default: `null`
 Description: The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
 
 - Applies only when `create_network_interface` is `true`.
-- If omitted and `create_network_interface` is `true`, this module creates and associates a default Network Security Group.
+- If omitted and both `create_network_interface` and `create_network_security_group` are `true`, this module creates and associates a default Network Security Group.
 
 Type: `string`
 
