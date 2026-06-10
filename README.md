@@ -137,7 +137,6 @@ The following resources are used by this module:
 - [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
 - [azurerm_network_interface_security_group_association.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
-- [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) (resource)
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
 - [azurerm_role_assignment.entra_id_login_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
 - [azurerm_role_assignment.entra_id_login_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
@@ -375,14 +374,6 @@ Default: `null`
 ### <a name="input_create_network_interface"></a> [create\_network\_interface](#input\_create\_network\_interface)
 
 Description: Create (`true`) a network interface for the virtual machine. If disabled (`false`), the `subnet_id` must be omitted and `network_interface_ids` must be defined.
-
-Type: `bool`
-
-Default: `true`
-
-### <a name="input_create_network_security_group"></a> [create\_network\_security\_group](#input\_create\_network\_security\_group)
-
-Description: Create (`true`) and associate a default Network Security Group for the module-created network interface when `network_security_group_id` is omitted. If disabled (`false`) and `network_security_group_id` is omitted, no Network Security Group is associated with the module-created network interface.
 
 Type: `bool`
 
@@ -675,7 +666,7 @@ Default: `null`
 Description: The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
 
 - Applies only when `create_network_interface` is `true`.
-- If omitted and both `create_network_interface` and `create_network_security_group` are `true`, this module creates and associates a default Network Security Group.
+- If omitted, no Network Security Group is associated with the module-created network interface.
 
 Type: `string`
 

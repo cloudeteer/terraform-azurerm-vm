@@ -21,13 +21,8 @@ run "should_use_subnet_id" {
   }
 
   assert {
-    condition     = length(azurerm_network_security_group.this) == 1
-    error_message = "Expected the module to create a default network security group when no network_security_group_id is provided."
-  }
-
-  assert {
-    condition     = length(azurerm_network_interface_security_group_association.this) == 1
-    error_message = "Expected the created network interface to have a network security group association."
+    condition     = length(azurerm_network_interface_security_group_association.this) == 0
+    error_message = "Expected no network security group association when network_security_group_id is not provided."
   }
 }
 
@@ -71,52 +66,35 @@ run "should_use_existing_network_security_group_for_created_network_interface" {
   }
 
   assert {
-    condition     = length(azurerm_network_security_group.this) == 0
-    error_message = "Expected no network security group to be created when network_security_group_id is provided."
-  }
-
-  assert {
     condition     = length(azurerm_network_interface_security_group_association.this) == 1
     error_message = "Expected the created network interface to have a network security group association when network_security_group_id is provided."
   }
 }
 
-run "should_not_create_or_associate_network_security_group_when_disabled" {
+run "should_not_associate_network_security_group_when_not_provided" {
   command = plan
 
   variables {
-    create_network_security_group = false
-    subnet_id                     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
-  }
-
-  assert {
-    condition     = length(azurerm_network_security_group.this) == 0
-    error_message = "Expected no network security group to be created when create_network_security_group is disabled."
+    subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
   }
 
   assert {
     condition     = length(azurerm_network_interface_security_group_association.this) == 0
-    error_message = "Expected no network security group association when create_network_security_group is disabled and no network_security_group_id is provided."
+    error_message = "Expected no network security group association when no network_security_group_id is provided."
   }
 }
 
-run "should_associate_existing_network_security_group_when_default_creation_disabled" {
+run "should_associate_existing_network_security_group_when_provided" {
   command = plan
 
   variables {
-    create_network_security_group = false
-    network_security_group_id     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkSecurityGroups/nsg-existing"
-    subnet_id                     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
-  }
-
-  assert {
-    condition     = length(azurerm_network_security_group.this) == 0
-    error_message = "Expected no network security group to be created when create_network_security_group is disabled."
+    network_security_group_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkSecurityGroups/nsg-existing"
+    subnet_id                 = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
   }
 
   assert {
     condition     = length(azurerm_network_interface_security_group_association.this) == 1
-    error_message = "Expected the provided network_security_group_id to still be associated when default network security group creation is disabled."
+    error_message = "Expected the provided network_security_group_id to be associated with the created network interface."
   }
 }
 
