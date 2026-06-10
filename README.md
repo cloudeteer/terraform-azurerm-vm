@@ -137,7 +137,6 @@ The following resources are used by this module:
 - [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
 - [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
 - [azurerm_network_interface_security_group_association.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
-- [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) (resource)
 - [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
 - [azurerm_role_assignment.entra_id_login_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
 - [azurerm_role_assignment.entra_id_login_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) (resource)
@@ -667,7 +666,7 @@ Default: `null`
 Description: The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
 
 - Applies only when `create_network_interface` is `true`.
-- If omitted and `create_network_interface` is `true`, this module creates and associates a default Network Security Group.
+- If omitted, no Network Security Group is associated with the module-created network interface.
 
 Type: `string`
 

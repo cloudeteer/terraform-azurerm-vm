@@ -544,7 +544,7 @@ variable "network_security_group_id" {
   The resource ID of an existing Azure Network Security Group to associate with the network interface created by this module.
 
   - Applies only when `create_network_interface` is `true`.
-  - If omitted and `create_network_interface` is `true`, this module creates and associates a default Network Security Group.
+  - If omitted, no Network Security Group is associated with the module-created network interface.
   EOT
 
   default = null
