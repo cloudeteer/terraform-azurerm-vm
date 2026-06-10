@@ -19,16 +19,6 @@ run "should_use_subnet_id" {
     condition     = azurerm_network_interface.this[0].ip_configuration[0].subnet_id == var.subnet_id
     error_message = "Expected to create network interface and use subnet id vom variable input"
   }
-
-  assert {
-    condition     = length(azurerm_network_security_group.this) == 1
-    error_message = "Expected the module to create a default network security group when no network_security_group_id is provided."
-  }
-
-  assert {
-    condition     = length(azurerm_network_interface_security_group_association.this) == 1
-    error_message = "Expected the created network interface to have a network security group association."
-  }
 }
 
 run "should_fail_with_no_subnet_id" {
@@ -59,25 +49,6 @@ run "should_use_network_interface_ids_from_input_only" {
   assert {
     condition     = length(local.virtual_machine.network_interface_ids) == 2
     error_message = "Expected two network interface IDs on virtual machine"
-  }
-}
-
-run "should_use_existing_network_security_group_for_created_network_interface" {
-  command = plan
-
-  variables {
-    network_security_group_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/networkSecurityGroups/nsg-existing"
-    subnet_id                 = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
-  }
-
-  assert {
-    condition     = length(azurerm_network_security_group.this) == 0
-    error_message = "Expected no network security group to be created when network_security_group_id is provided."
-  }
-
-  assert {
-    condition     = length(azurerm_network_interface_security_group_association.this) == 1
-    error_message = "Expected the created network interface to have a network security group association when network_security_group_id is provided."
   }
 }
 

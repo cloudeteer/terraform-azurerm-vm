@@ -27,18 +27,15 @@ resource "tls_private_key" "this" {
   rsa_bits  = var.admin_ssh_key_algorithm == "RSA" ? 4096 : null
 }
 
-# Generated secrets may intentionally remain non-expiring when rotation is managed externally.
-# Set var.key_vault_secret_expiration_date to enforce an explicit expiry date on generated secrets.
-#trivy:ignore:AVD-AZU-0017
-#trivy:ignore:AVD-AZU-0013
+#trivy:ignore:avd-azu-0017
+#trivy:ignore:avd-azu-0013
 resource "azurerm_key_vault_secret" "this" {
   for_each = toset([
     for element in split(", ", var.authentication_type) : element if var.store_secret_in_key_vault
   ])
 
-  name            = "${var.name}-${var.admin_username}-${lower(each.key)}"
-  content_type    = var.authentication_type
-  expiration_date = var.key_vault_secret_expiration_date
-  key_vault_id    = var.key_vault_id
-  value           = coalesce(local.admin_password, local.admin_ssh_private_key)
+  name         = "${var.name}-${var.admin_username}-${lower(each.key)}"
+  content_type = var.authentication_type
+  key_vault_id = var.key_vault_id
+  value        = coalesce(local.admin_password, local.admin_ssh_private_key)
 }

@@ -9,11 +9,7 @@ locals {
   )
 }
 
-# Module-managed NICs are associated with an NSG in r-network.tf; externally supplied NICs remain consumer-managed.
-#trivy:ignore:AVD-AZU-0068
-# Linux password authentication remains an explicit module feature controlled by var.authentication_type.
-# Prefer SSH-only authentication where organizational policy requires it.
-#trivy:ignore:AVD-AZU-0039
+# trivy:ignore:avd-azu-0039
 resource "azurerm_linux_virtual_machine" "this" {
   count = local.is_linux ? 1 : 0
 
@@ -117,8 +113,6 @@ resource "azurerm_linux_virtual_machine" "this" {
 }
 
 resource "azurerm_windows_virtual_machine" "this" {
-  # Module-managed NICs are associated with an NSG in r-network.tf; externally supplied NICs remain consumer-managed.
-  #trivy:ignore:AVD-AZU-0068
   count = local.is_windows ? 1 : 0
 
   name                = var.name
