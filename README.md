@@ -207,7 +207,7 @@ Description: Enable accelerated networking on the network interface created by t
 
 Type: `bool`
 
-Default: `false`
+Default: `true`
 
 ### <a name="input_additional_capabilities"></a> [additional\_capabilities](#input\_additional\_capabilities)
 

@@ -16,7 +16,7 @@ locals {
 variable "accelerated_networking_enabled" {
   description = "Enable accelerated networking on the network interface created by this module. Only applies when create_network_interface is true."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "additional_capabilities" {
