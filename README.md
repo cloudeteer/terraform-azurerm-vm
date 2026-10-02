@@ -790,6 +790,22 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_public_ip_ddos_protection_mode"></a> [public\_ip\_ddos\_protection\_mode](#input\_public\_ip\_ddos\_protection\_mode)
+
+Description: The DDoS protection mode for the public IP address created by this module. Possible values are `Disabled`, `Enabled`, and `VirtualNetworkInherited`.
+
+Type: `string`
+
+Default: `VirtualNetworkInherited`
+
+### <a name="input_public_ip_ddos_protection_plan_id"></a> [public\_ip\_ddos\_protection\_plan\_id](#input\_public\_ip\_ddos\_protection\_plan\_id)
+
+Description: The ID of the DDoS protection plan to associate with the created public IP address. Can only be set when public_ip_ddos_protection_mode is `Enabled`.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_provision_vm_agent"></a> [provision\_vm\_agent](#input\_provision\_vm\_agent)
 
 Description: Should the Azure VM Agent be provisioned on this Virtual Machine?

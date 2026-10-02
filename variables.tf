@@ -200,6 +200,28 @@ variable "create_public_ip_address" {
   type        = bool
 }
 
+variable "public_ip_ddos_protection_mode" {
+  description = "The DDoS protection mode for the public IP address created by this module. Possible values are `Disabled`, `Enabled`, and `VirtualNetworkInherited`."
+  type        = string
+  default     = "VirtualNetworkInherited"
+
+  validation {
+    condition     = contains(["Disabled", "Enabled", "VirtualNetworkInherited"], var.public_ip_ddos_protection_mode)
+    error_message = "public_ip_ddos_protection_mode must be Disabled, Enabled, or VirtualNetworkInherited."
+  }
+}
+
+variable "public_ip_ddos_protection_plan_id" {
+  description = "The ID of the DDoS protection plan to associate with the created public IP address. Can only be set when public_ip_ddos_protection_mode is `Enabled`."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.public_ip_ddos_protection_plan_id == null || var.public_ip_ddos_protection_mode == "Enabled"
+    error_message = "public_ip_ddos_protection_plan_id can only be set when public_ip_ddos_protection_mode is Enabled."
+  }
+}
+
 variable "custom_data" {
   description = "The Base64-Encoded Custom Data which should be used for this Virtual Machine."
 

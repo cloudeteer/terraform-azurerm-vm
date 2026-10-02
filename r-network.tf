@@ -48,4 +48,7 @@ resource "azurerm_public_ip" "this" {
   allocation_method = "Static"
   sku               = "Standard"
   sku_tier          = "Regional"
+
+  ddos_protection_mode     = var.public_ip_ddos_protection_mode
+  ddos_protection_plan_id  = var.public_ip_ddos_protection_plan_id
 }

@@ -126,12 +126,24 @@ run "should_create_public_ip_address" {
   command = plan
 
   variables {
-    create_public_ip_address = true
-    subnet_id                = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
+    create_public_ip_address            = true
+    public_ip_ddos_protection_mode      = "Enabled"
+    public_ip_ddos_protection_plan_id   = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/ddosProtectionPlans/ddos-plan"
+    subnet_id                           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/snet"
   }
 
   assert {
     condition     = length(azurerm_public_ip.this) == 1
     error_message = "Expected to not create a public ip"
+  }
+
+  assert {
+    condition     = azurerm_public_ip.this[0].ddos_protection_mode == "Enabled"
+    error_message = "Expected the public IP to use the configured DDoS protection mode"
+  }
+
+  assert {
+    condition     = azurerm_public_ip.this[0].ddos_protection_plan_id == var.public_ip_ddos_protection_plan_id
+    error_message = "Expected the public IP to use the configured DDoS protection plan"
   }
 }
