@@ -71,11 +71,12 @@ resource "azurerm_virtual_machine_extension" "entra_id_login" {
 
   count = var.entra_id_login.enabled ? 1 : 0
 
-  name                 = "EntraIDLogin"
-  publisher            = "Microsoft.Azure.ActiveDirectory"
-  type                 = local.is_linux ? "AADSSHLoginForLinux" : "AADLoginForWindows"
-  type_handler_version = "1.0"
-  virtual_machine_id   = local.virtual_machine.id
+  name                       = "EntraIDLogin"
+  publisher                  = "Microsoft.Azure.ActiveDirectory"
+  type                       = local.is_linux ? "AADSSHLoginForLinux" : "AADLoginForWindows"
+  type_handler_version       = local.is_linux ? "1.0" : "2.2"
+  auto_upgrade_minor_version = true
+  virtual_machine_id         = local.virtual_machine.id
 
   lifecycle {
     ignore_changes = [tags, type_handler_version]
