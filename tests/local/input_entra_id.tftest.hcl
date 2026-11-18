@@ -24,6 +24,11 @@ run "entra_id_extension_and_identity_type_should_be_created" {
     condition     = local.identity_type == "SystemAssigned"
     error_message = "It is not possible to install the EntraID-Extension without setting the Identity to 'SystemAssigned' OR 'SystemAssigned, UserAssigned'."
   }
+
+  assert {
+    condition     = length(local.virtual_machine.identity) == 1 && local.virtual_machine.identity[0].type == "SystemAssigned"
+    error_message = "Expected the Windows virtual machine to have a system-assigned identity for Entra ID login."
+  }
 }
 
 run "entra_id_extension_and_add_identity_type_should_be_created" {
